@@ -18,7 +18,7 @@ from sqlmodel import Session, select
 
 from app.auth import create_access_token
 from app.cli import main as cli_main
-from app.models import AuditLog, Project, User
+from app.models import Project, User
 from app.routers.sources import execute_demo_load
 
 

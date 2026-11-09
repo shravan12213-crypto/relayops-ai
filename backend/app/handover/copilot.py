@@ -301,7 +301,16 @@ def ask_copilot(
                 final_answer += " Escalation contact is David Vance at AcquirerCorp."
         elif any(
             kw in clean_question.lower()
-            for kw in ("quantum", "undocumented", "crypto", "unrelated", "spacex", "recipe", "cake", "weather")
+            for kw in (
+                "quantum",
+                "undocumented",
+                "crypto",
+                "unrelated",
+                "spacex",
+                "recipe",
+                "cake",
+                "weather",
+            )
         ):
             # Undocumented topic test
             is_refused = True

@@ -232,7 +232,10 @@ def verify_audit_chain_detailed(session: Session) -> dict[str, Any]:
                 "valid": False,
                 "entries_count": len(entries),
                 "tampered_seq": entry.seq,
-                "error": f"Broken prev_hash chain link at sequence #{entry.seq} (expected {prev_hash[:10]}..., found {entry.prev_hash[:10]}...)",
+                "error": (
+                    f"Broken prev_hash chain link at sequence #{entry.seq} "
+                    f"(expected {prev_hash[:10]}..., found {entry.prev_hash[:10]}...)"
+                ),
             }
         c_dict = canonical_audit_dict(
             entry.actor_id, entry.action, entry.target_type, entry.target_id, entry.payload
@@ -243,7 +246,9 @@ def verify_audit_chain_detailed(session: Session) -> dict[str, Any]:
                 "valid": False,
                 "entries_count": len(entries),
                 "tampered_seq": entry.seq,
-                "error": f"Cryptographic payload hash mismatch at sequence #{entry.seq} (row content tampered)",
+                "error": (
+                    f"Cryptographic payload hash mismatch at sequence #{entry.seq} " "(row content tampered)"
+                ),
             }
         prev_hash = entry.hash
 
@@ -257,10 +262,6 @@ def verify_audit_chain_detailed(session: Session) -> dict[str, Any]:
 
 def verify_audit_chain(session: Session) -> bool:
     return verify_audit_chain_detailed(session)["valid"]
-
-
-
-
 
 
 # --- FTS Search with pre-inference permission firewall ---

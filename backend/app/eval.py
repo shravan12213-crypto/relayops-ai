@@ -14,17 +14,15 @@ Outputs the formal markdown report to docs/EVAL_REPORT.md.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 from sqlmodel import Session, select
 
 from app.db import get_engine, init_db, verify_audit_chain_detailed
-from app.handover import create_snapshot, execute_signoff
 from app.jobs import run_handover_pipeline
 from app.models import (
-    Ambiguity,
     Artifact,
     Claim,
     Handover,
@@ -80,9 +78,7 @@ def run_evaluation() -> dict[str, Any]:
         secret_recall = (redacted_correctly / len(planted_secrets)) * 100 if planted_secrets else 100.0
 
         # Step 3: Create & Run Handover Pipeline
-        handover = session.exec(
-            select(Handover).where(Handover.project_id == project.id)
-        ).first()
+        handover = session.exec(select(Handover).where(Handover.project_id == project.id)).first()
 
         if not handover:
             handover = Handover(
@@ -90,7 +86,7 @@ def run_evaluation() -> dict[str, Any]:
                 outgoing_user_id=by_role["outgoing"].id,
                 successor_user_id=by_role["successor"].id,
                 lead_user_id=by_role["lead"].id,
-                due_date=datetime(2026, 11, 30, tzinfo=timezone.utc),
+                due_date=datetime(2026, 11, 30, tzinfo=UTC),
                 notes="PayFlow Golden Path Evaluation",
             )
             session.add(handover)
@@ -205,9 +201,7 @@ def run_evaluation() -> dict[str, Any]:
                 passed = len(orphan_ambs) >= 2
             elif num == 6:
                 # Open blocker PAY-142
-                passed = any(
-                    "pay-142" in c.text.lower() or "sandbox" in c.text.lower() for c in claims
-                )
+                passed = any("pay-142" in c.text.lower() or "sandbox" in c.text.lower() for c in claims)
             elif num == 7:
                 # Module ledger-sync bus factor
                 passed = any(
@@ -227,22 +221,23 @@ def run_evaluation() -> dict[str, Any]:
             elif num == 10:
                 # Unclosed Slack thread
                 passed = any(
-                    "unanswered" in (a.title + a.description).lower()
-                    or a.type == "unclosed_thread"
+                    "unanswered" in (a.title + a.description).lower() or a.type == "unclosed_thread"
                     for a in detected_ambiguities
                 )
 
-            scenario_results.append({
-                "num": num,
-                "title": title,
-                "kind": kind,
-                "status": "PASSED" if passed else "FAILED",
-            })
+            scenario_results.append(
+                {
+                    "num": num,
+                    "title": title,
+                    "kind": kind,
+                    "status": "PASSED" if passed else "FAILED",
+                }
+            )
 
         scenarios_passed = sum(1 for s in scenario_results if s["status"] == "PASSED")
 
         metrics = {
-            "evaluated_at": datetime.now(timezone.utc).isoformat(),
+            "evaluated_at": datetime.now(UTC).isoformat(),
             "scenarios_passed": scenarios_passed,
             "total_scenarios": len(scenario_results),
             "scenario_success_rate": (scenarios_passed / len(scenario_results)) * 100,
@@ -272,6 +267,35 @@ def write_eval_report(metrics: dict[str, Any]) -> None:
     """Generate the markdown report and commit it to docs/EVAL_REPORT.md."""
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
 
+    sc_val = (
+        f"**{metrics['scenarios_passed']} / {metrics['total_scenarios']} "
+        f"({metrics['scenario_success_rate']:.1f}%)**"
+    )
+    sc_status = "PASS" if metrics["scenario_success_rate"] == 100 else "FAIL"
+
+    sec_val = (
+        f"**{metrics['secret_recall']:.1f}% "
+        f"({metrics['redacted_planted_secrets']}/{metrics['total_planted_secrets']} secrets)**"
+    )
+    sec_status = "PASS" if metrics["secret_recall"] == 100 else "FAIL"
+
+    leak_val = f"**{metrics['secret_leaks']} raw secret leaks**"
+    leak_status = "PASS" if metrics["secret_leaks"] == 0 else "FAIL"
+
+    hall_val = f"**{metrics['hallucination_rate']:.1f}% ({metrics['unsupported_claims']} invalid claims)**"
+    hall_status = "PASS" if metrics["hallucination_rate"] == 0 else "FAIL"
+
+    ev_count = metrics["total_claims"] - metrics["unsupported_claims"]
+    ev_val = f"**{metrics['evidence_link_validity']:.1f}% ({ev_count}/{metrics['total_claims']} grounded)**"
+    ev_status = "PASS" if metrics["evidence_link_validity"] == 100 else "FAIL"
+
+    fw_val = f"**{metrics['firewall_leak_rate']:.1f}% ({metrics['contractor_leaks']} leaks)**"
+    fw_status = "PASS" if metrics["firewall_leak_rate"] == 0 else "FAIL"
+
+    chain_state = "VALID" if metrics["audit_chain_valid"] else "COMPROMISED"
+    chain_val = f"**{chain_state} ({metrics['audit_entries_count']} entries)**"
+    chain_status = "PASS" if metrics["audit_chain_valid"] else "FAIL"
+
     report = f"""# RelayOps Evaluation & Quality Metrics Report
 
 > **Automated Quality Benchmark Report**  
@@ -285,13 +309,13 @@ def write_eval_report(metrics: dict[str, Any]) -> None:
 
 | Metric | Target | Result | Status |
 |---|---|---|---|
-| **Ground Truth Scenarios Detected** | 10 / 10 (100%) | **{metrics['scenarios_passed']} / {metrics['total_scenarios']} ({metrics['scenario_success_rate']:.1f}%)** | {'PASS' if metrics['scenario_success_rate'] == 100 else 'FAIL'} |
-| **Planted Secret Redaction Recall** | 100.0% | **{metrics['secret_recall']:.1f}% ({metrics['redacted_planted_secrets']}/{metrics['total_planted_secrets']} secrets)** | {'PASS' if metrics['secret_recall'] == 100 else 'FAIL'} |
-| **Secret Leakage Rate** | 0.0% | **{metrics['secret_leaks']} raw secret leaks** | {'PASS' if metrics['secret_leaks'] == 0 else 'FAIL'} |
-| **Hallucination Rate** | 0.0% | **{metrics['hallucination_rate']:.1f}% ({metrics['unsupported_claims']} invalid claims)** | {'PASS' if metrics['hallucination_rate'] == 0 else 'FAIL'} |
-| **Evidence Link Validity** | 100.0% | **{metrics['evidence_link_validity']:.1f}% ({metrics['total_claims'] - metrics['unsupported_claims']}/{metrics['total_claims']} grounded)** | {'PASS' if metrics['evidence_link_validity'] == 100 else 'FAIL'} |
-| **Access Control / Firewall Leak Rate** | 0.0% | **{metrics['firewall_leak_rate']:.1f}% ({metrics['contractor_leaks']} leaks)** | {'PASS' if metrics['firewall_leak_rate'] == 0 else 'FAIL'} |
-| **Cryptographic Audit Chain Integrity** | VALID | **{'VALID' if metrics['audit_chain_valid'] else 'COMPROMISED'} ({metrics['audit_entries_count']} entries)** | {'PASS' if metrics['audit_chain_valid'] else 'FAIL'} |
+| **Ground Truth Scenarios Detected** | 10 / 10 (100%) | {sc_val} | {sc_status} |
+| **Planted Secret Redaction Recall** | 100.0% | {sec_val} | {sec_status} |
+| **Secret Leakage Rate** | 0.0% | {leak_val} | {leak_status} |
+| **Hallucination Rate** | 0.0% | {hall_val} | {hall_status} |
+| **Evidence Link Validity** | 100.0% | {ev_val} | {ev_status} |
+| **Access Control / Firewall Leak Rate** | 0.0% | {fw_val} | {fw_status} |
+| **Cryptographic Audit Chain Integrity** | VALID | {chain_val} | {chain_status} |
 
 ---
 
@@ -311,7 +335,8 @@ Every scenario from `ground_truth.json` is validated by deterministic rules and 
 
 ## 2. Ingestion Secret Redaction Benchmark
 
-RelayOps enforces zero-secret storage: all regex patterns and Shannon entropy token detectors run in-memory **before database storage** and before LLM prompting.
+RelayOps enforces zero-secret storage: all regex patterns and Shannon entropy token detectors run in-memory
+**before database storage** and before LLM prompting.
 
 - **Total Planted Secrets Evaluated:** {metrics['total_planted_secrets']}
   - API Keys (`sk_test_FAKE_...`): Redacted (`[REDACTED_API_KEY]`)
@@ -353,7 +378,8 @@ Access control is evaluated strictly **before retrieval and context synthesis**:
 - **Ledger Entries Hashed:** {metrics['audit_entries_count']}
 - **Hash Algorithm:** Rolling SHA-256 with canonical JSON payload serialization
 - **Cryptographic Chain State:** {'VALID and UNBROKEN' if metrics['audit_chain_valid'] else 'COMPROMISED'}
-- **Tamper Detection Capability:** Verified via CLI `python -m app.cli tamper` $\\rightarrow$ sequence discrepancy immediately flagged.
+- **Tamper Detection Capability:** Verified via CLI `python -m app.cli tamper`
+  $\\rightarrow$ sequence discrepancy immediately flagged.
 
 ---
 *Report certified by RelayOps Evaluation Engine (`backend/app/eval.py`).*

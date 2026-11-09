@@ -241,9 +241,18 @@ def bind_and_validate(
                 if m.get("message_id") == sub_msg_id:
                     start = m.get("char_start", 0)
                     end = m.get("char_end", len(body))
-                    msg_body = m.get("text") or m.get("body") or (body[start:end] if 0 <= start < end <= len(body) else "")
+                    msg_body = (
+                        m.get("text")
+                        or m.get("body")
+                        or (body[start:end] if 0 <= start < end <= len(body) else "")
+                    )
                     if msg_body:
-                        matched_span = find_best_span(search_text, msg_body, threshold=0.70) or (start, end, msg_body.strip(), 1.0)
+                        matched_span = find_best_span(search_text, msg_body, threshold=0.70) or (
+                            start,
+                            end,
+                            msg_body.strip(),
+                            1.0,
+                        )
                     break
 
         if not matched_span:

@@ -106,9 +106,7 @@ def list_governance_audit_logs(
             pass
 
     total = session.exec(count_query).one() or 0
-    items = session.exec(
-        query.order_by(AuditLog.seq.desc()).offset(eff_offset).limit(eff_limit)
-    ).all()
+    items = session.exec(query.order_by(AuditLog.seq.desc()).offset(eff_offset).limit(eff_limit)).all()
 
     response.headers["X-Total-Count"] = str(total)
     response.headers["X-Page"] = str(eff_page)
@@ -156,9 +154,21 @@ def get_policy_matrix(
     roles = ["lead", "outgoing", "successor", "contractor", "auditor"]
     clearances = [
         {"level": 0, "name": "Public", "description": "Open source, public repositories and licenses"},
-        {"level": 1, "name": "Internal", "description": "Standard company-wide engineering artifacts and PRs"},
-        {"level": 2, "name": "Confidential", "description": "Partner credentials, vendor pricing, escalation contacts"},
-        {"level": 3, "name": "Restricted", "description": "Executive sign-offs, legal matters, security vault keys"},
+        {
+            "level": 1,
+            "name": "Internal",
+            "description": "Standard company-wide engineering artifacts and PRs",
+        },
+        {
+            "level": 2,
+            "name": "Confidential",
+            "description": "Partner credentials, vendor pricing, escalation contacts",
+        },
+        {
+            "level": 3,
+            "name": "Restricted",
+            "description": "Executive sign-offs, legal matters, security vault keys",
+        },
     ]
 
     rules: list[PolicyMatrixRule] = []
@@ -171,7 +181,9 @@ def get_policy_matrix(
             actions = allowed_actions(dummy_user)
 
             # Artifact bodies
-            artifact_visible = can_view_artifact(dummy_user, {"sensitivity": lvl, "project_id": "p1"}, ["dummy"])
+            artifact_visible = can_view_artifact(
+                dummy_user, {"sensitivity": lvl, "project_id": "p1"}, ["dummy"]
+            )
 
             notes = []
             if r == "contractor" and lvl > 1:
@@ -347,7 +359,9 @@ def add_project_member(
     # Update clearance if specified
     if payload.clearance is not None:
         if target_user.role in ("contractor", "auditor") and payload.clearance > 1:
-            raise AppError("VALIDATION_ERROR", f"Clearance for {target_user.role} cannot exceed Level 1", status_code=422)
+            raise AppError(
+                "VALIDATION_ERROR", f"Clearance for {target_user.role} cannot exceed Level 1", status_code=422
+            )
         target_user.clearance = payload.clearance
         session.add(target_user)
 
@@ -416,7 +430,9 @@ def update_project_member(
 
     if payload.clearance is not None:
         if target_user.role in ("contractor", "auditor") and payload.clearance > 1:
-            raise AppError("VALIDATION_ERROR", f"Clearance for {target_user.role} cannot exceed Level 1", status_code=422)
+            raise AppError(
+                "VALIDATION_ERROR", f"Clearance for {target_user.role} cannot exceed Level 1", status_code=422
+            )
         target_user.clearance = payload.clearance
         session.add(target_user)
 
@@ -426,7 +442,12 @@ def update_project_member(
         action="project_member_updated",
         target_type="project_member",
         target_id=pm.id,
-        payload={"project_id": project_id, "user_id": user_id, "new_role": pm.project_role, "new_clearance": target_user.clearance},
+        payload={
+            "project_id": project_id,
+            "user_id": user_id,
+            "new_role": pm.project_role,
+            "new_clearance": target_user.clearance,
+        },
     )
 
     session.commit()

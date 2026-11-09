@@ -269,6 +269,7 @@ def build_handover_view(
     if viewing_role == "auditor":
         audit_chain_info = verify_handover(session, handover_id)
         from app.models import Artifact, RedactionEvent
+
         events = session.exec(
             select(RedactionEvent)
             .join(Artifact, RedactionEvent.artifact_id == Artifact.id)

@@ -9,11 +9,12 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import pytest
-from sqlmodel import Session, select, text
+from fastapi.testclient import TestClient
+from sqlmodel import Session, select
 
 from app.db import get_engine, init_db
-from app.models import Artifact, Claim, Job, Node
+from app.main import create_app
+from app.models import Artifact, Claim, Node
 from app.routers.sources import execute_demo_load
 
 GROUND_TRUTH_PATH = Path(__file__).resolve().parent.parent / "seed" / "ground_truth.json"
@@ -40,7 +41,9 @@ def test_no_plaintext_secrets_in_database():
         for sec in planted_secrets:
             # Check artifacts
             for a in artifacts:
-                assert sec not in (a.body_redacted or ""), f"Secret '{sec}' found in artifact {a.id} ({a.title})!"
+                assert sec not in (
+                    a.body_redacted or ""
+                ), f"Secret '{sec}' found in artifact {a.id} ({a.title})!"
                 assert sec not in (a.title or ""), f"Secret '{sec}' found in artifact title {a.id}!"
 
             # Check claims
@@ -56,9 +59,6 @@ def test_no_plaintext_secrets_in_database():
 
 def test_security_headers_and_cookie_policy():
     """Verify Content-Security-Policy, anti-clickjacking, and cookie flags."""
-    from fastapi.testclient import TestClient
-    from app.main import create_app
-
     app = create_app()
     client = TestClient(app)
 
@@ -76,9 +76,6 @@ def test_security_headers_and_cookie_policy():
 
 def test_unauthorized_routes_blocked():
     """Verify protected routes reject unauthenticated requests with 401."""
-    from fastapi.testclient import TestClient
-    from app.main import create_app
-
     app = create_app()
     client = TestClient(app)
 

@@ -19,7 +19,7 @@ import time
 from datetime import UTC, datetime
 
 import pytest
-from sqlmodel import SQLModel, Session, select
+from sqlmodel import Session, SQLModel, select
 
 from app.db import get_engine, init_db, verify_audit_chain_detailed
 from app.errors import AppError
@@ -36,7 +36,6 @@ from app.models import (
     Handover,
     Job,
     PlanItem,
-    Project,
     User,
 )
 from app.routers.sources import execute_demo_load
@@ -123,17 +122,22 @@ def execute_full_demo_cycle(cycle_num: int) -> dict[str, float | int | bool]:
         ).first()
         assert target_claim is not None
         original_text = target_claim.text
-        patched = patch_claim(
-            session,
-            target_claim.id,
-            aarav,
-            patch_data := type("ClaimPatchInput", (), {
+        patch_input = type(
+            "ClaimPatchInput",
+            (),
+            {
                 "text": original_text + " Note: requires rotating webhook secret.",
                 "status": "edited",
                 "rejected_reason": None,
                 "order_index": None,
                 "expected_updated_at": None,
-            })(),
+            },
+        )()
+        patched = patch_claim(
+            session,
+            target_claim.id,
+            aarav,
+            patch_input,
         )
         assert patched["status"] == "edited"
 
@@ -174,12 +178,16 @@ def execute_full_demo_cycle(cycle_num: int) -> dict[str, float | int | bool]:
         assert len(snapshot.hash) == 64  # SHA-256
 
         # 4f. Dual Sign-Off (Outgoing Aarav + Lead Meera) on the new snapshot
-        res_aarav = execute_signoff(session, handover.id, aarav, version=snapshot.version, comment="Aarav reviewed")
+        res_aarav = execute_signoff(
+            session, handover.id, aarav, version=snapshot.version, comment="Aarav reviewed"
+        )
         assert res_aarav["both_signed"] is False
         session.refresh(handover)
         assert handover.status == "in_review"
 
-        res_meera = execute_signoff(session, handover.id, meera, version=snapshot.version, comment="Meera approved")
+        res_meera = execute_signoff(
+            session, handover.id, meera, version=snapshot.version, comment="Meera approved"
+        )
         assert res_meera["both_signed"] is True
         session.refresh(handover)
         assert handover.status == "signed"
@@ -223,12 +231,16 @@ def execute_full_demo_cycle(cycle_num: int) -> dict[str, float | int | bool]:
 
         # Step 6: Grounded Copilot (Answer with citations & Refusal)
         # 6a. Answer grounded question (PAY-142)
-        copilot_res = ask_copilot(session, handover.id, kabir, "What is blocking vendor sandbox access in PAY-142?")
+        copilot_res = ask_copilot(
+            session, handover.id, kabir, "What is blocking vendor sandbox access in PAY-142?"
+        )
         assert copilot_res["can_answer"] is True
         assert len(copilot_res["citations"]) >= 1
 
         # 6b. Deterministic refusal on missing evidence
-        refusal_res = ask_copilot(session, handover.id, kabir, "How do we configure the Kubernetes Istio mesh?")
+        refusal_res = ask_copilot(
+            session, handover.id, kabir, "How do we configure the Kubernetes Istio mesh?"
+        )
         assert refusal_res["refused"] is True
         assert DETERMINISTIC_REFUSAL_PREFIX in refusal_res["answer"]
 
@@ -266,7 +278,10 @@ def test_demo_script_three_consecutive_runs():
         result = execute_full_demo_cycle(cycle_num=i)
         duration = float(result["duration_seconds"])
         timings.append(duration)
-        print(f"\n[DEMO RUN #{i}] Duration: {duration:.2f}s | Status: {result['handover_status']} | Audit Chain: {result['audit_chain_valid']}")
+        print(
+            f"\n[DEMO RUN #{i}] Duration: {duration:.2f}s | "
+            f"Status: {result['handover_status']} | Audit Chain: {result['audit_chain_valid']}"
+        )
 
         # Assert each run completes well under 6 minutes (360s)
         assert duration <= 360.0, f"Demo run #{i} took {duration}s, exceeding 360s limit!"
@@ -274,5 +289,7 @@ def test_demo_script_three_consecutive_runs():
         assert result["audit_chain_valid"] is True
 
     avg_duration = sum(timings) / len(timings)
-    print(f"\n[SUMMARY] 3/3 Demo runs passed without flakiness! Avg time: {avg_duration:.2f}s (Target <= 360s)")
+    print(
+        f"\n[SUMMARY] 3/3 Demo runs passed without flakiness! Avg time: {avg_duration:.2f}s (Target <= 360s)"
+    )
     assert avg_duration <= 360.0

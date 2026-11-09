@@ -25,10 +25,9 @@ from ..ingest.json_loaders import (
 from ..ingest.markdown import MarkdownLoader
 from ..ingest.normalize import normalize_and_upsert_event
 from ..ingest.redact import redact
-from ..models import Artifact, AuditLog, Job, Project, ProjectMember, RedactionEvent, Source, User
+from ..models import Artifact, Job, Project, ProjectMember, RedactionEvent, Source, User
 from ..schemas import (
     ArtifactRead,
-    AuditLogRead,
     DemoLoadResponse,
     JobRead,
     RedactionAuditResponse,

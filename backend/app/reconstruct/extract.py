@@ -160,7 +160,10 @@ def _fallback_extraction(topic: str, batch: list[Artifact]) -> ExtractedFacts:
                     kind="architecture_decision",
                     topic="session_caching",
                     text="Redis session caching proposed in ADR-003",
-                    snippet="Deploy a managed Redis 7.2 cluster to cache authenticated user sessions with a 12-hour TTL.",
+                    snippet=(
+                        "Deploy a managed Redis 7.2 cluster to cache authenticated "
+                        "user sessions with a 12-hour TTL."
+                    ),
                     evidence_ids=["ADR-003"],
                     valid_time=a.valid_time,
                     confidence=0.9,
@@ -175,7 +178,10 @@ def _fallback_extraction(topic: str, batch: list[Artifact]) -> ExtractedFacts:
                         kind="architecture_decision",
                         topic="session_caching",
                         text="Stateless JWT tokens adopted in PR #89 (supersedes Redis cache)",
-                        snippet="Abandons Redis session caching proposed in ADR-003. We are moving to stateless HMAC-SHA256 signed JWT tokens.",
+                        snippet=(
+                            "Abandons Redis session caching proposed in ADR-003. We are moving to "
+                            "stateless HMAC-SHA256 signed JWT tokens."
+                        ),
                         evidence_ids=["PR-89"],
                         valid_time=a.valid_time,
                         confidence=1.0,
@@ -191,7 +197,10 @@ def _fallback_extraction(topic: str, batch: list[Artifact]) -> ExtractedFacts:
                     kind="architecture_decision",
                     topic="database_choice",
                     text="MongoDB document store evaluated in RFC-007",
-                    snippet="Rejected during team review on August 11, 2026. Ledger transactions demand multi-table ACID.",
+                    snippet=(
+                        "Rejected during team review on August 11, 2026. "
+                        "Ledger transactions demand multi-table ACID."
+                    ),
                     evidence_ids=["RFC-007"],
                     valid_time=a.valid_time,
                     confidence=0.8,
@@ -206,7 +215,10 @@ def _fallback_extraction(topic: str, batch: list[Artifact]) -> ExtractedFacts:
                         kind="architecture_decision",
                         topic="database_choice",
                         text="PostgreSQL 16 migration adopted in PR #42 (supersedes MongoDB evaluation)",
-                        snippet="After team review and performance benchmarks, we decided against MongoDB and migrated the transaction ledger to PostgreSQL 16.",
+                        snippet=(
+                            "After team review and performance benchmarks, we decided against "
+                            "MongoDB and migrated the transaction ledger to PostgreSQL 16."
+                        ),
                         evidence_ids=["PR-42"],
                         valid_time=a.valid_time,
                         confidence=1.0,
@@ -222,7 +234,9 @@ def _fallback_extraction(topic: str, batch: list[Artifact]) -> ExtractedFacts:
                         kind="architecture_decision",
                         topic="rate_limit",
                         text="Partner rate limit is 100/min per merchant key",
-                        snippet="partner documentation states rate limit is strictly 100/min per merchant key.",
+                        snippet=(
+                            "partner documentation states rate limit is strictly 100/min per merchant key."
+                        ),
                         evidence_ids=["msg_rate_100"],
                         valid_time=a.valid_time,
                         confidence=0.7,
@@ -280,7 +294,10 @@ def _fallback_extraction(topic: str, batch: list[Artifact]) -> ExtractedFacts:
                 kind="blocker",
                 topic="blocker_pay_142",
                 text="Vendor sandbox access blocked for AcquirerCorp payment gateway (PAY-142)",
-                snippet="We are blocked from testing end-to-end 3D-Secure 2 webhook callbacks because the AcquirerCorp partner sandbox account credentials expired.",
+                snippet=(
+                    "We are blocked from testing end-to-end 3D-Secure 2 webhook callbacks "
+                    "because the AcquirerCorp partner sandbox account credentials expired."
+                ),
                 evidence_ids=["PAY-142", "msg_leads_vendor_01"],
                 valid_time=datetime(2026, 10, 26, 9, 15, tzinfo=UTC),
                 confidence=1.0,

@@ -598,7 +598,6 @@ class ResetDemoResponse(BaseModel):
     total_artifacts: int
 
 
-
 class ArtifactRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 

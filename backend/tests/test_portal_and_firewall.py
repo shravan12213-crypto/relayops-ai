@@ -420,9 +420,7 @@ def test_export_contains_hashes_and_signatures(client: TestClient, portal_setup:
     assert "fn-" in html_text  # Footnotes present
 
 
-def test_copilot_history_feedback_and_questions(
-    client: TestClient, portal_setup: dict[str, Any]
-) -> None:
+def test_copilot_history_feedback_and_questions(client: TestClient, portal_setup: dict[str, Any]) -> None:
     handover = portal_setup["handover"]
     successor = portal_setup["users"]["successor"]
     headers = auth_headers(successor)
@@ -469,9 +467,7 @@ def test_copilot_history_feedback_and_questions(
     assert "Webhook Retry" in q_data["title"]
 
 
-def test_p18_acceptance_kabir_dev_and_drag_drop(
-    client: TestClient, portal_setup: dict[str, Any]
-) -> None:
+def test_p18_acceptance_kabir_dev_and_drag_drop(client: TestClient, portal_setup: dict[str, Any]) -> None:
     """Explicitly verify P18 Acceptance Criteria:
     - Kabir (successor) shows only clearance-allowed content
     - Dev (contractor) cannot see any confidential text anywhere including copilot answers

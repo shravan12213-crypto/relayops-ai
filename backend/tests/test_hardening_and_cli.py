@@ -292,7 +292,9 @@ def test_cli_backup_command(tmp_path: Any) -> None:
 
 
 def test_check_prod_safety_fails_on_default_or_weak_secret_key() -> None:
-    """Verify check_prod_safety fails fast with a clear error message in production when SECRET_KEY is default or weak."""
+    """Verify check_prod_safety fails fast with a clear error message in production
+    when SECRET_KEY is default or weak.
+    """
     from app.config import DEFAULT_SECRET_KEY, Settings
 
     # Default secret key in prod must fail
@@ -313,4 +315,3 @@ def test_check_prod_safety_fails_on_default_or_weak_secret_key() -> None:
     # Strong key in prod must pass
     prod_good = Settings(env="prod", secret_key="a" * 48)
     prod_good.check_prod_safety()
-

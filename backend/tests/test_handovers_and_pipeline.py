@@ -452,8 +452,7 @@ def test_graph_and_timeline_endpoints(client: TestClient, session: Session) -> N
     supersedes_links = [lnk for lnk in timeline_data["links"] if lnk["type"] == "SUPERSEDES"]
     assert len(supersedes_links) >= 2
     assert any(
-        lnk["src_id"] == "event-redis-adr3" and lnk["dst_id"] == "event-jwt-pr89"
-        for lnk in supersedes_links
+        lnk["src_id"] == "event-redis-adr3" and lnk["dst_id"] == "event-jwt-pr89" for lnk in supersedes_links
     )
     assert any(
         lnk["src_id"] == "event-mongo-rfc7" and lnk["dst_id"] == "event-postgres-pr42"
@@ -464,6 +463,5 @@ def test_graph_and_timeline_endpoints(client: TestClient, session: Session) -> N
     conflict_links = [lnk for lnk in timeline_data["links"] if lnk["type"] == "CONFLICT"]
     assert len(conflict_links) >= 1
     assert any(
-        lnk["src_id"] == "event-rate-100" and lnk["dst_id"] == "event-rate-500"
-        for lnk in conflict_links
+        lnk["src_id"] == "event-rate-100" and lnk["dst_id"] == "event-rate-500" for lnk in conflict_links
     )

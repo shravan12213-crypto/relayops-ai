@@ -30,9 +30,9 @@ def cmd_seed(_: argparse.Namespace) -> int:
 
 def cmd_reset_db(_: argparse.Namespace) -> int:
     """Drop and recreate all database tables and apply migrations."""
-    import app.models  # noqa: F401
     from sqlmodel import SQLModel
 
+    import app.models  # noqa: F401
     from app.db import get_engine, init_db
 
     engine = get_engine()
@@ -61,10 +61,16 @@ def cmd_verify_chain(_: argparse.Namespace) -> int:
     with Session(get_engine()) as session:
         res = verify_audit_chain_detailed(session)
         if res["valid"]:
-            print(f"[OK] Audit log cryptographic hash chain is valid and untampered ({res['entries_count']} entries).")
+            count = res["entries_count"]
+            print(f"[OK] Audit log cryptographic hash chain is valid and untampered ({count} entries).")
             return 0
         else:
-            print(f"[FAIL] Audit log cryptographic hash chain verification FAILED! Tampering detected at sequence #{res['tampered_seq']}: {res['error']}")
+            t_seq = res["tampered_seq"]
+            t_err = res["error"]
+            print(
+                f"[FAIL] Audit log cryptographic hash chain verification FAILED! "
+                f"Tampering detected at sequence #{t_seq}: {t_err}"
+            )
             return 1
 
 
@@ -189,7 +195,9 @@ def build_parser() -> argparse.ArgumentParser:
     verify_p.set_defaults(func=cmd_verify_chain)
 
     # 4b. tamper (testing tool)
-    tamper_p = subparsers.add_parser("tamper", help="intentionally tamper an audit log row for integrity testing")
+    tamper_p = subparsers.add_parser(
+        "tamper", help="intentionally tamper an audit log row for integrity testing"
+    )
     tamper_p.set_defaults(func=cmd_tamper)
 
     # 5. create-user

@@ -227,7 +227,9 @@ def get_chat_messages(
         return []
 
     messages = session.exec(
-        select(ChatMessage).where(ChatMessage.session_id == chat_sess.id).order_by(ChatMessage.created_at.asc())
+        select(ChatMessage)
+        .where(ChatMessage.session_id == chat_sess.id)
+        .order_by(ChatMessage.created_at.asc())
     ).all()
     return [ChatMessageRead.model_validate(m) for m in messages]
 
