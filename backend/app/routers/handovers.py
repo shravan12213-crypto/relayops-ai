@@ -12,8 +12,17 @@ from app.auth import get_current_user
 from app.db import get_session
 from app.errors import AppError
 from app.jobs import run_handover_pipeline
-from app.models import Ambiguity, Artifact, Claim, Edge, Entity, Handover, Job, Node, Project, User
-from app.policy import effective_clearance
+from app.models import (
+    Artifact,
+    Claim,
+    Entity,
+    Handover,
+    Job,
+    Project,
+    ProjectMember,
+    User,
+)
+from app.policy import allowed_actions, effective_clearance
 from app.reconstruct.graph import bus_factor
 from app.schemas import (
     GraphEdgeRead,
@@ -31,6 +40,32 @@ from app.verify import ScorecardData, generate_scorecard
 
 logger = logging.getLogger("relayops.routers.handovers")
 router = APIRouter(tags=["handovers"])
+
+
+def check_project_membership(
+    session: Session,
+    project_id: str,
+    user: User,
+    handover: Handover | None = None,
+) -> bool:
+    """Verify if user is an explicit member of the project or a designated participant on the handover."""
+    member = session.exec(
+        select(ProjectMember).where(
+            ProjectMember.project_id == project_id,
+            ProjectMember.user_id == user.id,
+        )
+    ).first()
+    if member is not None:
+        return True
+    return bool(
+        handover is not None
+        and user.id
+        in (
+            handover.lead_user_id,
+            handover.outgoing_user_id,
+            handover.successor_user_id,
+        )
+    )
 
 
 @router.post(
@@ -97,6 +132,9 @@ def list_project_handovers(
     if not project:
         raise AppError("NOT_FOUND", "Project not found", status_code=404)
 
+    if not check_project_membership(session, project_id, current_user):
+        raise AppError("FORBIDDEN", "Access denied: you are not a member of this project", status_code=403)
+
     handovers = session.exec(select(Handover).where(Handover.project_id == project_id)).all()
     return [HandoverRead.model_validate(h) for h in handovers]
 
@@ -114,6 +152,10 @@ def get_handover(
     handover = session.get(Handover, handover_id)
     if not handover:
         raise AppError("NOT_FOUND", "Handover not found", status_code=404)
+
+    if not check_project_membership(session, handover.project_id, current_user, handover):
+        raise AppError("FORBIDDEN", "Access denied: you are not a member of this project", status_code=403)
+
     return HandoverRead.model_validate(handover)
 
 
@@ -137,6 +179,19 @@ def run_pipeline(
     handover = session.get(Handover, handover_id)
     if not handover:
         raise AppError("NOT_FOUND", "Handover not found", status_code=404)
+
+    # 1. Project-level isolation: user must belong to the associated project
+    if not check_project_membership(session, handover.project_id, current_user, handover):
+        raise AppError("FORBIDDEN", "Access denied: you are not a member of this project", status_code=403)
+
+    # 2. Role authorization: user must have a role permitted to run the pipeline
+    actions = allowed_actions(current_user, handover)
+    if "run_pipeline" not in actions:
+        raise AppError(
+            "FORBIDDEN",
+            f"User with role '{current_user.role}' is not authorized to initiate pipeline execution",
+            status_code=403,
+        )
 
     # Concurrency rule: one active job per handover
     active_job = session.exec(
@@ -203,6 +258,9 @@ def get_handover_scorecard(
     if not handover:
         raise AppError("NOT_FOUND", "Handover not found", status_code=404)
 
+    if not check_project_membership(session, handover.project_id, current_user, handover):
+        raise AppError("FORBIDDEN", "Access denied: you are not a member of this project", status_code=403)
+
     claims = session.exec(select(Claim).where(Claim.handover_id == handover_id)).all()
     return generate_scorecard(handover.project_id, session, claims=claims)
 
@@ -217,6 +275,9 @@ def get_handover_graph(
     handover = session.get(Handover, handover_id)
     if not handover:
         raise AppError("NOT_FOUND", "Handover not found", status_code=404)
+
+    if not check_project_membership(session, handover.project_id, current_user, handover):
+        raise AppError("FORBIDDEN", "Access denied: you are not a member of this project", status_code=403)
 
     project_id = handover.project_id
     user_clearance = effective_clearance(current_user, handover)
@@ -270,7 +331,11 @@ def get_handover_graph(
         for c in permitted_claims:
             c_text_lower = c.text.lower()
             c_section_lower = c.section.lower()
-            if mod in c_text_lower or mod in c_section_lower or (mod == "ledger-sync" and "ledger" in c_text_lower):
+            if (
+                mod in c_text_lower
+                or mod in c_section_lower
+                or (mod == "ledger-sync" and "ledger" in c_text_lower)
+            ):
                 claim_dict = {
                     "id": c.id,
                     "text": c.text,
@@ -349,6 +414,9 @@ def get_handover_timeline(
     handover = session.get(Handover, handover_id)
     if not handover:
         raise AppError("NOT_FOUND", "Handover not found", status_code=404)
+
+    if not check_project_membership(session, handover.project_id, current_user, handover):
+        raise AppError("FORBIDDEN", "Access denied: you are not a member of this project", status_code=403)
 
     project_id = handover.project_id
     user_clearance = effective_clearance(current_user, handover)
@@ -482,7 +550,9 @@ def get_handover_timeline(
             authority=0.4,
             sensitivity=0,
             status="conflict",
-            evidence=[{"artifact_id": art_rate100.id if art_rate100 else "msg_rate_100", "title": "Slack #partners"}],
+            evidence=[
+                {"artifact_id": art_rate100.id if art_rate100 else "msg_rate_100", "title": "Slack #partners"}
+            ],
             source_uri=art_rate100.source_uri if art_rate100 else "slack://channel/partners/p1706780000",
             source_type="slack",
         )
@@ -501,7 +571,9 @@ def get_handover_timeline(
             authority=0.4,
             sensitivity=0,
             status="conflict",
-            evidence=[{"artifact_id": art_rate500.id if art_rate500 else "msg_rate_500", "title": "Slack #partners"}],
+            evidence=[
+                {"artifact_id": art_rate500.id if art_rate500 else "msg_rate_500", "title": "Slack #partners"}
+            ],
             source_uri=art_rate500.source_uri if art_rate500 else "slack://channel/partners/p1706800000",
             source_type="slack",
         )
@@ -531,7 +603,12 @@ def get_handover_timeline(
             sensitivity=0,
             status="superseded",
             superseded_by="event-webhook-pr65",
-            evidence=[{"artifact_id": art_rb_wh.id if art_rb_wh else "runbook-webhooks.md", "title": "Runbook Webhooks"}],
+            evidence=[
+                {
+                    "artifact_id": art_rb_wh.id if art_rb_wh else "runbook-webhooks.md",
+                    "title": "Runbook Webhooks",
+                }
+            ],
             source_uri=art_rb_wh.source_uri if art_rb_wh else "docs/runbooks/webhooks.md",
             source_type="doc",
         )
@@ -592,7 +669,8 @@ def get_handover_timeline(
     if module and module != "all":
         mod_clean = module.lower().replace("-", " ").replace("_", " ")
         filtered_events = [
-            ev for ev in filtered_events
+            ev
+            for ev in filtered_events
             if mod_clean in ev.topic.lower() or mod_clean in ev.label.lower() or mod_clean in ev.text.lower()
         ]
 
@@ -605,8 +683,7 @@ def get_handover_timeline(
     # Filter links to only keep links between retained events
     retained_event_ids = {ev.id for ev in filtered_events}
     filtered_links = [
-        lnk for lnk in links
-        if lnk.src_id in retained_event_ids and lnk.dst_id in retained_event_ids
+        lnk for lnk in links if lnk.src_id in retained_event_ids and lnk.dst_id in retained_event_ids
     ]
 
     return HandoverTimelineRead(
