@@ -18,7 +18,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
-from sqlmodel import Session
+from sqlmodel import Session, select
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from . import __version__
