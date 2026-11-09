@@ -158,4 +158,3 @@ def allowed_actions(user: Any, handover: Any = None) -> set[str]:
         actions.add("chat")
 
     return actions
-

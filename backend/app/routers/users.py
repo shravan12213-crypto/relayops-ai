@@ -64,4 +64,3 @@ def create_user(
 
     logger.info("Created user %s (%s, clearance %d)", user.email, user.role, user.clearance)
     return UserRead.model_validate(user)
-

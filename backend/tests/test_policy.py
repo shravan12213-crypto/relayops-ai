@@ -166,4 +166,3 @@ def test_allowed_actions_matrix() -> None:
     # Acknowledge receipt only by successor
     assert "acknowledge_receipt" in successor_actions
     assert "acknowledge_receipt" not in lead_actions
-
