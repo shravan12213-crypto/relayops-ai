@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
 import time
@@ -17,17 +18,43 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from sqlmodel import Session
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from . import __version__
 from .config import REPO_ROOT, Settings, get_settings
-from .db import db_healthy, init_db
+from .db import db_healthy, get_engine, init_db
 from .errors import AppError
+from .schemas import HealthResponse
 
 request_id_ctx: ContextVar[str] = ContextVar("request_id", default="-")
 logger = logging.getLogger("relayops")
 
 FRONTEND_DIST = REPO_ROOT / "frontend" / "dist"
+
+OPENAPI_TAGS = [
+    {"name": "system", "description": "System health checks and operational status"},
+    {"name": "auth", "description": "Authentication, session cookies, and current user profile"},
+    {"name": "users", "description": "User accounts, roles, and clearance administration"},
+    {"name": "sources", "description": "Data source ingestion, file uploads, and demo seeding"},
+    {
+        "name": "handovers",
+        "description": "Handover tracking documents, pipeline orchestration, and scorecards",
+    },
+    {"name": "jobs", "description": "Background pipeline execution and live Server-Sent Events (SSE)"},
+    {
+        "name": "review",
+        "description": "Grounded claims review, ambiguity resolution, versioning, and dual sign-off",
+    },
+    {
+        "name": "portal",
+        "description": "Successor portal: role-scoped views, onboarding plan, receipts, and exports",
+    },
+    {
+        "name": "governance",
+        "description": "Audit log hash chain verification, policy matrix, project members, and system admin",
+    },
+]
 
 STATUS_CODES = {
     400: "BAD_REQUEST",
@@ -123,22 +150,47 @@ async def lifespan(app: FastAPI):
         },
     )
     if settings.seed_on_start:
-        # P04 replaces this with the demo dataset and demo users.
-        logger.info("SEED_ON_START is on; demo dataset seeding lands in P04")
+        try:
+            with Session(get_engine()) as session:
+                from .models import Project, User
+                from .routers.sources import execute_demo_load
+
+                user_count = len(session.exec(select(User)).all())
+                project_count = len(session.exec(select(Project)).all())
+
+                if user_count == 0 or project_count == 0:
+                    execute_demo_load(session)
+                    logger.info("SEED_ON_START: PayFlow demo dataset seeded into empty database")
+                else:
+                    logger.info("SEED_ON_START: Database already populated; skipping initial seed")
+        except Exception as exc:
+            logger.warning("SEED_ON_START could not seed demo dataset: %s", exc)
+
+    if settings.llm_mode == "replay":
+        try:
+            from .llm import bulk_load_recordings
+
+            count = bulk_load_recordings()
+            if count > 0:
+                logger.info("Loaded %d LLM recordings into replay cache", count)
+        except Exception as exc:
+            logger.warning("Could not bulk-load LLM recordings: %s", exc)
     yield
     logger.info("RelayOps shutting down")
 
 
-def create_app() -> FastAPI:
-    settings = get_settings()
+def create_app(custom_settings: Settings | None = None) -> FastAPI:
+    settings = custom_settings or get_settings()
+    is_dev = settings.env.lower() in ("dev", "development")
     app = FastAPI(
         title="RelayOps API",
         version=__version__,
         description="Traceable, human-verified handovers from scattered project activity.",
         lifespan=lifespan,
-        docs_url="/api/docs",
+        docs_url="/api/docs" if is_dev else None,
         redoc_url=None,
-        openapi_url="/api/openapi.json",
+        openapi_url="/api/openapi.json" if is_dev else None,
+        openapi_tags=OPENAPI_TAGS,
     )
 
     app.add_middleware(
@@ -155,8 +207,23 @@ def create_app() -> FastAPI:
         request_id = request.headers.get("X-Request-ID") or uuid.uuid4().hex
         token = request_id_ctx.set(request_id)
         started = time.perf_counter()
+        is_stream = request.url.path.endswith("/events")
+        timeout_sec = 30.0
+
         try:
-            response = await call_next(request)
+            if is_stream:
+                response = await call_next(request)
+            else:
+                response = await asyncio.wait_for(call_next(request), timeout=timeout_sec)
+        except TimeoutError:
+            logger.warning(
+                "Request timeout on %s %s after %.1fs",
+                request.method,
+                request.url.path,
+                timeout_sec,
+                extra={"extra_fields": {"request_id": request_id}},
+            )
+            return error_response(504, "TIMEOUT", "Request execution timed out")
         except Exception:
             logger.exception(
                 "%s %s raised",
@@ -184,7 +251,16 @@ def create_app() -> FastAPI:
                 }
             },
         )
+
+        # Security headers
         response.headers["X-Request-ID"] = request_id
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+        response.headers["Content-Security-Policy"] = (
+            "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; "
+            "img-src 'self' data:; font-src 'self' data:; connect-src 'self'"
+        )
         return response
 
     @app.exception_handler(AppError)
@@ -211,20 +287,26 @@ def create_app() -> FastAPI:
         logger.exception("Unhandled error: %s", exc)
         return error_response(500, "INTERNAL_ERROR", "Unexpected server error")
 
-    @app.get("/api/v1/health", tags=["system"])
-    def health() -> dict[str, Any]:
+    @app.get("/api/v1/health", response_model=HealthResponse, tags=["system"])
+    def health() -> HealthResponse:
         db_ok = db_healthy()
-        return {
-            "status": "ok" if db_ok else "degraded",
-            "version": __version__,
-            "llm_mode": settings.llm_mode,
-            "db": "ok" if db_ok else "error",
-        }
+        return HealthResponse(
+            status="ok" if db_ok else "degraded",
+            version=__version__,
+            llm_mode=settings.llm_mode,
+            db="ok" if db_ok else "error",
+        )
 
-    from .routers import auth, users
+    from .routers import auth, governance, handovers, jobs, portal, review, sources, users
 
     app.include_router(auth.router, prefix="/api/v1")
     app.include_router(users.router, prefix="/api/v1")
+    app.include_router(sources.router, prefix="/api/v1")
+    app.include_router(handovers.router, prefix="/api/v1")
+    app.include_router(jobs.router, prefix="/api/v1")
+    app.include_router(review.router, prefix="/api/v1")
+    app.include_router(portal.router, prefix="/api/v1")
+    app.include_router(governance.router, prefix="/api/v1")
 
     index_file = FRONTEND_DIST / "index.html"
     if index_file.exists():

@@ -1,0 +1,32 @@
+services:
+  relayops:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: relayops:latest
+    container_name: relayops-app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - ENV=dev
+      - LOG_LEVEL=INFO
+      - DATABASE_URL=sqlite:////app/data/relayops.db
+      - SECRET_KEY=dev-only-insecure-secret-change-me
+      - LLM_PROVIDER=replay
+      - SEED_ON_START=true
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - relayops-data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8000/api/v1/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  relayops-data:
+    driver: local

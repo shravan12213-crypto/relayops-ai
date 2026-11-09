@@ -10,6 +10,7 @@
     "build": "bash scripts/build.sh",
     "seed": "bash scripts/seed.sh",
     "eval": "bash scripts/eval.sh",
+    "smoke": "bash scripts/smoke.sh",
     "typecheck": "npm --prefix frontend run typecheck",
     "test:frontend": "npm --prefix frontend run test",
     "test:e2e": "playwright test",

@@ -42,6 +42,7 @@ class Settings(BaseSettings):
     llm_provider: LLMProvider = "replay"
     llm_model: str = "claude-sonnet-4-5"
     llm_timeout_seconds: float = 60.0
+    llm_token_budget_per_job: int = 100000
     anthropic_api_key: str | None = None
     openai_api_key: str | None = None
     github_token: str | None = None
@@ -54,6 +55,17 @@ class Settings(BaseSettings):
     @classmethod
     def _normalise_provider(cls, value: object) -> object:
         return value.strip().lower() if isinstance(value, str) else value
+
+    @field_validator("env", mode="before")
+    @classmethod
+    def _normalise_env(cls, value: object) -> object:
+        if isinstance(value, str):
+            val = value.strip().lower()
+            if val in ("prod", "production"):
+                return "prod"
+            if val in ("dev", "development"):
+                return "dev"
+        return value
 
     @property
     def cors_origin_list(self) -> list[str]:
@@ -78,8 +90,10 @@ class Settings(BaseSettings):
             return
         if self.secret_key == DEFAULT_SECRET_KEY or len(self.secret_key) < 32:
             raise RuntimeError(
-                "SECRET_KEY must be set to a random value of at least 32 characters when ENV=prod. "
-                'Generate one with: python -c "import secrets; print(secrets.token_urlsafe(48))"'
+                "FATAL: Unsafe production configuration detected!\n"
+                "When ENV=prod or ENV=production, SECRET_KEY cannot use the default value "
+                "and must be at least 32 characters long.\n"
+                'Generate a secure key with: python -c "import secrets; print(secrets.token_urlsafe(48))"'
             )
 
 

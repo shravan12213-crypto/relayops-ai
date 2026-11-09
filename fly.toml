@@ -1,0 +1,35 @@
+app = "relayops"
+primary_region = "iad"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  ENV = "prod"
+  LOG_LEVEL = "INFO"
+  PORT = "8000"
+  DATABASE_URL = "sqlite:////app/data/relayops.db"
+  LLM_PROVIDER = "replay"
+  SEED_ON_START = "true"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[http_service.checks]]
+  interval = "15s"
+  timeout = "5s"
+  grace_period = "10s"
+  method = "GET"
+  path = "/api/v1/health"
+
+[mounts]
+  source = "relayops_data"
+  destination = "/app/data"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

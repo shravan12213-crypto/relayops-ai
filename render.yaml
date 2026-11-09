@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: relayops
+    runtime: docker
+    plan: starter
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: ENV
+        value: prod
+      - key: LOG_LEVEL
+        value: INFO
+      - key: DATABASE_URL
+        value: sqlite:////app/data/relayops.db
+      - key: SECRET_KEY
+        generateValue: true
+      - key: LLM_PROVIDER
+        value: replay
+      - key: SEED_ON_START
+        value: "true"
+      - key: PORT
+        value: "8000"
+    disk:
+      name: relayops-data
+      mountPath: /app/data
+      sizeGB: 1
