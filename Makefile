@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-.PHONY: setup dev test build seed lint typecheck clean
+.PHONY: setup dev test build seed eval lint typecheck clean
 
 setup: ## Install backend + frontend dependencies and create .env
 	bash scripts/setup.sh
@@ -15,6 +15,9 @@ build: ## Build the SPA into frontend/dist
 
 seed: ## Load the demo dataset (implemented in P04)
 	bash scripts/seed.sh
+
+eval: ## Run evaluation and generate docs/EVAL_REPORT.md
+	bash scripts/eval.sh
 
 lint: ## Lint backend (ruff, black) and frontend (eslint)
 	npm run lint

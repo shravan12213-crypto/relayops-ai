@@ -9,7 +9,13 @@
     "test": "bash scripts/test.sh",
     "build": "bash scripts/build.sh",
     "seed": "bash scripts/seed.sh",
+    "eval": "bash scripts/eval.sh",
     "typecheck": "npm --prefix frontend run typecheck",
+    "test:frontend": "npm --prefix frontend run test",
+    "test:e2e": "playwright test",
     "lint": "npm --prefix frontend run lint && bash scripts/lint-backend.sh"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0"
   }
 }
