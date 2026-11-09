@@ -1,0 +1,15 @@
+{
+  "name": "relayops",
+  "version": "0.1.0",
+  "private": true,
+  "description": "RelayOps — traceable, human-verified handovers from scattered project activity.",
+  "scripts": {
+    "setup": "bash scripts/setup.sh",
+    "dev": "bash scripts/dev.sh",
+    "test": "bash scripts/test.sh",
+    "build": "bash scripts/build.sh",
+    "seed": "bash scripts/seed.sh",
+    "typecheck": "npm --prefix frontend run typecheck",
+    "lint": "npm --prefix frontend run lint && bash scripts/lint-backend.sh"
+  }
+}

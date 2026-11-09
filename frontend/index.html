@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1120" />
+    <meta
+      name="description"
+      content="RelayOps turns scattered project activity into a traceable, human-verified handover."
+    />
+    <title>RelayOps — verifiable handovers</title>
+    <script>
+      // Set the theme before first paint so a dark-mode user never sees a white flash.
+      (function () {
+        try {
+          var stored = localStorage.getItem("relayops-theme");
+          var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          document.documentElement.classList.toggle("dark", stored ? stored === "dark" : prefersDark);
+        } catch (error) {
+          /* localStorage can be blocked; light theme is the safe default. */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
