@@ -1,0 +1,161 @@
+import { Gauge, ShieldCheck, Layers, AlertCircle, Sparkles } from "lucide-react";
+
+import { useHandoverScorecard } from "@/lib/api/handovers";
+import { type Claim } from "@/lib/api/review";
+import { cn } from "@/lib/utils";
+
+export interface ScorecardTabProps {
+  handoverId: string;
+  claims: Claim[];
+}
+
+export function ScorecardTab({ handoverId, claims }: ScorecardTabProps) {
+  const { data: scorecard } = useHandoverScorecard(handoverId);
+
+  // Compute live breakdown from current claims in view
+  const totalClaims = claims.length;
+  const verifiedClaims = claims.filter(
+    (c) => c.evidence && c.evidence.length > 0 && c.status !== "rejected",
+  ).length;
+  const verifiedPct = totalClaims > 0 ? Math.round((verifiedClaims / totalClaims) * 100) : 0;
+
+  const score = scorecard?.overall_score ?? scorecard?.readiness_score ?? verifiedPct;
+
+  return (
+    <div className="flex h-full flex-col p-4 space-y-4 overflow-y-auto">
+      {/* Header with Readiness Gauge */}
+      <div className="rounded-xl border border-border/80 bg-card p-4 shadow-2xs space-y-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Handover Completeness
+            </span>
+            <h3 className="text-sm font-semibold text-foreground">Readiness Scorecard</h3>
+          </div>
+          <Gauge className="h-5 w-5 text-primary" />
+        </div>
+
+        {/* Big Score Display */}
+        <div className="flex items-center gap-4 pt-1">
+          <div className="relative flex h-16 w-16 shrink-0 items-center justify-center">
+            <svg className="h-full w-full -rotate-90 transform" viewBox="0 0 36 36">
+              <path
+                className="text-muted/30"
+                strokeWidth="4"
+                stroke="currentColor"
+                fill="none"
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <path
+                className={cn(
+                  "transition-all duration-500",
+                  score >= 80 ? "text-verified" : score >= 50 ? "text-amber-500" : "text-rose-500",
+                )}
+                strokeDasharray={`${score}, 100`}
+                strokeWidth="4"
+                strokeLinecap="round"
+                stroke="currentColor"
+                fill="none"
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+            </svg>
+            <span className="absolute text-base font-bold text-foreground">{score}%</span>
+          </div>
+
+          <div className="space-y-1">
+            <div className="flex items-center gap-1.5">
+              <span
+                className={cn(
+                  "inline-block h-2 w-2 rounded-full",
+                  score >= 80 ? "bg-verified" : score >= 50 ? "bg-amber-500" : "bg-rose-500",
+                )}
+              />
+              <span className="text-xs font-semibold text-foreground">
+                {score >= 80
+                  ? "Ready for Dual Sign-off"
+                  : score >= 50
+                    ? "In Review — Attention Needed"
+                    : "Early Reconstruct Stage"}
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground leading-snug">
+              Weighted index of claim verification, module coverage, and unresolved contradictions.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Metrics Grid */}
+      <div className="grid grid-cols-2 gap-2 text-xs">
+        {/* Verified Claims */}
+        <div className="rounded-lg border border-border/70 bg-card p-3 shadow-2xs space-y-1">
+          <div className="flex items-center justify-between text-muted-foreground">
+            <span className="text-[10px] font-semibold uppercase">Evidence Backed</span>
+            <ShieldCheck className="h-3.5 w-3.5 text-verified" />
+          </div>
+          <div className="text-lg font-bold text-foreground">
+            {verifiedPct}%
+          </div>
+          <p className="text-[11px] text-muted-foreground">
+            {verifiedClaims} of {totalClaims} claims verified
+          </p>
+        </div>
+
+        {/* Modules Documented */}
+        <div className="rounded-lg border border-border/70 bg-card p-3 shadow-2xs space-y-1">
+          <div className="flex items-center justify-between text-muted-foreground">
+            <span className="text-[10px] font-semibold uppercase">Module Coverage</span>
+            <Layers className="h-3.5 w-3.5 text-primary" />
+          </div>
+          <div className="text-lg font-bold text-foreground">
+            {Math.round(scorecard?.modules_documented_pct ?? 100)}%
+          </div>
+          <p className="text-[11px] text-muted-foreground">Components documented</p>
+        </div>
+
+        {/* Epistemic Avg */}
+        <div className="rounded-lg border border-border/70 bg-card p-3 shadow-2xs space-y-1">
+          <div className="flex items-center justify-between text-muted-foreground">
+            <span className="text-[10px] font-semibold uppercase">Epistemic Avg</span>
+            <Sparkles className="h-3.5 w-3.5 text-purple-500" />
+          </div>
+          <div className="text-lg font-bold text-foreground">
+            {((scorecard?.epistemic_confidence_avg ?? 0.85) * 100).toFixed(0)}%
+          </div>
+          <p className="text-[11px] text-muted-foreground">Average source trust</p>
+        </div>
+
+        {/* Open Ambiguities */}
+        <div className="rounded-lg border border-border/70 bg-card p-3 shadow-2xs space-y-1">
+          <div className="flex items-center justify-between text-muted-foreground">
+            <span className="text-[10px] font-semibold uppercase">High Severity Gaps</span>
+            <AlertCircle className="h-3.5 w-3.5 text-rose-500" />
+          </div>
+          <div className="text-lg font-bold text-foreground">
+            {scorecard?.open_ambiguities_by_severity?.high ?? 0}
+          </div>
+          <p className="text-[11px] text-muted-foreground">Must be resolved/waived</p>
+        </div>
+      </div>
+
+      {/* Summary Narrative */}
+      {scorecard?.summary && (
+        <div className="rounded-lg border border-border/70 bg-muted/30 p-3 text-xs space-y-1 shadow-2xs">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Auditor Summary
+          </span>
+          <p className="text-muted-foreground leading-relaxed">{scorecard.summary}</p>
+        </div>
+      )}
+
+      {/* Product Rules Notice */}
+      <div className="rounded-lg border border-border/40 bg-muted/20 p-3 text-[11px] text-muted-foreground space-y-1">
+        <span className="font-semibold text-foreground">Non-negotiable product rule:</span>
+        <p>
+          Every claim shown to a successor has ≥ 1 evidence link to a real artifact. Claims with zero
+          valid evidence are never persisted as verified.
+        </p>
+      </div>
+    </div>
+  );
+}

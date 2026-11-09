@@ -1,0 +1,471 @@
+[
+  {
+    "number": 10,
+    "title": "Feature refinement and integration for subcomponent 10",
+    "author": "kabir-dev",
+    "created_at": "2026-09-06T10:00:00Z",
+    "closed_at": "2026-09-08T16:00:00Z",
+    "merged_at": "2026-09-08T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 10 improvements.",
+    "source_branch": "feature/component-10",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-09-08T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 11,
+    "title": "Feature refinement and integration for subcomponent 11",
+    "author": "dev-contractor",
+    "created_at": "2026-09-09T10:00:00Z",
+    "closed_at": "2026-09-11T16:00:00Z",
+    "merged_at": "2026-09-11T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 11 improvements.",
+    "source_branch": "feature/component-11",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-09-11T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 12,
+    "title": "Feature refinement and integration for subcomponent 12",
+    "author": "aarav-dev",
+    "created_at": "2026-09-12T10:00:00Z",
+    "closed_at": "2026-09-14T16:00:00Z",
+    "merged_at": "2026-09-14T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 12 improvements.",
+    "source_branch": "feature/component-12",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-09-14T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 13,
+    "title": "Feature refinement and integration for subcomponent 13",
+    "author": "meera-lead",
+    "created_at": "2026-09-15T10:00:00Z",
+    "closed_at": "2026-09-17T16:00:00Z",
+    "merged_at": "2026-09-17T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 13 improvements.",
+    "source_branch": "feature/component-13",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-09-17T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 14,
+    "title": "Feature refinement and integration for subcomponent 14",
+    "author": "kabir-dev",
+    "created_at": "2026-09-18T10:00:00Z",
+    "closed_at": "2026-09-20T16:00:00Z",
+    "merged_at": "2026-09-20T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 14 improvements.",
+    "source_branch": "feature/component-14",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-09-20T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 15,
+    "title": "Feature refinement and integration for subcomponent 15",
+    "author": "dev-contractor",
+    "created_at": "2026-09-21T10:00:00Z",
+    "closed_at": "2026-09-23T16:00:00Z",
+    "merged_at": "2026-09-23T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 15 improvements.",
+    "source_branch": "feature/component-15",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-09-23T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 16,
+    "title": "Feature refinement and integration for subcomponent 16",
+    "author": "aarav-dev",
+    "created_at": "2026-09-24T10:00:00Z",
+    "closed_at": "2026-09-26T16:00:00Z",
+    "merged_at": "2026-09-26T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 16 improvements.",
+    "source_branch": "feature/component-16",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-09-26T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 17,
+    "title": "Feature refinement and integration for subcomponent 17",
+    "author": "meera-lead",
+    "created_at": "2026-09-27T10:00:00Z",
+    "closed_at": "2026-09-28T16:00:00Z",
+    "merged_at": "2026-09-28T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 17 improvements.",
+    "source_branch": "feature/component-17",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-09-28T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 18,
+    "title": "Feature refinement and integration for subcomponent 18",
+    "author": "kabir-dev",
+    "created_at": "2026-09-30T10:00:00Z",
+    "closed_at": "2026-09-28T16:00:00Z",
+    "merged_at": "2026-09-28T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 18 improvements.",
+    "source_branch": "feature/component-18",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-09-28T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 19,
+    "title": "Feature refinement and integration for subcomponent 19",
+    "author": "dev-contractor",
+    "created_at": "2026-10-03T10:00:00Z",
+    "closed_at": "2026-10-05T16:00:00Z",
+    "merged_at": "2026-10-05T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 19 improvements.",
+    "source_branch": "feature/component-19",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-10-05T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 20,
+    "title": "Feature refinement and integration for subcomponent 20",
+    "author": "aarav-dev",
+    "created_at": "2026-10-06T10:00:00Z",
+    "closed_at": "2026-10-08T16:00:00Z",
+    "merged_at": "2026-10-08T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 20 improvements.",
+    "source_branch": "feature/component-20",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-10-08T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 21,
+    "title": "Feature refinement and integration for subcomponent 21",
+    "author": "meera-lead",
+    "created_at": "2026-10-09T10:00:00Z",
+    "closed_at": "2026-10-11T16:00:00Z",
+    "merged_at": "2026-10-11T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 21 improvements.",
+    "source_branch": "feature/component-21",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-10-11T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 22,
+    "title": "Feature refinement and integration for subcomponent 22",
+    "author": "kabir-dev",
+    "created_at": "2026-10-12T10:00:00Z",
+    "closed_at": "2026-10-14T16:00:00Z",
+    "merged_at": "2026-10-14T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 22 improvements.",
+    "source_branch": "feature/component-22",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-10-14T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 23,
+    "title": "Feature refinement and integration for subcomponent 23",
+    "author": "dev-contractor",
+    "created_at": "2026-10-15T10:00:00Z",
+    "closed_at": "2026-10-17T16:00:00Z",
+    "merged_at": "2026-10-17T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 23 improvements.",
+    "source_branch": "feature/component-23",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-10-17T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 24,
+    "title": "Feature refinement and integration for subcomponent 24",
+    "author": "aarav-dev",
+    "created_at": "2026-10-18T10:00:00Z",
+    "closed_at": "2026-10-20T16:00:00Z",
+    "merged_at": "2026-10-20T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 24 improvements.",
+    "source_branch": "feature/component-24",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-10-20T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 25,
+    "title": "Feature refinement and integration for subcomponent 25",
+    "author": "meera-lead",
+    "created_at": "2026-10-21T10:00:00Z",
+    "closed_at": "2026-10-23T16:00:00Z",
+    "merged_at": "2026-10-23T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 25 improvements.",
+    "source_branch": "feature/component-25",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-10-23T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 26,
+    "title": "Feature refinement and integration for subcomponent 26",
+    "author": "kabir-dev",
+    "created_at": "2026-10-24T10:00:00Z",
+    "closed_at": "2026-10-26T16:00:00Z",
+    "merged_at": "2026-10-26T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 26 improvements.",
+    "source_branch": "feature/component-26",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-10-26T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 27,
+    "title": "Feature refinement and integration for subcomponent 27",
+    "author": "dev-contractor",
+    "created_at": "2026-10-27T10:00:00Z",
+    "closed_at": "2026-10-28T16:00:00Z",
+    "merged_at": "2026-10-28T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 27 improvements.",
+    "source_branch": "feature/component-27",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-10-28T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 28,
+    "title": "Feature refinement and integration for subcomponent 28",
+    "author": "aarav-dev",
+    "created_at": "2026-10-30T10:00:00Z",
+    "closed_at": "2026-10-28T16:00:00Z",
+    "merged_at": "2026-10-28T16:00:00Z",
+    "status": "merged",
+    "body": "Automated pull request implementing subcomponent 28 improvements.",
+    "source_branch": "feature/component-28",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-10-28T16:00:00Z",
+        "body": "LGTM, passed all unit and integration tests."
+      }
+    ]
+  },
+  {
+    "number": 42,
+    "title": "Migrate core ledger database to PostgreSQL 16",
+    "author": "aarav-dev",
+    "created_at": "2026-09-10T14:00:00Z",
+    "closed_at": "2026-09-14T09:00:00Z",
+    "merged_at": "2026-09-14T09:00:00Z",
+    "status": "merged",
+    "body": "Resolves RFC-007. After team review and performance benchmarks, we decided against MongoDB and migrated the transaction ledger to PostgreSQL 16.",
+    "source_branch": "feature/postgres-migration",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-09-12T10:00:00Z",
+        "body": "Postgres schema looks solid. Confirmed rollback script works."
+      }
+    ]
+  },
+  {
+    "number": 65,
+    "title": "Webhook delivery engine retry policy update",
+    "author": "aarav-dev",
+    "created_at": "2026-10-14T11:00:00Z",
+    "closed_at": "2026-10-15T10:30:00Z",
+    "merged_at": "2026-10-15T10:30:00Z",
+    "status": "merged",
+    "body": "Updates webhook dispatcher max retry limit to 5. Supersedes stale runbook guidance of 3 attempts.",
+    "source_branch": "feature/webhook-retry-policy",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "dev-contractor",
+        "date": "2026-10-14T15:00:00Z",
+        "body": "Code sets max_attempts=5. Note: remember to update runbook-webhooks.md too."
+      }
+    ]
+  },
+  {
+    "number": 78,
+    "title": "Spike: Evaluate DynamoDB for transaction ledger",
+    "author": "dev-contractor",
+    "created_at": "2026-10-25T13:00:00Z",
+    "closed_at": "2026-10-28T16:00:00Z",
+    "merged_at": null,
+    "status": "closed",
+    "body": "Spike to evaluate DynamoDB single-table design. Abandoned.",
+    "source_branch": "spike/dynamodb-ledger",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "aarav-dev",
+        "date": "2026-10-28T15:30:00Z",
+        "body": "Closing this spike without merging. Postgres meets our latency SLA."
+      }
+    ]
+  },
+  {
+    "number": 89,
+    "title": "Switch to stateless JWT tokens",
+    "author": "aarav-dev",
+    "created_at": "2026-10-30T10:00:00Z",
+    "closed_at": "2026-11-02T10:15:00Z",
+    "merged_at": "2026-11-02T10:15:00Z",
+    "status": "merged",
+    "body": "Abandons Redis session caching proposed in ADR-003. We are moving to stateless JWT tokens with HMAC-SHA256 signatures.",
+    "source_branch": "feature/jwt-auth",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "meera-lead",
+        "date": "2026-11-01T14:00:00Z",
+        "body": "Approved. Stateless JWT completely replaces the ADR-003 Redis proposal."
+      }
+    ]
+  },
+  {
+    "number": 92,
+    "title": "WIP: Implement exponential backoff for webhooks v2",
+    "author": "aarav-dev",
+    "created_at": "2026-11-05T09:00:00Z",
+    "closed_at": null,
+    "merged_at": null,
+    "status": "open",
+    "body": "Work in progress on exponential backoff jitter algorithm for payment webhooks. Branch feature/webhook-retry-v2 is unmerged.",
+    "source_branch": "feature/webhook-retry-v2",
+    "target_branch": "main",
+    "review_comments": [
+      {
+        "author": "kabir-dev",
+        "date": "2026-11-07T11:00:00Z",
+        "body": "Still needs edge case testing when partner endpoint returns 429."
+      }
+    ]
+  },
+  {
+    "number": 94,
+    "title": "WIP: Enforce idempotency key expiration in Redis cache",
+    "author": "dev-contractor",
+    "created_at": "2026-11-06T15:00:00Z",
+    "closed_at": null,
+    "merged_at": null,
+    "status": "open",
+    "body": "Work in progress on hotfix/idempotency-keys branch. Avoids duplicate deductions.",
+    "source_branch": "hotfix/idempotency-keys",
+    "target_branch": "main",
+    "review_comments": []
+  }
+]

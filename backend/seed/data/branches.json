@@ -1,0 +1,47 @@
+[
+  {
+    "name": "main",
+    "last_commit_sha": "c1a0110000000000000000000000000000000080",
+    "author": "aarav-dev",
+    "updated_at": "2026-11-08T16:30:00Z",
+    "merged": true,
+    "ahead_by": 0,
+    "behind_by": 0
+  },
+  {
+    "name": "feature/webhook-retry-v2",
+    "last_commit_sha": "c1a0110000000000000000000000000000000078",
+    "author": "aarav-dev",
+    "updated_at": "2026-11-06T14:20:00Z",
+    "merged": false,
+    "ahead_by": 4,
+    "behind_by": 2
+  },
+  {
+    "name": "hotfix/idempotency-keys",
+    "last_commit_sha": "c1a0110000000000000000000000000000000079",
+    "author": "dev-contractor",
+    "updated_at": "2026-11-07T11:45:00Z",
+    "merged": false,
+    "ahead_by": 3,
+    "behind_by": 1
+  },
+  {
+    "name": "feature/jwt-auth",
+    "last_commit_sha": "c1a0110000000000000000000000000000000072",
+    "author": "aarav-dev",
+    "updated_at": "2026-11-02T10:15:00Z",
+    "merged": true,
+    "ahead_by": 0,
+    "behind_by": 0
+  },
+  {
+    "name": "feature/postgres-migration",
+    "last_commit_sha": "c1a0110000000000000000000000000000000035",
+    "author": "aarav-dev",
+    "updated_at": "2026-09-14T09:00:00Z",
+    "merged": true,
+    "ahead_by": 0,
+    "behind_by": 0
+  }
+]

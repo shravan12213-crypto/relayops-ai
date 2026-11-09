@@ -1,0 +1,20 @@
+[
+  {
+    "key": "0718e50fef3eaf01671b0c214089a4216cd0e88b70f1af1c67718c5c03492fbf",
+    "task": "extract_adr_003_decision",
+    "response": "{\"title\":\"Redis Session Store Architecture\",\"status\":\"superseded\",\"rationale\":\"Adopted stateless JWT tokens instead in PR #89.\",\"superseded_by\":\"PR #89\"}",
+    "meta": {
+      "provider": "recorded_seed"
+    },
+    "created_at": "2026-11-09T19:10:47.552920+00:00"
+  },
+  {
+    "key": "18b4d9ea9a815ff701f4a771d83a5c79c7b7d9eb1e35b5633378a1eae9eb4938",
+    "task": "extract_rfc_007_decision",
+    "response": "{\"title\":\"Database Architecture Evaluation (MongoDB)\",\"status\":\"rejected\",\"rationale\":\"MongoDB lacked multi-table ACID guarantees; PostgreSQL 16 chosen.\",\"superseded_by\":\"PR #42\"}",
+    "meta": {
+      "provider": "recorded_seed"
+    },
+    "created_at": "2026-11-09T19:10:47.556417+00:00"
+  }
+]

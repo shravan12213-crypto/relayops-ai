@@ -189,8 +189,9 @@ class Claim(SQLModel, table=True):
     created_at: datetime = Field(default_factory=utcnow)
     updated_at: datetime = Field(default_factory=utcnow)
 
-    handover_id: str = Field(foreign_key="handover.id", index=True)
-    section: str
+    project_id: str | None = Field(default=None, foreign_key="project.id", index=True, nullable=True)
+    handover_id: str | None = Field(default=None, foreign_key="handover.id", index=True, nullable=True)
+    section: str = Field(default="general")
     # architecture_decision | ownership | blocker | runbook | risk
     # dependency | open_work | contact | credential_ref
     kind: str
@@ -213,7 +214,8 @@ class Ambiguity(SQLModel, table=True):
     created_at: datetime = Field(default_factory=utcnow)
     updated_at: datetime = Field(default_factory=utcnow)
 
-    handover_id: str = Field(foreign_key="handover.id", index=True)
+    project_id: str | None = Field(default=None, foreign_key="project.id", index=True, nullable=True)
+    handover_id: str | None = Field(default=None, foreign_key="handover.id", index=True, nullable=True)
     # missing_doc | conflict | orphan_branch | unclosed_thread | stale_config
     # low_evidence | undocumented_module
     type: str
@@ -312,6 +314,7 @@ class ChatMessage(SQLModel, table=True):
     content: str
     citations: list[dict[str, Any]] = Field(default_factory=list, sa_type=JSON)
     refused: bool = Field(default=False)
+    feedback: str | None = Field(default=None)  # "up" | "down"
 
 
 class Job(SQLModel, table=True):
@@ -351,3 +354,13 @@ class SchemaVersion(SQLModel, table=True):
     version: int = Field(primary_key=True)
     applied_at: datetime = Field(default_factory=utcnow)
     description: str = Field(default="")
+
+
+class LLMCache(SQLModel, table=True):
+    __tablename__ = "llm_cache"
+
+    key: str = Field(primary_key=True)
+    task: str = Field(default="")
+    response: str = Field(default="")
+    meta: dict[str, Any] = Field(default_factory=dict, sa_type=JSON)
+    created_at: datetime = Field(default_factory=utcnow)

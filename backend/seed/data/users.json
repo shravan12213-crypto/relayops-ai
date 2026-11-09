@@ -1,0 +1,77 @@
+[
+  {
+    "id": "usr_aarav_01",
+    "email": "aarav@payflow.dev",
+    "name": "Aarav Kulkarni",
+    "password": "password123",
+    "role": "outgoing",
+    "clearance": 2,
+    "is_active": true,
+    "aliases": [
+      "aarav.k",
+      "Aarav Kulkarni",
+      "akulkarni@payflow.dev",
+      "aarav-dev"
+    ]
+  },
+  {
+    "id": "usr_meera_01",
+    "email": "meera@payflow.dev",
+    "name": "Meera Patel",
+    "password": "password123",
+    "role": "lead",
+    "clearance": 3,
+    "is_active": true,
+    "aliases": [
+      "meera.p",
+      "Meera Patel",
+      "mpatel@payflow.dev",
+      "meera-lead"
+    ]
+  },
+  {
+    "id": "usr_kabir_01",
+    "email": "kabir@payflow.dev",
+    "name": "Kabir Sharma",
+    "password": "password123",
+    "role": "successor",
+    "clearance": 1,
+    "is_active": true,
+    "aliases": [
+      "kabir.s",
+      "Kabir Sharma",
+      "ksharma@payflow.dev",
+      "kabir-dev"
+    ]
+  },
+  {
+    "id": "usr_sana_01",
+    "email": "sana@payflow.dev",
+    "name": "Sana Chen",
+    "password": "password123",
+    "role": "auditor",
+    "clearance": 1,
+    "is_active": true,
+    "aliases": [
+      "sana.c",
+      "Sana Chen",
+      "schen@payflow.dev",
+      "sana-audit"
+    ]
+  },
+  {
+    "id": "usr_dev_01",
+    "email": "dev@payflow.dev",
+    "name": "Dev Mukherjee",
+    "password": "password123",
+    "role": "contractor",
+    "clearance": 1,
+    "is_active": true,
+    "aliases": [
+      "dev.m",
+      "Dev Mukherjee",
+      "dev@external-agency.com",
+      "dev-contractor"
+    ]
+  }
+]

@@ -109,3 +109,8 @@ class GroundTruth(BaseModel):
     scenarios: list[GroundTruthScenario]
     planted_secrets: list[PlantedSecret]
     expected_ambiguities_summary: dict[str, int]
+    expected_claims: list[dict[str, Any]] = Field(default_factory=list)
+    expected_conflicts: list[dict[str, Any]] = Field(default_factory=list)
+    expected_ambiguities: list[dict[str, Any]] = Field(default_factory=list)
+    expected_redactions: list[dict[str, Any]] = Field(default_factory=list)
+    artifact_counts: dict[str, int] = Field(default_factory=dict)

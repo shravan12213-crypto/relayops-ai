@@ -1,0 +1,381 @@
+[
+  {
+    "key": "PAY-101",
+    "title": "Design webhook event envelope specification",
+    "description": "Design webhook event envelope specification. Detailed description tracking work for ticket PAY-101.",
+    "reporter": "aarav.k",
+    "assignee": "aarav.k",
+    "status": "resolved",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-102",
+    "title": "Setup CI pipeline for PostgreSQL migration",
+    "description": "Setup CI pipeline for PostgreSQL migration. Detailed description tracking work for ticket PAY-102.",
+    "reporter": "meera.p",
+    "assignee": "meera.p",
+    "status": "resolved",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-103",
+    "title": "Benchmark Redis vs Stateless JWT token verification",
+    "description": "Benchmark Redis vs Stateless JWT token verification. Detailed description tracking work for ticket PAY-103.",
+    "reporter": "aarav.k",
+    "assignee": "aarav.k",
+    "status": "resolved",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-104",
+    "title": "Implement idempotency key header validation",
+    "description": "Implement idempotency key header validation. Detailed description tracking work for ticket PAY-104.",
+    "reporter": "dev.m",
+    "assignee": "dev.m",
+    "status": "in_progress",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-105",
+    "title": "Audit webhook retry intervals under partner load",
+    "description": "Audit webhook retry intervals under partner load. Detailed description tracking work for ticket PAY-105.",
+    "reporter": "kabir.s",
+    "assignee": "kabir.s",
+    "status": "open",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-106",
+    "title": "Document ledger-sync module architecture",
+    "description": "Document ledger-sync module architecture. Detailed description tracking work for ticket PAY-106.",
+    "reporter": "kabir.s",
+    "assignee": null,
+    "status": "open",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-107",
+    "title": "Decommission STRIPE_WEBHOOK_SECRET_OLD configuration",
+    "description": "Decommission STRIPE_WEBHOOK_SECRET_OLD configuration. Detailed description tracking work for ticket PAY-107.",
+    "reporter": "dev.m",
+    "assignee": "dev.m",
+    "status": "open",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-108",
+    "title": "Reconcile daily payment gateway settlements",
+    "description": "Reconcile daily payment gateway settlements. Detailed description tracking work for ticket PAY-108.",
+    "reporter": "aarav.k",
+    "assignee": "aarav.k",
+    "status": "resolved",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-109",
+    "title": "Fix lock timeout in ledger transaction pool",
+    "description": "Fix lock timeout in ledger transaction pool. Detailed description tracking work for ticket PAY-109.",
+    "reporter": "aarav.k",
+    "assignee": "aarav.k",
+    "status": "closed",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-110",
+    "title": "Implement customer refund webhook event dispatch",
+    "description": "Implement customer refund webhook event dispatch. Detailed description tracking work for ticket PAY-110.",
+    "reporter": "dev.m",
+    "assignee": "dev.m",
+    "status": "resolved",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-111",
+    "title": "Add Slack alert webhook for failed 3DS transactions",
+    "description": "Add Slack alert webhook for failed 3DS transactions. Detailed description tracking work for ticket PAY-111.",
+    "reporter": "sana.c",
+    "assignee": "sana.c",
+    "status": "resolved",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-112",
+    "title": "Upgrade PostgreSQL client driver to v3.2",
+    "description": "Upgrade PostgreSQL client driver to v3.2. Detailed description tracking work for ticket PAY-112.",
+    "reporter": "aarav.k",
+    "assignee": "aarav.k",
+    "status": "resolved",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-113",
+    "title": "Verify HMAC signature parsing test vectors",
+    "description": "Verify HMAC signature parsing test vectors. Detailed description tracking work for ticket PAY-113.",
+    "reporter": "kabir.s",
+    "assignee": "aarav.k",
+    "status": "in_progress",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-114",
+    "title": "Add Prometheus metrics counter for drop rate",
+    "description": "Add Prometheus metrics counter for drop rate. Detailed description tracking work for ticket PAY-114.",
+    "reporter": "meera.p",
+    "assignee": "kabir.s",
+    "status": "resolved",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-115",
+    "title": "Review auditor compliance report",
+    "description": "Review auditor compliance report. Detailed description tracking work for ticket PAY-115.",
+    "reporter": "sana.c",
+    "assignee": "sana.c",
+    "status": "closed",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-116",
+    "title": "Configure TLS 1.3 cipher suites for listener",
+    "description": "Configure TLS 1.3 cipher suites for listener. Detailed description tracking work for ticket PAY-116.",
+    "reporter": "aarav.k",
+    "assignee": "aarav.k",
+    "status": "resolved",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-117",
+    "title": "Investigate rate limit discrepancies with gateway",
+    "description": "Investigate rate limit discrepancies with gateway. Detailed description tracking work for ticket PAY-117.",
+    "reporter": "kabir.s",
+    "assignee": "meera.p",
+    "status": "open",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-118",
+    "title": "Automate daily backup snapshots of ledger-sync",
+    "description": "Automate daily backup snapshots of ledger-sync. Detailed description tracking work for ticket PAY-118.",
+    "reporter": "sana.c",
+    "assignee": "sana.c",
+    "status": "open",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-119",
+    "title": "Remove stale Redis connection strings",
+    "description": "Remove stale Redis connection strings. Detailed description tracking work for ticket PAY-119.",
+    "reporter": "dev.m",
+    "assignee": "dev.m",
+    "status": "closed",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-120",
+    "title": "Implement exponential backoff jitter helper",
+    "description": "Implement exponential backoff jitter helper. Detailed description tracking work for ticket PAY-120.",
+    "reporter": "aarav.k",
+    "assignee": "aarav.k",
+    "status": "in_progress",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-121",
+    "title": "Test sandbox fallback when provider is degraded",
+    "description": "Test sandbox fallback when provider is degraded. Detailed description tracking work for ticket PAY-121.",
+    "reporter": "kabir.s",
+    "assignee": "kabir.s",
+    "status": "blocked",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [
+      "PAY-142"
+    ],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-122",
+    "title": "Audit clearance permissions on vendor threads",
+    "description": "Audit clearance permissions on vendor threads. Detailed description tracking work for ticket PAY-122.",
+    "reporter": "sana.c",
+    "assignee": "meera.p",
+    "status": "closed",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-123",
+    "title": "Write comprehensive handover documentation",
+    "description": "Write comprehensive handover documentation. Detailed description tracking work for ticket PAY-123.",
+    "reporter": "aarav.k",
+    "assignee": "aarav.k",
+    "status": "in_progress",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-124",
+    "title": "Successor onboarding checklist verification",
+    "description": "Successor onboarding checklist verification. Detailed description tracking work for ticket PAY-124.",
+    "reporter": "kabir.s",
+    "assignee": "meera.p",
+    "status": "open",
+    "created_at": "2026-08-15T10:00:00Z",
+    "updated_at": "2026-10-30T15:00:00Z",
+    "blocked_by": [],
+    "labels": [
+      "payflow",
+      "backend"
+    ]
+  },
+  {
+    "key": "PAY-142",
+    "title": "Vendor sandbox access blocked for AcquirerCorp payment gateway",
+    "description": "We are blocked from testing end-to-end 3D-Secure 2 webhook callbacks because the AcquirerCorp partner sandbox account credentials expired. Escalation in progress.",
+    "reporter": "aarav.k",
+    "assignee": "aarav.k",
+    "status": "blocked",
+    "created_at": "2026-10-25T10:00:00Z",
+    "updated_at": "2026-11-05T14:30:00Z",
+    "blocked_by": [],
+    "labels": [
+      "blocker",
+      "vendor",
+      "payments",
+      "acquirercorp"
+    ]
+  }
+]

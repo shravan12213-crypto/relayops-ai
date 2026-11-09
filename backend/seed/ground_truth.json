@@ -1,0 +1,321 @@
+{
+  "project_slug": "payflow",
+  "project_name": "PayFlow",
+  "scenario_count": 10,
+  "scenarios": [
+    {
+      "scenario_num": 1,
+      "title": "Redis session caching proposed in ADR-003 abandoned for stateless JWT in PR #89",
+      "kind": "SUPERSEDES",
+      "description": "ADR-003 proposed Redis session caching on Oct 12, 2026; PR #89 superseded it with stateless JWT tokens on Nov 2, 2026.",
+      "expected_artifact_ids": [
+        "ADR-003",
+        "PR-89",
+        "c1a0110000000000000000000000000000000072"
+      ],
+      "details": {
+        "earlier_decision": "Redis session caching (ADR-003)",
+        "superseding_decision": "Stateless JWT tokens (PR #89)"
+      }
+    },
+    {
+      "scenario_num": 2,
+      "title": "MongoDB evaluation in RFC-007 superseded by PostgreSQL migration in PR #42",
+      "kind": "SUPERSEDES",
+      "description": "RFC-007 evaluated MongoDB in August 2026; team consensus and PR #42 migrated ledger to PostgreSQL 16 in September 2026.",
+      "expected_artifact_ids": [
+        "RFC-007",
+        "PR-42",
+        "c1a0110000000000000000000000000000000035",
+        "msg_mongo_03"
+      ],
+      "details": {
+        "earlier_decision": "MongoDB document store (RFC-007)",
+        "superseding_decision": "PostgreSQL 16 migration (PR #42)"
+      }
+    },
+    {
+      "scenario_num": 3,
+      "title": "Payment provider rate limit disagreement (100/min vs 500/min)",
+      "kind": "CONFLICT",
+      "description": "Two contemporaneous Slack messages on Oct 18 disagree on the AcquirerCorp rate limit (100/min vs 500/min) with no code resolution.",
+      "expected_artifact_ids": [
+        "msg_rate_100",
+        "msg_rate_500"
+      ],
+      "details": {
+        "claim_a": "Rate limit is strictly 100/min per merchant key",
+        "claim_b": "Rate limit was bumped to 500/min under enterprise tier agreement",
+        "status": "UNRESOLVED"
+      }
+    },
+    {
+      "scenario_num": 4,
+      "title": "Webhook retry limit contradiction between runbook and code",
+      "kind": "CONTRADICTION",
+      "description": "Runbook runbook-webhooks.md claims retry limit is 3, while PR #65 code sets max_attempts to 5. Code wins by source authority.",
+      "expected_artifact_ids": [
+        "runbook-webhooks.md",
+        "PR-65",
+        "c1a0110000000000000000000000000000000052"
+      ],
+      "details": {
+        "doc_claim": "Retry limit is 3",
+        "code_claim": "Retry limit is 5",
+        "winning_source": "code (PR #65, authority 1.0 vs doc authority 0.6)"
+      }
+    },
+    {
+      "scenario_num": 5,
+      "title": "Two unmerged branches with active development work",
+      "kind": "AMBIGUITY",
+      "description": "feature/webhook-retry-v2 and hotfix/idempotency-keys contain unmerged commits with critical business logic.",
+      "expected_artifact_ids": [
+        "feature/webhook-retry-v2",
+        "hotfix/idempotency-keys"
+      ],
+      "details": {
+        "ambiguity_type": "orphan_branch",
+        "branches": [
+          "feature/webhook-retry-v2",
+          "hotfix/idempotency-keys"
+        ]
+      }
+    },
+    {
+      "scenario_num": 6,
+      "title": "Open blocker PAY-142 with confidential escalation contact in private channel",
+      "kind": "BLOCKER",
+      "description": "PAY-142 (vendor sandbox access) has an escalation contact (David Vance) in slack_leads-private.json with sensitivity 2.",
+      "expected_artifact_ids": [
+        "PAY-142",
+        "msg_leads_vendor_01"
+      ],
+      "details": {
+        "issue_key": "PAY-142",
+        "escalation_contact": "David Vance (david.vance@acquirercorp.com)",
+        "sensitivity": 2
+      }
+    },
+    {
+      "scenario_num": 7,
+      "title": "Module ledger-sync has no documentation and single author (bus factor risk)",
+      "kind": "AMBIGUITY",
+      "description": "ledger-sync module has only commits from Aarav Kulkarni and zero architecture docs or secondary reviewers.",
+      "expected_artifact_ids": [
+        "c1a0110000000000000000000000000000000060",
+        "c1a0110000000000000000000000000000000061"
+      ],
+      "details": {
+        "ambiguity_type": "undocumented_module",
+        "module": "ledger-sync",
+        "author": "aarav.k",
+        "risk": "bus-factor-1"
+      }
+    },
+    {
+      "scenario_num": 8,
+      "title": "Planted fake secrets requiring automatic redaction at ingestion",
+      "kind": "SECRET_REDACTION",
+      "description": "Synthetic API keys, AWS credentials, DB URLs, emails, phone numbers, and salary figures planted across artifacts.",
+      "expected_artifact_ids": [
+        "msg_leads_creds_01",
+        "msg_leads_comp_01",
+        "msg_leads_vendor_01",
+        "msg_inc_6_root"
+      ],
+      "details": {
+        "redaction_types": [
+          "api_key",
+          "aws_key",
+          "bearer_token",
+          "db_url",
+          "email",
+          "phone",
+          "salary"
+        ]
+      }
+    },
+    {
+      "scenario_num": 9,
+      "title": "Stale configuration variable reference STRIPE_WEBHOOK_SECRET_OLD",
+      "kind": "AMBIGUITY",
+      "description": "STRIPE_WEBHOOK_SECRET_OLD is still referenced in runbook-webhooks.md and settings fallback code.",
+      "expected_artifact_ids": [
+        "runbook-webhooks.md",
+        "c1a0110000000000000000000000000000000068"
+      ],
+      "details": {
+        "ambiguity_type": "stale_config",
+        "variable": "STRIPE_WEBHOOK_SECRET_OLD"
+      }
+    },
+    {
+      "scenario_num": 10,
+      "title": "Unclosed Slack thread with unanswered handover question to Aarav",
+      "kind": "AMBIGUITY",
+      "description": "Slack thread in backend-dev regarding legacy v1 HMAC verification was never answered by Aarav.",
+      "expected_artifact_ids": [
+        "msg_unanswered_01"
+      ],
+      "details": {
+        "ambiguity_type": "unclosed_thread",
+        "thread_id": "slack_th_unanswered_hmac",
+        "asker": "kabir.s"
+      }
+    }
+  ],
+  "planted_secrets": [
+    {
+      "kind": "api_key",
+      "raw": "sk_test_FAKE_payflow_webhook_99a8b7c6d5e4f3a2b1",
+      "location": "slack_leads-private.json:msg_leads_creds_01"
+    },
+    {
+      "kind": "aws_key",
+      "raw": "AKIAFAKE12345EXAMPLE",
+      "location": "slack_leads-private.json:msg_leads_creds_01"
+    },
+    {
+      "kind": "bearer_token",
+      "raw": "Bearer fake_jwt_token_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.fake_signature",
+      "location": "slack_incidents.json:msg_inc_6_root"
+    },
+    {
+      "kind": "db_url",
+      "raw": "postgres://payflow_user:fake_password_12345@db.internal:5432/payflow_prod",
+      "location": "slack_leads-private.json:msg_leads_creds_01"
+    },
+    {
+      "kind": "email",
+      "raw": "david.vance@acquirercorp.com",
+      "location": "slack_leads-private.json:msg_leads_vendor_01"
+    },
+    {
+      "kind": "phone",
+      "raw": "+1-555-019-2834",
+      "location": "slack_leads-private.json:msg_leads_vendor_01"
+    },
+    {
+      "kind": "salary",
+      "raw": "$185,000",
+      "location": "slack_leads-private.json:msg_leads_comp_01"
+    }
+  ],
+  "expected_ambiguities_summary": {
+    "orphan_branch": 2,
+    "conflict": 1,
+    "stale_config": 1,
+    "undocumented_module": 1,
+    "unclosed_thread": 1,
+    "missing_doc": 1
+  },
+  "expected_claims": [
+    {
+      "kind": "architecture_decision",
+      "phrase": "stateless JWT tokens",
+      "scenario": 1
+    },
+    {
+      "kind": "architecture_decision",
+      "phrase": "PostgreSQL 16 migration",
+      "scenario": 2
+    },
+    {
+      "kind": "blocker",
+      "phrase": "PAY-142 vendor sandbox access",
+      "scenario": 6
+    },
+    {
+      "kind": "runbook",
+      "phrase": "retry policy max_attempts=5",
+      "scenario": 4
+    },
+    {
+      "kind": "risk",
+      "phrase": "ledger-sync single contributor bus factor",
+      "scenario": 7
+    }
+  ],
+  "expected_conflicts": [
+    {
+      "title": "Rate limit contradiction",
+      "sources": [
+        "100/min (dev.m)",
+        "500/min (kabir.s)"
+      ],
+      "resolution": "unresolved"
+    },
+    {
+      "title": "Webhook retry limit contradiction",
+      "sources": [
+        "Runbook says 3",
+        "PR #65 code says 5"
+      ],
+      "resolution": "code wins by authority (1.0 vs 0.6)"
+    }
+  ],
+  "expected_ambiguities": [
+    {
+      "type": "orphan_branch",
+      "target": "feature/webhook-retry-v2"
+    },
+    {
+      "type": "orphan_branch",
+      "target": "hotfix/idempotency-keys"
+    },
+    {
+      "type": "stale_config",
+      "target": "STRIPE_WEBHOOK_SECRET_OLD"
+    },
+    {
+      "type": "undocumented_module",
+      "target": "ledger-sync"
+    },
+    {
+      "type": "unclosed_thread",
+      "target": "slack_th_unanswered_hmac"
+    }
+  ],
+  "expected_redactions": [
+    {
+      "kind": "api_key",
+      "sample": "sk_test_FAKE_payflow_webhook_99a8b7c6d5e4f3a2b1"
+    },
+    {
+      "kind": "aws_key",
+      "sample": "AKIAFAKE12345EXAMPLE"
+    },
+    {
+      "kind": "bearer_token",
+      "sample": "Bearer fake_jwt_token_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.fake_signature"
+    },
+    {
+      "kind": "db_url",
+      "sample": "postgres://payflow_user:fake_password_12345@db.internal:5432/payflow_prod"
+    },
+    {
+      "kind": "email",
+      "sample": "david.vance@acquirercorp.com"
+    },
+    {
+      "kind": "phone",
+      "sample": "+1-555-019-2834"
+    },
+    {
+      "kind": "salary",
+      "sample": "$185,000"
+    }
+  ],
+  "artifact_counts": {
+    "commits": 80,
+    "pull_requests": 25,
+    "branches": 5,
+    "issues": 25,
+    "slack_threads_backend": 18,
+    "slack_threads_leads": 7,
+    "slack_threads_incidents": 6,
+    "docs": 5,
+    "total_artifacts": 171
+  }
+}

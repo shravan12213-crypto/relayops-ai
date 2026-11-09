@@ -1,0 +1,128 @@
+[
+  {
+    "thread_id": "slack_th_inc_1",
+    "channel": "incidents",
+    "sensitivity": 1,
+    "root": {
+      "message_id": "msg_inc_1_root",
+      "user": "meera.p",
+      "user_email": "mpatel@payflow.dev",
+      "text": "[INC-2026-08-18] Webhook consumer lag during payment spike: Webhooks queued 12k events due to unindexed transaction status column.",
+      "ts": "2026-09-04T13:00:00Z"
+    },
+    "replies": [
+      {
+        "message_id": "msg_inc_1_rep",
+        "user": "dev.m",
+        "user_email": "dev@external-agency.com",
+        "text": "Incident INC-2026-08-18 mitigation applied and monitoring restored.",
+        "ts": "2026-09-04T14:30:00Z"
+      }
+    ]
+  },
+  {
+    "thread_id": "slack_th_inc_2",
+    "channel": "incidents",
+    "sensitivity": 1,
+    "root": {
+      "message_id": "msg_inc_2_root",
+      "user": "aarav.k",
+      "user_email": "akulkarni@payflow.dev",
+      "text": "[INC-2026-09-02] AcquirerCorp sandbox 502 Bad Gateway responses: Intermittent 502 errors during simulated peak charge runs.",
+      "ts": "2026-09-08T13:00:00Z"
+    },
+    "replies": [
+      {
+        "message_id": "msg_inc_2_rep",
+        "user": "dev.m",
+        "user_email": "dev@external-agency.com",
+        "text": "Incident INC-2026-09-02 mitigation applied and monitoring restored.",
+        "ts": "2026-09-08T14:30:00Z"
+      }
+    ]
+  },
+  {
+    "thread_id": "slack_th_inc_3",
+    "channel": "incidents",
+    "sensitivity": 1,
+    "root": {
+      "message_id": "msg_inc_3_root",
+      "user": "meera.p",
+      "user_email": "mpatel@payflow.dev",
+      "text": "[INC-2026-09-21] PostgreSQL connection pool exhaustion: Connection leak in transaction settlement daemon exhausted pool. Patched in PR #48.",
+      "ts": "2026-09-12T13:00:00Z"
+    },
+    "replies": [
+      {
+        "message_id": "msg_inc_3_rep",
+        "user": "dev.m",
+        "user_email": "dev@external-agency.com",
+        "text": "Incident INC-2026-09-21 mitigation applied and monitoring restored.",
+        "ts": "2026-09-12T14:30:00Z"
+      }
+    ]
+  },
+  {
+    "thread_id": "slack_th_inc_4",
+    "channel": "incidents",
+    "sensitivity": 1,
+    "root": {
+      "message_id": "msg_inc_4_root",
+      "user": "aarav.k",
+      "user_email": "akulkarni@payflow.dev",
+      "text": "[INC-2026-10-12] Duplicate webhook deliveries during network partition: Duplicate charge.succeeded events received without unique idempotency headers.",
+      "ts": "2026-09-16T13:00:00Z"
+    },
+    "replies": [
+      {
+        "message_id": "msg_inc_4_rep",
+        "user": "dev.m",
+        "user_email": "dev@external-agency.com",
+        "text": "Incident INC-2026-10-12 mitigation applied and monitoring restored.",
+        "ts": "2026-09-16T14:30:00Z"
+      }
+    ]
+  },
+  {
+    "thread_id": "slack_th_inc_5",
+    "channel": "incidents",
+    "sensitivity": 1,
+    "root": {
+      "message_id": "msg_inc_5_root",
+      "user": "meera.p",
+      "user_email": "mpatel@payflow.dev",
+      "text": "[INC-2026-10-28] Stale configuration warning on STRIPE_WEBHOOK_SECRET_OLD: Logs flagged deprecated variable STRIPE_WEBHOOK_SECRET_OLD in validator.",
+      "ts": "2026-09-20T13:00:00Z"
+    },
+    "replies": [
+      {
+        "message_id": "msg_inc_5_rep",
+        "user": "dev.m",
+        "user_email": "dev@external-agency.com",
+        "text": "Incident INC-2026-10-28 mitigation applied and monitoring restored.",
+        "ts": "2026-09-20T14:30:00Z"
+      }
+    ]
+  },
+  {
+    "thread_id": "slack_th_inc_6",
+    "channel": "incidents",
+    "sensitivity": 1,
+    "root": {
+      "message_id": "msg_inc_6_root",
+      "user": "aarav.k",
+      "user_email": "akulkarni@payflow.dev",
+      "text": "[INC-2026-11-03] Bearer token authorization failure after JWT migration: Failed with Bearer fake_jwt_token_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.fake_signature.",
+      "ts": "2026-09-24T13:00:00Z"
+    },
+    "replies": [
+      {
+        "message_id": "msg_inc_6_rep",
+        "user": "dev.m",
+        "user_email": "dev@external-agency.com",
+        "text": "Incident INC-2026-11-03 mitigation applied and monitoring restored.",
+        "ts": "2026-09-24T14:30:00Z"
+      }
+    ]
+  }
+]

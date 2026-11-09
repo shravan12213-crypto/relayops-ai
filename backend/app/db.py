@@ -217,27 +217,50 @@ def audit(
     return entry
 
 
-def verify_audit_chain(session: Session) -> bool:
+def verify_audit_chain_detailed(session: Session) -> dict[str, Any]:
     """Verify that every entry's hash matches its canonical content and links to prev_hash."""
     from .models import AuditLog
 
     entries = session.exec(select(AuditLog).order_by(AuditLog.seq.asc())).all()
     if not entries:
-        return True
+        return {"valid": True, "entries_count": 0, "tampered_seq": None, "error": None}
 
     prev_hash = ""
     for entry in entries:
         if entry.prev_hash != prev_hash:
-            return False
+            return {
+                "valid": False,
+                "entries_count": len(entries),
+                "tampered_seq": entry.seq,
+                "error": f"Broken prev_hash chain link at sequence #{entry.seq} (expected {prev_hash[:10]}..., found {entry.prev_hash[:10]}...)",
+            }
         c_dict = canonical_audit_dict(
             entry.actor_id, entry.action, entry.target_type, entry.target_id, entry.payload
         )
         expected_hash = compute_audit_hash(prev_hash, c_dict)
         if entry.hash != expected_hash:
-            return False
+            return {
+                "valid": False,
+                "entries_count": len(entries),
+                "tampered_seq": entry.seq,
+                "error": f"Cryptographic payload hash mismatch at sequence #{entry.seq} (row content tampered)",
+            }
         prev_hash = entry.hash
 
-    return True
+    return {
+        "valid": True,
+        "entries_count": len(entries),
+        "tampered_seq": None,
+        "error": None,
+    }
+
+
+def verify_audit_chain(session: Session) -> bool:
+    return verify_audit_chain_detailed(session)["valid"]
+
+
+
+
 
 
 # --- FTS Search with pre-inference permission firewall ---

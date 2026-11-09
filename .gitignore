@@ -8,10 +8,7 @@ backend/.venv/
 .mypy_cache/
 
 # Local data (the SQLite database is generated, never committed)
-backend/data/*.db
-backend/data/*.db-wal
-backend/data/*.db-shm
-backend/data/backups/
+backend/data/
 
 # Node
 node_modules/

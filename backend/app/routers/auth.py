@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
 
 from fastapi import APIRouter, Depends, Request, Response
 from sqlmodel import Session, select
@@ -19,7 +18,7 @@ from ..auth import (
 from ..db import get_session
 from ..errors import AppError
 from ..models import User
-from ..schemas import LoginRequest, LoginResponse, UserRead
+from ..schemas import LoginRequest, LoginResponse, StatusResponse, UserRead
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 logger = logging.getLogger("relayops.routers.auth")
@@ -54,11 +53,14 @@ def login(
     )
 
 
-@router.post("/logout")
-def logout(response: Response) -> dict[str, Any]:
+@router.post("/logout", response_model=StatusResponse)
+def logout(
+    response: Response,
+    _: User = Depends(get_current_user),
+) -> StatusResponse:
     """Log out by clearing the httpOnly authentication cookie."""
     clear_auth_cookie(response)
-    return {"ok": True}
+    return StatusResponse(ok=True)
 
 
 @router.get("/me", response_model=UserRead)

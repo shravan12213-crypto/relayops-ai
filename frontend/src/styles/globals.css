@@ -100,3 +100,39 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Print-optimized stylesheet for Handover export to PDF/paper */
+@media print {
+  aside,
+  header,
+  nav,
+  button,
+  .print\:hidden,
+  [role="tablist"],
+  input,
+  textarea {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 11pt !important;
+  }
+
+  .card,
+  [class*="rounded-xl"],
+  [class*="rounded-lg"] {
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 1rem !important;
+    padding: 0.75rem !important;
+  }
+
+  @page {
+    margin: 1.5cm;
+    size: portrait;
+  }
+}
