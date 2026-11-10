@@ -12,7 +12,13 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: [
+          "Plus Jakarta Sans Variable",
+          "Plus Jakarta Sans",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif",
+        ],
         mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"],
       },
       colors: {
@@ -49,16 +55,55 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Raw palette tokens (hex/rgba) for surfaces and brand chrome.
+        canvas: {
+          DEFAULT: "var(--canvas)",
+          2: "var(--canvas-2)",
+        },
+        ink: {
+          DEFAULT: "var(--ink)",
+          muted: "var(--ink-muted)",
+          faint: "var(--ink-faint)",
+        },
+        brand: {
+          DEFAULT: "var(--brand)",
+          strong: "var(--brand-strong)",
+          text: "var(--brand-text)",
+          soft: "var(--brand-soft)",
+        },
+        warn: {
+          DEFAULT: "var(--warn)",
+          soft: "var(--warn-soft)",
+        },
+        danger: {
+          DEFAULT: "var(--danger)",
+          soft: "var(--danger-soft)",
+        },
+        dark: {
+          DEFAULT: "var(--dark)",
+          fg: "var(--dark-fg)",
+        },
         // Status tokens: used only for verification state, never for decoration.
         verified: "hsl(var(--verified))",
         "needs-review": "hsl(var(--needs-review))",
         conflict: "hsl(var(--conflict))",
         unverified: "hsl(var(--unverified))",
+        sidebar: {
+          from: "var(--sidebar-from)",
+          to: "var(--sidebar-to)",
+          fg: "var(--sidebar-fg)",
+          "fg-muted": "var(--sidebar-fg-muted)",
+          active: "var(--sidebar-active-bg)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      boxShadow: {
+        card: "var(--card-shadow)",
+        "card-hover": "var(--card-shadow-hover)",
       },
       keyframes: {
         "accordion-down": {

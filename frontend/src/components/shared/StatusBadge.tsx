@@ -42,68 +42,68 @@ const STATUS_CONFIG: Record<
 > = {
   verified: {
     label: "Verified",
-    className: "border-verified/30 bg-verified/10 text-verified",
+    className: "border-verified/20 bg-brand-soft text-verified",
     dotColor: "bg-verified",
     icon: CheckCircle2,
   },
   needs_review: {
     label: "Needs Review",
-    className: "border-needs-review/30 bg-needs-review/10 text-needs-review",
+    className: "border-needs-review/20 bg-warn-soft text-needs-review",
     dotColor: "bg-needs-review",
     icon: AlertTriangle,
   },
   "needs-review": {
     label: "Needs Review",
-    className: "border-needs-review/30 bg-needs-review/10 text-needs-review",
+    className: "border-needs-review/20 bg-warn-soft text-needs-review",
     dotColor: "bg-needs-review",
     icon: AlertTriangle,
   },
   conflict: {
     label: "Conflict",
-    className: "border-conflict/30 bg-conflict/10 text-conflict",
+    className: "border-conflict/20 bg-danger-soft text-conflict",
     dotColor: "bg-conflict",
     icon: AlertCircle,
   },
   unverified: {
     label: "Unverified",
-    className: "border-unverified/30 bg-unverified/10 text-unverified",
+    className: "border-unverified/20 bg-canvas-2 text-unverified",
     dotColor: "bg-unverified",
     icon: HelpCircle,
   },
   accepted: {
     label: "Accepted",
-    className: "border-verified/30 bg-verified/10 text-verified",
+    className: "border-verified/20 bg-brand-soft text-verified",
     dotColor: "bg-verified",
     icon: Check,
   },
   draft: {
     label: "Draft",
-    className: "border-border bg-muted/60 text-muted-foreground",
+    className: "border-card-border bg-canvas-2 text-muted-foreground",
     dotColor: "bg-muted-foreground",
     icon: HelpCircle,
   },
   rejected: {
     label: "Rejected",
-    className: "border-destructive/30 bg-destructive/10 text-destructive",
+    className: "border-conflict/20 bg-danger-soft text-destructive",
     dotColor: "bg-destructive",
     icon: Ban,
   },
   edited: {
     label: "Human Edited",
-    className: "border-primary/30 bg-primary/10 text-primary",
-    dotColor: "bg-primary",
+    className: "border-brand/25 bg-brand-soft text-brand-text",
+    dotColor: "bg-brand",
     icon: FileEdit,
   },
   signed: {
     label: "Signed",
-    className: "border-verified/30 bg-verified/10 text-verified",
+    className: "border-verified/20 bg-brand-soft text-verified",
     dotColor: "bg-verified",
     icon: CheckCircle2,
   },
   delivered: {
     label: "Delivered",
-    className: "border-primary/30 bg-primary/10 text-primary",
-    dotColor: "bg-primary",
+    className: "border-brand/25 bg-brand-soft text-brand-text",
+    dotColor: "bg-brand",
     icon: CheckCircle2,
   },
 };
@@ -118,7 +118,7 @@ export function StatusBadge({
   const normalizedKey = status.toLowerCase().replace(/[\s-]/g, "_");
   const config = STATUS_CONFIG[normalizedKey] || {
     label: status,
-    className: "border-border bg-muted text-muted-foreground",
+    className: "border-card-border bg-canvas-2 text-muted-foreground",
     dotColor: "bg-muted-foreground",
     icon: HelpCircle,
   };

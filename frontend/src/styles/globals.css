@@ -2,61 +2,121 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Design tokens: soft eco-analytics palette. Raw palette hexes live in the
+   custom --brand/--ink/--sidebar-* variables; the shadcn variables are the
+   HSL triplets the Tailwind theme consumes. */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    /* --- surfaces --- */
+    --background: 157 31% 95%; /* --canvas  #EEF6F3 */
+    --foreground: 171 59% 11%; /* --ink     #0B2B26 */
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 171 59% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 243 75% 59%;
+    --popover-foreground: 171 59% 11%;
+
+    /* --- brand + actions --- */
+    --primary: 171 59% 11%; /* --dark    #0B2B26 */
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 226 100% 97%;
-    --accent-foreground: 243 75% 40%;
-    --destructive: 0 72% 51%;
+    --secondary: 155 29% 92%; /* --canvas-2 #E4F0EB */
+    --secondary-foreground: 171 59% 11%;
+    --muted: 155 29% 92%;
+    --muted-foreground: 167 14% 39%; /* #55706A, 4.89:1 on canvas */
+    --accent: 147 55% 91%; /* --brand-soft #DDF5E8 */
+    --accent-foreground: 151 78% 27%; /* --brand-text #0F7A47 */
+    --destructive: 3 62% 43%; /* #B3312A, 5.14:1 on --danger-soft */
     --destructive-foreground: 0 0% 100%;
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 243 75% 59%;
+    --border: 155 26% 91%; /* --card-border #E2EEE9 */
+    --input: 155 26% 91%;
+    --ring: 149 62% 49%; /* --brand #2FCB7A */
 
-    --verified: 142 71% 40%;
-    --needs-review: 32 95% 44%;
-    --conflict: 0 72% 51%;
-    --unverified: 215 16% 47%;
+    /* --- verification status (meaning is fixed, never decorative) --- */
+    --verified: 151 78% 27%; /* #0F7A47 */
+    --needs-review: 20 74% 37%; /* #A34718 */
+    --conflict: 3 62% 43%; /* #B3312A */
+    --unverified: 167 14% 39%; /* #55706A */
 
-    --radius: 0.5rem;
+    /* --- palette, as authored --- */
+    --canvas: #eef6f3;
+    --canvas-2: #e4f0eb;
+    --card-border: #e2eee9;
+    --card-shadow: 0 1px 2px rgba(10, 42, 38, 0.04), 0 8px 24px rgba(10, 42, 38, 0.06);
+    --card-shadow-hover: 0 2px 4px rgba(10, 42, 38, 0.06), 0 14px 32px rgba(10, 42, 38, 0.1);
+    --ink: #0b2b26;
+    --ink-muted: #55706a;
+    --ink-faint: #8ba39c;
+    --brand: #2fcb7a;
+    --brand-strong: #17a862;
+    --brand-text: #0f7a47;
+    --brand-soft: #ddf5e8;
+    --dark: #0b2b26;
+    --dark-fg: #ffffff;
+    --warn: #f26b3a;
+    --warn-soft: #fde9e0;
+    --danger: #d9453d;
+    --danger-soft: #fbe5e3;
+
+    /* --- sidebar --- */
+    --sidebar-from: #0e3b34;
+    --sidebar-to: #0a2a26;
+    --sidebar-fg: #d7ebe4;
+    --sidebar-fg-muted: #8fb3a8;
+    --sidebar-active-bg: rgba(255, 255, 255, 0.1);
+
+    --radius: 1rem;
   }
 
   .dark {
-    --background: 222 47% 7%;
-    --foreground: 210 40% 96%;
-    --card: 222 47% 9%;
-    --card-foreground: 210 40% 96%;
-    --popover: 222 47% 9%;
-    --popover-foreground: 210 40% 96%;
-    --primary: 239 84% 67%;
-    --primary-foreground: 222 47% 7%;
-    --secondary: 217 33% 15%;
-    --secondary-foreground: 210 40% 96%;
-    --muted: 217 33% 15%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 217 33% 18%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 63% 45%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 217 33% 17%;
-    --input: 217 33% 20%;
-    --ring: 239 84% 67%;
+    --background: 171 58% 6%; /* #071A17 */
+    --foreground: 159 39% 93%; /* #E6F4EF */
+    --card: 171 46% 11%; /* #0F2925 */
+    --card-foreground: 159 39% 93%;
+    --popover: 171 46% 11%;
+    --popover-foreground: 159 39% 93%;
 
-    --verified: 142 60% 50%;
-    --needs-review: 32 95% 55%;
-    --conflict: 0 72% 60%;
-    --unverified: 215 20% 60%;
+    --primary: 159 39% 93%;
+    --primary-foreground: 171 59% 11%;
+    --secondary: 169 47% 9%; /* #0C211D */
+    --secondary-foreground: 159 39% 93%;
+    --muted: 169 47% 9%;
+    --muted-foreground: 162 19% 63%; /* 6.73:1 on card */
+    --accent: 166 47% 13%; /* #112F28 */
+    --accent-foreground: 150 70% 63%;
+    --destructive: 4 82% 68%; /* #F0736B, 5.4:1 on card */
+    --destructive-foreground: 171 58% 6%;
+    --border: 169 37% 17%; /* #1C3D37 */
+    --input: 169 37% 17%;
+    --ring: 150 67% 55%;
+
+    --verified: 150 70% 63%; /* #5FE3A2 */
+    --needs-review: 17 100% 68%; /* #FF8A5B */
+    --conflict: 4 82% 68%; /* #F0736B */
+    --unverified: 162 19% 63%; /* #8FB3A8 */
+
+    --canvas: #071a17;
+    --canvas-2: #0c211d;
+    --card-border: #1c3d37;
+    --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(0, 0, 0, 0.3);
+    --card-shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.4), 0 14px 32px rgba(0, 0, 0, 0.42);
+    --ink: #e6f4ef;
+    --ink-muted: #8fb3a8;
+    --ink-faint: #6e8a83;
+    --brand: #3ed98c;
+    --brand-strong: #2fcb7a;
+    --brand-text: #5fe3a2;
+    --brand-soft: #112f28;
+    --dark: #e6f4ef;
+    --dark-fg: #0b2b26;
+    --warn: #ff8a5b;
+    --warn-soft: #2e1b14;
+    --danger: #f0736b;
+    --danger-soft: #2e1614;
+
+    --sidebar-from: #081f1c;
+    --sidebar-to: #061513;
+    --sidebar-fg: #d7ebe4;
+    --sidebar-fg-muted: #8fb3a8;
+    --sidebar-active-bg: rgba(255, 255, 255, 0.1);
   }
 
   * {
@@ -70,23 +130,53 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings:
-      "cv02" 1,
-      "cv03" 1,
-      "cv04" 1,
-      "ss01" 1;
+      "ss01" 1,
+      "cv11" 1;
   }
 
   ::selection {
-    @apply bg-primary/20;
+    background-color: hsl(var(--brand) / 0.28);
   }
 
   :focus-visible {
     @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
   }
 
+  /* Thin, quiet scrollbars. Colour only — overflow behaviour is untouched. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--muted-foreground) / 0.45);
+  }
+
   /* Keep the 8px rhythm honest for dense review screens. */
   .stack-tight > * + * {
     @apply mt-2;
+  }
+}
+
+@layer utilities {
+  /* Financial-style alignment for ids, counts and scores. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
   }
 }
 

@@ -22,27 +22,27 @@ const SENSITIVITY_CONFIG: Record<
   0: {
     name: "Public",
     description: "Clearance Level 0: Unrestricted project activity, safe for external viewers.",
-    className: "border-border/60 bg-muted/40 text-muted-foreground",
+    className: "border-card-border bg-canvas-2 text-muted-foreground",
     icon: Unlock,
   },
   1: {
     name: "Internal",
     description: "Clearance Level 1: Internal team visibility. Standard code and architecture.",
-    className: "border-blue-500/30 bg-blue-500/10 text-blue-600 dark:text-blue-400",
+    className: "border-brand/25 bg-brand-soft text-brand-text",
     icon: Lock,
   },
   2: {
     name: "Confidential",
     description:
       "Clearance Level 2: Private team discussions, incident reviews, and financial references.",
-    className: "border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400",
+    className: "border-needs-review/25 bg-warn-soft text-needs-review",
     icon: Lock,
   },
   3: {
     name: "Restricted",
     description:
       "Clearance Level 3: Highly sensitive credentials, salary/HR deliberations, lead-only artifacts.",
-    className: "border-destructive/40 bg-destructive/10 text-destructive font-semibold",
+    className: "border-conflict/30 bg-danger-soft text-conflict font-semibold",
     icon: ShieldAlert,
   },
 };
