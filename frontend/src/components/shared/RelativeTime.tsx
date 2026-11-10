@@ -42,12 +42,12 @@ function formatRelativeTime(dateInput: Date): string {
 
 export function RelativeTime({ date, className, ...props }: RelativeTimeProps) {
   if (!date) {
-    return <span className={cn("text-muted-foreground", className)}>-</span>;
+    return <span className={cn("text-ink-muted", className)}>-</span>;
   }
 
   const parsedDate = typeof date === "string" || typeof date === "number" ? new Date(date) : date;
   if (isNaN(parsedDate.getTime())) {
-    return <span className={cn("text-muted-foreground", className)}>-</span>;
+    return <span className={cn("text-ink-muted", className)}>-</span>;
   }
 
   const relativeText = formatRelativeTime(parsedDate);
@@ -60,7 +60,7 @@ export function RelativeTime({ date, className, ...props }: RelativeTimeProps) {
           <time
             dateTime={parsedDate.toISOString()}
             className={cn(
-              "cursor-default text-xs text-muted-foreground transition-colors hover:text-foreground",
+              "cursor-default text-xs text-ink-muted transition-colors hover:text-ink",
               className,
             )}
             {...props}

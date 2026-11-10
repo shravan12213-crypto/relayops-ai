@@ -22,7 +22,7 @@ const SENSITIVITY_CONFIG: Record<
   0: {
     name: "Public",
     description: "Clearance Level 0: Unrestricted project activity, safe for external viewers.",
-    className: "border-card-border bg-canvas-2 text-muted-foreground",
+    className: "border-card-border bg-canvas-2 text-ink-muted",
     icon: Unlock,
   },
   1: {
@@ -79,7 +79,7 @@ export function SensitivityBadge({
           <p className="font-semibold">
             {config.name} (Clearance Level {level})
           </p>
-          <p className="mt-1 text-muted-foreground">{config.description}</p>
+          <p className="mt-1 text-ink-muted">{config.description}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

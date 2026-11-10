@@ -286,7 +286,7 @@ export function RedactionAndSensitivityView() {
                     <th className="py-2.5 px-3">Sample Masked Output</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-border">
+                <tbody className="divide-y divide-card-border">
                   {redactionData.rules.map((rule) => (
                     <tr key={rule.rule} className="hover:bg-canvas-2 transition-colors">
                       <td className="py-2.5 px-3 font-semibold font-mono text-ink">

@@ -94,7 +94,7 @@ export function ReviewLeftOutline({
   }, [claims]);
 
   return (
-    <div className="flex h-full flex-col bg-background/60 select-none">
+    <div className="flex h-full flex-col bg-canvas/60 select-none">
       {/* Header & Progress Ring */}
       <div className="p-4 border-b border-card-border">
         <div className="flex items-center justify-between">
@@ -151,7 +151,7 @@ export function ReviewLeftOutline({
             onChange={(e) => onChangeFilters({ ...filters, search: e.target.value })}
             className="h-8 pl-8 pr-7 text-xs bg-canvas-2"
           />
-          <kbd className="pointer-events-none absolute right-2.5 top-2 rounded border bg-background px-1 text-[10px] font-mono text-ink-muted">
+          <kbd className="pointer-events-none absolute right-2.5 top-2 rounded border bg-canvas px-1 text-[10px] font-mono text-ink-muted">
             /
           </kbd>
         </div>

@@ -100,9 +100,9 @@ export function CreateHandoverDialog({ open, onOpenChange, projectId }: CreateHa
         <form onSubmit={handleSubmit} className="space-y-4 pt-2">
           {/* Outgoing Engineer */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-foreground flex items-center justify-between">
+            <label className="text-xs font-medium text-ink flex items-center justify-between">
               <span>Outgoing Contributor / Lead</span>
-              <span className="text-[10px] text-muted-foreground">Required for dual sign-off</span>
+              <span className="text-[10px] text-ink-muted">Required for dual sign-off</span>
             </label>
             <Select value={outgoingId} onValueChange={setOutgoingId} disabled={usersLoading}>
               <SelectTrigger className="h-9 text-xs">
@@ -113,7 +113,7 @@ export function CreateHandoverDialog({ open, onOpenChange, projectId }: CreateHa
                   <SelectItem key={u.id} value={u.id} className="text-xs">
                     <div className="flex items-center gap-2">
                       <span className="font-medium">{u.name}</span>
-                      <span className="text-muted-foreground font-mono text-[10px]">
+                      <span className="text-ink-muted font-mono text-[10px]">
                         ({u.email})
                       </span>
                       <Badge variant="outline" className="text-[9px] capitalize ml-1">
@@ -129,9 +129,9 @@ export function CreateHandoverDialog({ open, onOpenChange, projectId }: CreateHa
 
           {/* Successor */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-foreground flex items-center justify-between">
+            <label className="text-xs font-medium text-ink flex items-center justify-between">
               <span>Target Successor</span>
-              <span className="text-[10px] text-muted-foreground">
+              <span className="text-[10px] text-ink-muted">
                 Will receive role-scoped view
               </span>
             </label>
@@ -144,7 +144,7 @@ export function CreateHandoverDialog({ open, onOpenChange, projectId }: CreateHa
                   <SelectItem key={u.id} value={u.id} className="text-xs">
                     <div className="flex items-center gap-2">
                       <span className="font-medium">{u.name}</span>
-                      <span className="text-muted-foreground font-mono text-[10px]">
+                      <span className="text-ink-muted font-mono text-[10px]">
                         ({u.email})
                       </span>
                       <Badge variant="outline" className="text-[9px] capitalize ml-1">
@@ -160,9 +160,9 @@ export function CreateHandoverDialog({ open, onOpenChange, projectId }: CreateHa
 
           {/* Lead / Manager */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-foreground flex items-center justify-between">
+            <label className="text-xs font-medium text-ink flex items-center justify-between">
               <span>Team Lead / Manager</span>
-              <span className="text-[10px] text-muted-foreground">
+              <span className="text-[10px] text-ink-muted">
                 Resolves ambiguities & signs off
               </span>
             </label>
@@ -175,7 +175,7 @@ export function CreateHandoverDialog({ open, onOpenChange, projectId }: CreateHa
                   <SelectItem key={u.id} value={u.id} className="text-xs">
                     <div className="flex items-center gap-2">
                       <span className="font-medium">{u.name}</span>
-                      <span className="text-muted-foreground font-mono text-[10px]">
+                      <span className="text-ink-muted font-mono text-[10px]">
                         ({u.email})
                       </span>
                       <Badge variant="outline" className="text-[9px] capitalize ml-1">
@@ -193,9 +193,9 @@ export function CreateHandoverDialog({ open, onOpenChange, projectId }: CreateHa
           <div className="space-y-1.5">
             <label
               htmlFor="due-date-input"
-              className="text-xs font-medium text-foreground flex items-center gap-1.5"
+              className="text-xs font-medium text-ink flex items-center gap-1.5"
             >
-              <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+              <Calendar className="h-3.5 w-3.5 text-ink-muted" />
               <span>Target Completion Date</span>
             </label>
             <Input
@@ -211,9 +211,9 @@ export function CreateHandoverDialog({ open, onOpenChange, projectId }: CreateHa
           <div className="space-y-1.5">
             <label
               htmlFor="notes-input"
-              className="text-xs font-medium text-foreground flex items-center gap-1.5"
+              className="text-xs font-medium text-ink flex items-center gap-1.5"
             >
-              <FileText className="h-3.5 w-3.5 text-muted-foreground" />
+              <FileText className="h-3.5 w-3.5 text-ink-muted" />
               <span>Handover Scope & Notes</span>
             </label>
             <Textarea

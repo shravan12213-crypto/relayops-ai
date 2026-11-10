@@ -113,7 +113,7 @@ export function VersionDiffModal({
               value={v1 !== null ? String(v1) : ""}
               onValueChange={(val) => setV1(Number(val))}
             >
-              <SelectTrigger className="h-7 w-28 text-xs bg-background">
+              <SelectTrigger className="h-7 w-28 text-xs bg-canvas">
                 <SelectValue placeholder="Base v" />
               </SelectTrigger>
               <SelectContent>
@@ -134,7 +134,7 @@ export function VersionDiffModal({
               value={v2 !== null ? String(v2) : ""}
               onValueChange={(val) => setV2(Number(val))}
             >
-              <SelectTrigger className="h-7 w-28 text-xs bg-background">
+              <SelectTrigger className="h-7 w-28 text-xs bg-canvas">
                 <SelectValue placeholder="Target v" />
               </SelectTrigger>
               <SelectContent>
@@ -195,7 +195,7 @@ export function VersionDiffModal({
                             Claim #{item.id?.slice(0, 8)}
                           </div>
                           {textChange?.word_diff ? (
-                            <div className="font-mono text-xs leading-relaxed whitespace-pre-wrap rounded bg-background/80 p-2 border">
+                            <div className="font-mono text-xs leading-relaxed whitespace-pre-wrap rounded bg-canvas/80 p-2 border">
                               {textChange.word_diff.map((token: DiffWordToken, tIdx: number) => {
                                 if (token.type === "added") {
                                   return (

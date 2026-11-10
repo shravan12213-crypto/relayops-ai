@@ -426,7 +426,7 @@ export function ReviewStudioPage() {
   }, [filteredClaims, selectedClaimId, editingClaimId, handleAcceptClaim, moveToNextClaim, moveToPrevClaim]);
 
   return (
-    <div ref={studioContainerRef} className="flex h-full w-full flex-col bg-background overflow-hidden min-w-0">
+    <div ref={studioContainerRef} className="flex h-full w-full flex-col bg-canvas overflow-hidden min-w-0">
       {/* Studio Header Bar */}
       <div className="flex h-11 shrink-0 items-center justify-between border-b border-card-border px-3 sm:px-4 bg-card backdrop-blur-xs select-none min-w-0 gap-2">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">

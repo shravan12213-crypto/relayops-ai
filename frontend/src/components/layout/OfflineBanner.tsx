@@ -31,7 +31,7 @@ export function OfflineBanner() {
     <div
       role="alert"
       aria-live="assertive"
-      className="sticky top-0 z-50 flex items-center justify-between border-b border-destructive/40 bg-destructive/10 px-4 py-2 text-xs text-foreground backdrop-blur-sm transition-all"
+      className="sticky top-0 z-50 flex items-center justify-between border-b border-destructive/40 bg-destructive/10 px-4 py-2 text-xs text-ink backdrop-blur-sm transition-all"
     >
       <div className="flex items-center gap-2">
         <WifiOff className="h-4 w-4 text-destructive shrink-0" />
@@ -44,7 +44,7 @@ export function OfflineBanner() {
         size="sm"
         onClick={() => refetch()}
         disabled={isFetching}
-        className="h-6 gap-1 px-2 text-[11px] border-destructive/40 hover:bg-destructive/15 text-foreground"
+        className="h-6 gap-1 px-2 text-[11px] border-destructive/40 hover:bg-destructive/15 text-ink"
       >
         <RefreshCw className={`h-3 w-3 ${isFetching ? "animate-spin" : ""}`} />
         <span>Retry Connection</span>

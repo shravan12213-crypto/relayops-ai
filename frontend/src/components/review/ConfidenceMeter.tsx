@@ -55,7 +55,7 @@ export function ConfidenceMeter({ confidence, className }: ConfidenceMeterProps)
           >
             <Sparkles className={cn("h-3 w-3", tier.textColor)} />
             <span className="font-semibold">{pct}%</span>
-            <div className="h-1.5 w-10 overflow-hidden rounded-full bg-secondary">
+            <div className="h-1.5 w-10 overflow-hidden rounded-full bg-canvas-2">
               <div
                 className={cn("h-full transition-all duration-300", tier.barColor)}
                 style={{ width: `${pct}%` }}

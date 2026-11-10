@@ -54,7 +54,7 @@ export function JobProgress({
       role="status"
       aria-live="polite"
       className={cn(
-        "w-full space-y-3 rounded-lg border bg-card p-4 text-card-foreground shadow-sm",
+        "w-full space-y-3 rounded-lg border bg-card p-4 text-ink shadow-sm",
         className,
       )}
       {...props}
@@ -64,13 +64,13 @@ export function JobProgress({
           {status === "running" && <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />}
           {status === "completed" && <CheckCircle2 className="h-3.5 w-3.5 text-verified" />}
           {status === "failed" && <AlertCircle className="h-3.5 w-3.5 text-conflict" />}
-          <span className="font-medium text-foreground">Stage: {STAGE_LABELS[stage] || stage}</span>
+          <span className="font-medium text-ink">Stage: {STAGE_LABELS[stage] || stage}</span>
         </div>
-        <span className="font-mono text-muted-foreground">{normalizedProgress}%</span>
+        <span className="font-mono text-ink-muted">{normalizedProgress}%</span>
       </div>
 
       {/* Progress bar */}
-      <div className="h-2 w-full overflow-hidden rounded-full bg-secondary">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-canvas-2">
         <div
           className={cn(
             "h-full transition-all duration-300 ease-in-out",
@@ -95,7 +95,7 @@ export function JobProgress({
               title={STAGE_LABELS[s] || s}
               className={cn(
                 "h-1 rounded-sm transition-colors",
-                isDone ? "bg-verified/80" : isCurrent ? "bg-primary animate-pulse" : "bg-muted",
+                isDone ? "bg-verified/80" : isCurrent ? "bg-primary animate-pulse" : "bg-canvas-2",
               )}
             />
           );

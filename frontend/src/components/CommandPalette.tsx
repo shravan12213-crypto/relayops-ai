@@ -67,15 +67,15 @@ export function CommandPalette({ open, onOpenChange, onSwitchPreviewRole }: Comm
 
         <CommandGroup heading="Navigation">
           <CommandItem onSelect={() => runCommand(() => navigate("/"))} className="gap-2">
-            <Home className="h-4 w-4 text-muted-foreground" />
+            <Home className="h-4 w-4 text-ink-muted" />
             <span>Dashboard</span>
           </CommandItem>
           <CommandItem onSelect={() => runCommand(() => navigate("/projects"))} className="gap-2">
-            <FolderGit2 className="h-4 w-4 text-muted-foreground" />
+            <FolderGit2 className="h-4 w-4 text-ink-muted" />
             <span>Projects & Ingestion</span>
           </CommandItem>
           <CommandItem onSelect={() => runCommand(() => navigate("/handovers"))} className="gap-2">
-            <FileText className="h-4 w-4 text-muted-foreground" />
+            <FileText className="h-4 w-4 text-ink-muted" />
             <span>Handovers</span>
           </CommandItem>
           {handovers && handovers[0] && (
@@ -97,14 +97,14 @@ export function CommandPalette({ open, onOpenChange, onSwitchPreviewRole }: Comm
             </>
           )}
           <CommandItem onSelect={() => runCommand(() => navigate("/governance"))} className="gap-2">
-            <Shield className="h-4 w-4 text-muted-foreground" />
+            <Shield className="h-4 w-4 text-ink-muted" />
             <span>Governance & Audit</span>
           </CommandItem>
           <CommandItem
             onSelect={() => runCommand(() => navigate("/dev/components"))}
             className="gap-2"
           >
-            <Wrench className="h-4 w-4 text-muted-foreground" />
+            <Wrench className="h-4 w-4 text-ink-muted" />
             <span>Design System & Components (Dev)</span>
           </CommandItem>
         </CommandGroup>

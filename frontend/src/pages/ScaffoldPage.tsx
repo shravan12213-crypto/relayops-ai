@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 const STAGES = ["Connect", "Reconstruct", "Verify", "Review", "Handover"];
 
 const SWATCHES = [
-  { name: "background", className: "bg-background border" },
+  { name: "background", className: "bg-canvas border" },
   { name: "primary", className: "bg-primary" },
   { name: "verified", className: "bg-verified" },
   { name: "needs-review", className: "bg-needs-review" },
@@ -90,7 +90,7 @@ export function ScaffoldPage() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="min-h-dvh bg-background">
+    <div className="min-h-dvh bg-canvas">
       <header className="border-b">
         <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
           <div className="flex items-center gap-2.5">
@@ -174,7 +174,7 @@ export function ScaffoldPage() {
                   className={cn(
                     "flex items-center gap-2 rounded-md border px-3 py-1.5 text-sm",
                     index === 0
-                      ? "border-brand bg-accent text-accent-foreground"
+                      ? "border-brand bg-canvas-2 text-ink"
                       : "text-ink-muted",
                   )}
                 >

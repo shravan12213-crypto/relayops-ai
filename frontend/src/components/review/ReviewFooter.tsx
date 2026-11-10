@@ -199,7 +199,7 @@ export function ReviewFooter({
               </TooltipTrigger>
 
               {isSignoffBlocked ? (
-                <TooltipContent side="top" className="max-w-xs p-2.5 text-xs bg-popover text-popover-foreground">
+                <TooltipContent side="top" className="max-w-xs p-2.5 text-xs bg-popover text-ink">
                   <div className="space-y-1">
                     <div className="flex items-center gap-1 font-semibold text-conflict">
                       <AlertCircle className="h-3.5 w-3.5" />

@@ -33,10 +33,10 @@ export function ErrorState({
       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-conflict/10 text-conflict">
         <AlertCircle className="h-5 w-5" />
       </div>
-      <h3 className="mt-3 text-sm font-semibold text-foreground">{title}</h3>
-      <p className="mt-1 max-w-sm text-xs text-muted-foreground">{message}</p>
+      <h3 className="mt-3 text-sm font-semibold text-ink">{title}</h3>
+      <p className="mt-1 max-w-sm text-xs text-ink-muted">{message}</p>
       {code && (
-        <span className="mt-2 rounded bg-muted px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
+        <span className="mt-2 rounded bg-canvas-2 px-2 py-0.5 font-mono text-[10px] text-ink-muted">
           {code}
         </span>
       )}

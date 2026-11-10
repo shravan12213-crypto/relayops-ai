@@ -93,13 +93,13 @@ export function RedactionTransparencyPanel({ projectId }: RedactionTransparencyP
               <tbody className="divide-y divide-card-border">
                 {audit.rules.map((rule) => (
                   <tr key={rule.rule} className="transition-colors hover:bg-canvas-2">
-                    <td className="px-4 py-2.5 font-mono text-[11px] font-semibold text-foreground">
+                    <td className="px-4 py-2.5 font-mono text-[11px] font-semibold text-ink">
                       {rule.rule}
                     </td>
-                    <td className="px-4 py-2.5 text-right font-mono text-[11px] text-foreground">
+                    <td className="px-4 py-2.5 text-right font-mono text-[11px] text-ink">
                       <span className="rounded-md bg-canvas-2 px-2 py-0.5 font-bold">{rule.count}</span>
                     </td>
-                    <td className="px-4 py-2.5 font-mono text-[11px] text-muted-foreground">
+                    <td className="px-4 py-2.5 font-mono text-[11px] text-ink-muted">
                       <span className="rounded-md border border-card-border bg-canvas-2 px-2 py-0.5">
                         {rule.sample_masked}
                       </span>

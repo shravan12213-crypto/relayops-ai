@@ -34,18 +34,18 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   render() {
     if (this.state.hasError) {
       return (
-        <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 text-center">
+        <div className="flex min-h-screen flex-col items-center justify-center bg-canvas px-4 text-center">
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10 text-destructive">
             <AlertTriangle className="h-6 w-6" />
           </div>
-          <h1 className="mt-4 text-xl font-bold tracking-tight text-foreground">
+          <h1 className="mt-4 text-xl font-bold tracking-tight text-ink">
             Application Error
           </h1>
-          <p className="mt-2 max-w-md text-xs text-muted-foreground">
+          <p className="mt-2 max-w-md text-xs text-ink-muted">
             An unexpected error occurred while rendering this interface.
           </p>
           {this.state.error?.message && (
-            <pre className="mt-4 max-w-lg overflow-x-auto rounded border bg-muted p-3 text-left font-mono text-[11px] text-destructive">
+            <pre className="mt-4 max-w-lg overflow-x-auto rounded border bg-canvas-2 p-3 text-left font-mono text-[11px] text-destructive">
               {this.state.error.message}
             </pre>
           )}

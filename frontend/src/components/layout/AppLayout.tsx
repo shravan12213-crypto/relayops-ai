@@ -48,7 +48,7 @@ export function AppLayout() {
   }, []);
 
   return (
-    <div className="flex h-screen max-h-screen w-full overflow-hidden bg-background text-foreground antialiased selection:bg-brand/25">
+    <div className="flex h-screen max-h-screen w-full overflow-hidden bg-canvas text-ink antialiased selection:bg-brand/25">
       {/* Accessible Skip to Content Link */}
       <a
         href="#main-content"

@@ -94,7 +94,7 @@ function ModuleNode(props: NodeProps<ModuleCustomNode>) {
 
       {/* Top badges bar */}
       <div className="flex items-center justify-between gap-1 mb-2">
-        <span className="rounded bg-muted px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wide text-muted-foreground">
+        <span className="rounded bg-canvas-2 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wide text-ink-muted">
           {node.type}
         </span>
 
@@ -127,17 +127,17 @@ function ModuleNode(props: NodeProps<ModuleCustomNode>) {
           <Layers className="h-4 w-4" />
         </div>
         <div className="min-w-0">
-          <h4 className="text-xs font-bold text-foreground truncate">{node.label}</h4>
-          <p className="font-mono text-[10px] text-muted-foreground">
+          <h4 className="text-xs font-bold text-ink truncate">{node.label}</h4>
+          <p className="font-mono text-[10px] text-ink-muted">
             {node.claims_count} claim{node.claims_count === 1 ? "" : "s"}
           </p>
         </div>
       </div>
 
       {/* Owner & Commit share */}
-      <div className="mt-2.5 rounded-md border border-border/60 bg-muted/30 p-1.5 text-[10px] space-y-1">
+      <div className="mt-2.5 rounded-md border border-card-border/60 bg-canvas-2/30 p-1.5 text-[10px] space-y-1">
         <div className="flex items-center justify-between">
-          <span className="flex items-center gap-1 text-muted-foreground">
+          <span className="flex items-center gap-1 text-ink-muted">
             <User className="h-3 w-3" />
             Owner:
           </span>
@@ -147,8 +147,8 @@ function ModuleNode(props: NodeProps<ModuleCustomNode>) {
         </div>
 
         <div className="flex items-center justify-between">
-          <span className="text-muted-foreground">Commit share:</span>
-          <span className="font-mono font-semibold text-foreground">
+          <span className="text-ink-muted">Commit share:</span>
+          <span className="font-mono font-semibold text-ink">
             {Math.round(node.commit_share * 100)}%
           </span>
         </div>
@@ -285,13 +285,13 @@ function TopologyFlowInner({
       {/* Top Search & Controls Overlay */}
       <div className="absolute top-3 left-3 z-10 flex items-center gap-2">
         <div className="relative w-64 shadow-xs">
-          <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
+          <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-ink-muted" />
           <Input
             type="search"
             placeholder="Search module or owner..."
             value={searchQuery}
             onChange={(e) => handleSearch(e.target.value)}
-            className="h-8 pl-8 text-xs bg-card/90 backdrop-blur-xs border-border/80"
+            className="h-8 pl-8 text-xs bg-card/90 backdrop-blur-xs border-card-border/80"
           />
         </div>
       </div>
@@ -313,13 +313,13 @@ function TopologyFlowInner({
         maxZoom={2.0}
       >
         <Background color="#94a3b8" gap={20} size={1} />
-        <Controls className="!bg-card !border-border !shadow-sm !rounded-md" />
+        <Controls className="!bg-card !border-card-border !shadow-sm !rounded-md" />
         <MiniMap
           nodeColor={(n) => {
             const gn = graph.nodes.find((m) => m.id === n.id);
             return gn ? getOwnerColor(gn.owner).dot : "#64748b";
           }}
-          className="!bg-card !border-border !rounded-md !shadow-sm"
+          className="!bg-card !border-card-border !rounded-md !shadow-sm"
         />
       </ReactFlow>
     </div>
@@ -349,9 +349,9 @@ export function DependencyTopology({ graph, className }: DependencyTopologyProps
 
       {/* Node Details Inspection Side Panel */}
       {selectedNode && (
-        <div className="w-80 border-l border-border/80 bg-card/95 backdrop-blur-xs flex flex-col shadow-lg z-20 animate-in slide-in-from-right-10 duration-200">
+        <div className="w-80 border-l border-card-border/80 bg-card/95 backdrop-blur-xs flex flex-col shadow-lg z-20 animate-in slide-in-from-right-10 duration-200">
           {/* Header */}
-          <div className="p-4 border-b border-border/60 flex items-start justify-between gap-2">
+          <div className="p-4 border-b border-card-border/60 flex items-start justify-between gap-2">
             <div className="space-y-1">
               <div className="flex items-center gap-1.5 flex-wrap">
                 <span className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-[10px] text-primary uppercase">
@@ -364,13 +364,13 @@ export function DependencyTopology({ graph, className }: DependencyTopologyProps
                   </Badge>
                 )}
               </div>
-              <h3 className="text-sm font-bold text-foreground">{selectedNode.label}</h3>
+              <h3 className="text-sm font-bold text-ink">{selectedNode.label}</h3>
             </div>
 
             <Button
               variant="ghost"
               size="icon"
-              className="h-6 w-6 text-muted-foreground"
+              className="h-6 w-6 text-ink-muted"
               onClick={() => setSelectedNode(null)}
             >
               <X className="h-3.5 w-3.5" />
@@ -386,7 +386,7 @@ export function DependencyTopology({ graph, className }: DependencyTopologyProps
                   <ShieldAlert className="h-4 w-4" />
                   <span>Bus-Factor Risk Warning</span>
                 </div>
-                <p className="text-muted-foreground leading-snug">
+                <p className="text-ink-muted leading-snug">
                   Module <strong>{selectedNode.label}</strong> has bus factor 1. Single contributor{" "}
                   <strong>{selectedNode.owner}</strong> holds 100% of commits with 0 architecture documents.
                 </p>
@@ -394,24 +394,24 @@ export function DependencyTopology({ graph, className }: DependencyTopologyProps
             )}
 
             {/* Ownership stats */}
-            <div className="rounded-lg border bg-muted/20 p-3 space-y-2 text-xs">
-              <span className="text-[10px] font-semibold uppercase text-muted-foreground">
+            <div className="rounded-lg border bg-canvas-2/20 p-3 space-y-2 text-xs">
+              <span className="text-[10px] font-semibold uppercase text-ink-muted">
                 Ownership & Activity
               </span>
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Primary Maintainer:</span>
-                  <span className="font-semibold text-foreground">{selectedNode.owner}</span>
+                  <span className="text-ink-muted">Primary Maintainer:</span>
+                  <span className="font-semibold text-ink">{selectedNode.owner}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Commit Share:</span>
-                  <span className="font-mono font-semibold text-foreground">
+                  <span className="text-ink-muted">Commit Share:</span>
+                  <span className="font-mono font-semibold text-ink">
                     {Math.round(selectedNode.commit_share * 100)}%
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Documentation:</span>
-                  <span className="font-mono text-foreground">
+                  <span className="text-ink-muted">Documentation:</span>
+                  <span className="font-mono text-ink">
                     {selectedNode.doc_count} doc{selectedNode.doc_count === 1 ? "" : "s"}
                   </span>
                 </div>
@@ -420,21 +420,21 @@ export function DependencyTopology({ graph, className }: DependencyTopologyProps
 
             {/* Associated Claims */}
             <div className="space-y-2">
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-ink-muted">
                 Verified Claims ({selectedNode.claims.length})
               </span>
               {selectedNode.claims.length === 0 ? (
-                <p className="text-xs text-muted-foreground italic">No claims mapped to this module.</p>
+                <p className="text-xs text-ink-muted italic">No claims mapped to this module.</p>
               ) : (
                 <div className="space-y-2">
                   {selectedNode.claims.map((claim) => (
                     <div
                       key={claim.id}
-                      className="rounded-lg border border-border/80 bg-background p-2.5 text-xs space-y-1.5"
+                      className="rounded-lg border border-card-border/80 bg-canvas p-2.5 text-xs space-y-1.5"
                     >
-                      <p className="font-medium text-foreground leading-snug">{claim.text}</p>
-                      <div className="flex items-center justify-between text-[10px] text-muted-foreground">
-                        <span className="rounded bg-muted px-1.5 py-0.2 font-mono uppercase">
+                      <p className="font-medium text-ink leading-snug">{claim.text}</p>
+                      <div className="flex items-center justify-between text-[10px] text-ink-muted">
+                        <span className="rounded bg-canvas-2 px-1.5 py-0.2 font-mono uppercase">
                           {claim.kind}
                         </span>
                         <CitationPill artifactId={claim.id} />
@@ -448,7 +448,7 @@ export function DependencyTopology({ graph, className }: DependencyTopologyProps
             {/* Open Work & Blockers */}
             {selectedNode.open_work.length > 0 && (
               <div className="space-y-2 pt-2">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-ink-muted">
                   Open Work ({selectedNode.open_work.length})
                 </span>
                 <div className="space-y-2">
@@ -457,7 +457,7 @@ export function DependencyTopology({ graph, className }: DependencyTopologyProps
                       key={ow.id}
                       className="rounded-lg border border-amber-500/30 bg-needs-review/5 p-2.5 text-xs space-y-1"
                     >
-                      <p className="font-medium text-foreground">{ow.text}</p>
+                      <p className="font-medium text-ink">{ow.text}</p>
                       <Badge variant="outline" className="text-[10px] text-needs-review border-amber-500/30">
                         {ow.kind}
                       </Badge>

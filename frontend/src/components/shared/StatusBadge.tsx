@@ -78,8 +78,8 @@ const STATUS_CONFIG: Record<
   },
   draft: {
     label: "Draft",
-    className: "border-card-border bg-canvas-2 text-muted-foreground",
-    dotColor: "bg-muted-foreground",
+    className: "border-card-border bg-canvas-2 text-ink-muted",
+    dotColor: "bg-ink-muted",
     icon: HelpCircle,
   },
   rejected: {
@@ -118,8 +118,8 @@ export function StatusBadge({
   const normalizedKey = status.toLowerCase().replace(/[\s-]/g, "_");
   const config = STATUS_CONFIG[normalizedKey] || {
     label: status,
-    className: "border-card-border bg-canvas-2 text-muted-foreground",
-    dotColor: "bg-muted-foreground",
+    className: "border-card-border bg-canvas-2 text-ink-muted",
+    dotColor: "bg-ink-muted",
     icon: HelpCircle,
   };
 

@@ -162,7 +162,7 @@ export function CopilotChatView({
                       key={q}
                       type="button"
                       onClick={() => handleSend(q)}
-                      className="text-left rounded-md border border-card-border bg-background/80 px-2.5 py-1.5 text-xs text-ink hover:border-brand hover:bg-canvas-2 transition-colors flex items-center justify-between"
+                      className="text-left rounded-md border border-card-border bg-canvas/80 px-2.5 py-1.5 text-xs text-ink hover:border-brand hover:bg-canvas-2 transition-colors flex items-center justify-between"
                     >
                       <span>{q}</span>
                       <Sparkles className="h-3 w-3 text-brand-text opacity-60" />

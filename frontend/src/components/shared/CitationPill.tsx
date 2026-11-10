@@ -109,7 +109,7 @@ export function CitationPill({
           <span
             onClick={handleClick}
             className={cn(
-              "inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-card-border bg-canvas-2 px-2 py-0.5 font-mono text-[11px] text-ink transition-all duration-150 hover:border-brand hover:bg-accent hover:shadow-2xs active:scale-98 select-none",
+              "inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-card-border bg-canvas-2 px-2 py-0.5 font-mono text-[11px] text-ink transition-all duration-150 hover:border-brand hover:bg-canvas-2 hover:shadow-2xs active:scale-98 select-none",
               kind === "pr" && "hover:border-purple-500/40 hover:text-purple-600 dark:hover:text-purple-400",
               kind === "commit" && "hover:border-brand hover:text-brand-text",
               kind === "slack" && "hover:border-needs-review hover:text-needs-review dark:hover:text-needs-review",
@@ -129,7 +129,7 @@ export function CitationPill({
         <TooltipContent
           side="top"
           align="start"
-          className="max-w-xs sm:max-w-sm p-3 font-sans text-xs bg-popover text-popover-foreground border shadow-md space-y-2"
+          className="max-w-xs sm:max-w-sm p-3 font-sans text-xs bg-popover text-ink border shadow-md space-y-2"
         >
           {/* Header */}
           <div className="flex items-center justify-between gap-2 border-b border-card-border pb-1.5 font-mono text-[10px]">

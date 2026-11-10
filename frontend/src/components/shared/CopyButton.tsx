@@ -39,7 +39,7 @@ export function CopyButton({
             type="button"
             variant="ghost"
             size="icon"
-            className={cn("h-7 w-7 text-muted-foreground hover:text-foreground", className)}
+            className={cn("h-7 w-7 text-ink-muted hover:text-ink", className)}
             onClick={onCopy}
             aria-label={label}
             {...props}

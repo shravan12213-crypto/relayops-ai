@@ -88,8 +88,8 @@ export function RolePreviewSwitcher({
                   onClick={() => onRoleChange(role.id)}
                   className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-all ${
                     isActive
-                      ? "bg-background text-ink shadow-sm"
-                      : "text-ink-muted hover:text-ink hover:bg-background/50"
+                      ? "bg-canvas text-ink shadow-sm"
+                      : "text-ink-muted hover:text-ink hover:bg-canvas/50"
                   }`}
                   aria-pressed={isActive}
                 >

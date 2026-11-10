@@ -39,7 +39,7 @@ export function ShortcutsHelpModal({ open, onOpenChange }: ShortcutsHelpModalPro
           </DialogDescription>
         </DialogHeader>
 
-        <div className="divide-y divide-border/60 py-2">
+        <div className="divide-y divide-card-border/60 py-2">
           {SHORTCUTS.map((s, idx) => (
             <div key={idx} className="flex items-center justify-between py-2 text-xs">
               <span className="text-ink">{s.description}</span>

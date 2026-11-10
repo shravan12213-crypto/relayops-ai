@@ -38,7 +38,7 @@ export function HandoverVisualizationsPage() {
   };
 
   return (
-    <div className="flex h-full w-full flex-col bg-background select-none overflow-hidden">
+    <div className="flex h-full w-full flex-col bg-canvas select-none overflow-hidden">
       {/* Top Header Bar */}
       <div className="flex h-12 shrink-0 items-center justify-between border-b border-card-border px-4 bg-card backdrop-blur-xs">
         <div className="flex items-center gap-3">

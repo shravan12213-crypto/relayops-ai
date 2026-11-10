@@ -172,7 +172,7 @@ export function AddSourceWizardDialog({
                 Add Source to Knowledge Gateway
               </DialogTitle>
             </div>
-            <div className="flex items-center gap-1 text-[11px] font-mono text-muted-foreground">
+            <div className="flex items-center gap-1 text-[11px] font-mono text-ink-muted">
               <span>Step {step} of 3</span>
             </div>
           </div>
@@ -184,7 +184,7 @@ export function AddSourceWizardDialog({
         {/* Step 1: Choose Type */}
         {step === 1 && (
           <div className="space-y-2.5 py-2">
-            <p className="text-xs font-medium text-foreground">Select source kind:</p>
+            <p className="text-xs font-medium text-ink">Select source kind:</p>
             <div className="grid grid-cols-1 gap-2">
               {SOURCE_OPTIONS.map((opt) => {
                 const Icon = opt.icon;
@@ -198,7 +198,7 @@ export function AddSourceWizardDialog({
                       "flex items-start gap-3 rounded-lg border p-3 text-left transition-all",
                       isSelected
                         ? "border-primary bg-primary/5 ring-1 ring-primary"
-                        : "border-border hover:border-primary/40 hover:bg-muted/40",
+                        : "border-card-border hover:border-primary/40 hover:bg-canvas-2/40",
                     )}
                   >
                     <div
@@ -206,21 +206,21 @@ export function AddSourceWizardDialog({
                         "mt-0.5 rounded-md p-1.5",
                         isSelected
                           ? "bg-primary text-primary-foreground"
-                          : "bg-muted text-muted-foreground",
+                          : "bg-canvas-2 text-ink-muted",
                       )}
                     >
                       <Icon className="h-4 w-4" />
                     </div>
                     <div className="flex-1 space-y-0.5">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-semibold text-foreground">{opt.title}</span>
+                        <span className="text-xs font-semibold text-ink">{opt.title}</span>
                         {opt.isRecommended && (
                           <Badge variant="secondary" className="text-[9px] text-primary">
                             Recommended
                           </Badge>
                         )}
                       </div>
-                      <p className="text-[11px] text-muted-foreground leading-relaxed">
+                      <p className="text-[11px] text-ink-muted leading-relaxed">
                         {opt.description}
                       </p>
                     </div>
@@ -235,17 +235,17 @@ export function AddSourceWizardDialog({
         {step === 2 && (
           <div className="space-y-4 py-2">
             {selectedType === "demo" && (
-              <div className="rounded-lg border border-border bg-muted/40 p-4 space-y-2">
+              <div className="rounded-lg border border-card-border bg-canvas-2/40 p-4 space-y-2">
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-4 w-4 text-primary" />
-                  <span className="text-xs font-semibold text-foreground">
+                  <span className="text-xs font-semibold text-ink">
                     PayFlow Seed Dataset Configuration
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground leading-relaxed">
+                <p className="text-xs text-ink-muted leading-relaxed">
                   Loads the canonical PayFlow synthetic dataset directly into this project:
                 </p>
-                <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
+                <ul className="text-xs text-ink-muted space-y-1 list-disc list-inside">
                   <li>80 commits (Git history & unmerged branches)</li>
                   <li>25 pull requests with review comments</li>
                   <li>32 Jira issues with blocker dependencies</li>
@@ -258,7 +258,7 @@ export function AddSourceWizardDialog({
             {selectedType === "github" && (
               <div className="space-y-3">
                 <div className="space-y-1">
-                  <label htmlFor="repo-url-input" className="text-xs font-medium text-foreground">
+                  <label htmlFor="repo-url-input" className="text-xs font-medium text-ink">
                     Repository (owner/repo)
                   </label>
                   <Input
@@ -271,7 +271,7 @@ export function AddSourceWizardDialog({
                   />
                 </div>
                 <div className="space-y-1">
-                  <label htmlFor="branch-input" className="text-xs font-medium text-foreground">
+                  <label htmlFor="branch-input" className="text-xs font-medium text-ink">
                     Default Branch
                   </label>
                   <Input
@@ -285,7 +285,7 @@ export function AddSourceWizardDialog({
                 <div className="space-y-1">
                   <label
                     htmlFor="github-token-input"
-                    className="text-xs font-medium text-foreground"
+                    className="text-xs font-medium text-ink"
                   >
                     GitHub Personal Access Token (Optional)
                   </label>
@@ -297,7 +297,7 @@ export function AddSourceWizardDialog({
                     placeholder="ghp_••••••••••••"
                     className="h-9 text-xs"
                   />
-                  <p className="text-[11px] text-muted-foreground pt-1">
+                  <p className="text-[11px] text-ink-muted pt-1">
                     * Tokens are never stored or logged, used only in session for REST API calls.
                   </p>
                 </div>
@@ -317,14 +317,14 @@ export function AddSourceWizardDialog({
                     "flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 text-center transition-colors",
                     dragActive
                       ? "border-primary bg-primary/5"
-                      : "border-border hover:border-primary/50",
+                      : "border-card-border hover:border-primary/50",
                   )}
                 >
-                  <Upload className="h-8 w-8 text-muted-foreground" />
-                  <p className="mt-2 text-xs font-medium text-foreground">
+                  <Upload className="h-8 w-8 text-ink-muted" />
+                  <p className="mt-2 text-xs font-medium text-ink">
                     Drag and drop file here, or browse
                   </p>
-                  <p className="mt-1 text-[11px] text-muted-foreground">
+                  <p className="mt-1 text-[11px] text-ink-muted">
                     Accepted formats: .json, .md, .txt, .pdf (Max 50MB)
                   </p>
                   <input
@@ -350,8 +350,8 @@ export function AddSourceWizardDialog({
                 </div>
 
                 {selectedFile && (
-                  <div className="flex items-center justify-between rounded-md border border-border bg-muted/40 p-2.5 text-xs">
-                    <span className="font-mono text-foreground truncate max-w-xs">
+                  <div className="flex items-center justify-between rounded-md border border-card-border bg-canvas-2/40 p-2.5 text-xs">
+                    <span className="font-mono text-ink truncate max-w-xs">
                       {selectedFile.name}
                     </span>
                     <Badge variant="outline" className="font-mono text-[10px]">
@@ -374,33 +374,33 @@ export function AddSourceWizardDialog({
         {/* Step 3: Review */}
         {step === 3 && (
           <div className="space-y-3 py-2 text-xs">
-            <div className="rounded-lg border bg-muted/30 p-4 space-y-2.5">
+            <div className="rounded-lg border bg-canvas-2/30 p-4 space-y-2.5">
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Source Type:</span>
-                <span className="font-semibold text-foreground capitalize">
+                <span className="text-ink-muted">Source Type:</span>
+                <span className="font-semibold text-ink capitalize">
                   {selectedType === "demo" ? "PayFlow Full Demo Dataset" : selectedType}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Target Project:</span>
-                <span className="font-mono text-foreground">{projectId}</span>
+                <span className="text-ink-muted">Target Project:</span>
+                <span className="font-mono text-ink">{projectId}</span>
               </div>
               {selectedType === "github" && (
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Repository:</span>
-                  <span className="font-mono text-foreground">
+                  <span className="text-ink-muted">Repository:</span>
+                  <span className="font-mono text-ink">
                     {repoUrl} ({branch})
                   </span>
                 </div>
               )}
               {selectedFile && (
                 <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Payload File:</span>
-                  <span className="font-mono text-foreground">{selectedFile.name}</span>
+                  <span className="text-ink-muted">Payload File:</span>
+                  <span className="font-mono text-ink">{selectedFile.name}</span>
                 </div>
               )}
               <div className="flex items-center justify-between pt-1 border-t">
-                <span className="text-muted-foreground">Redaction Engine:</span>
+                <span className="text-ink-muted">Redaction Engine:</span>
                 <span className="text-verified font-medium flex items-center gap-1">
                   <CheckCircle2 className="h-3.5 w-3.5" /> Active (Pre-Storage Scrubbing)
                 </span>

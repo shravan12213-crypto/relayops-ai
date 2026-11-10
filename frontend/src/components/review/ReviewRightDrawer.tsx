@@ -33,7 +33,7 @@ export function ReviewRightDrawer({
   const openAmbiguitiesCount = ambiguities.filter((a) => a.status === "open").length;
 
   return (
-    <div className="flex h-full flex-col bg-background/80 overflow-hidden">
+    <div className="flex h-full flex-col bg-canvas/80 overflow-hidden">
       <Tabs
         value={activeTab}
         onValueChange={(val) => onTabChange(val as RightTabType)}
@@ -45,7 +45,7 @@ export function ReviewRightDrawer({
             {/* Evidence Tab Trigger */}
             <TabsTrigger
               value="evidence"
-              className="text-xs gap-1 data-[state=active]:bg-background"
+              className="text-xs gap-1 data-[state=active]:bg-canvas"
             >
               <FileText className="h-3.5 w-3.5 shrink-0" />
               <span className="truncate">Evidence</span>
@@ -54,7 +54,7 @@ export function ReviewRightDrawer({
             {/* Ambiguities Tab Trigger */}
             <TabsTrigger
               value="ambiguities"
-              className="text-xs gap-1 data-[state=active]:bg-background"
+              className="text-xs gap-1 data-[state=active]:bg-canvas"
             >
               <AlertCircle className="h-3.5 w-3.5 shrink-0" />
               <span className="truncate">Ledger</span>
@@ -68,7 +68,7 @@ export function ReviewRightDrawer({
             {/* Conflicts Tab Trigger */}
             <TabsTrigger
               value="conflicts"
-              className="text-xs gap-1 data-[state=active]:bg-background"
+              className="text-xs gap-1 data-[state=active]:bg-canvas"
             >
               <GitCompare className="h-3.5 w-3.5 shrink-0" />
               <span className="truncate">Conflicts</span>
@@ -82,7 +82,7 @@ export function ReviewRightDrawer({
             {/* Scorecard Tab Trigger */}
             <TabsTrigger
               value="scorecard"
-              className="text-xs gap-1 data-[state=active]:bg-background"
+              className="text-xs gap-1 data-[state=active]:bg-canvas"
             >
               <Gauge className="h-3.5 w-3.5 shrink-0" />
               <span className="truncate">Scorecard</span>

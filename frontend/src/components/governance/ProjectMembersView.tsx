@@ -240,7 +240,7 @@ export function ProjectMembersView() {
                     {isLead && <th className="py-2.5 px-3 w-16 text-center">Actions</th>}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-border">
+                <tbody className="divide-y divide-card-border">
                   {members.map((member: ProjectMember) => (
                     <tr key={member.user_id} className="hover:bg-canvas-2 transition-colors">
                       <td className="py-2.5 px-3 font-semibold text-ink flex items-center gap-2">

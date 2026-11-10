@@ -54,7 +54,7 @@ export function TopBar({ onOpenCommandPalette, onSwitchPreviewRole }: TopBarProp
     : "U";
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-card-border bg-background/80 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:px-6">
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-card-border bg-canvas/80 px-4 backdrop-blur supports-[backdrop-filter]:bg-canvas/60 sm:px-6">
       {/* Left: Breadcrumbs */}
       <nav
         aria-label="Breadcrumbs"
@@ -130,7 +130,7 @@ export function TopBar({ onOpenCommandPalette, onSwitchPreviewRole }: TopBarProp
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
                   <p className="text-xs font-semibold leading-none">{user.name}</p>
-                  <p className="font-mono text-[11px] leading-none text-muted-foreground">
+                  <p className="font-mono text-[11px] leading-none text-ink-muted">
                     {user.email}
                   </p>
                   <div className="mt-2 flex items-center gap-1.5 pt-1">
@@ -145,7 +145,7 @@ export function TopBar({ onOpenCommandPalette, onSwitchPreviewRole }: TopBarProp
 
               {user.role === "lead" && onSwitchPreviewRole && (
                 <>
-                  <DropdownMenuLabel className="text-[10px] uppercase text-muted-foreground">
+                  <DropdownMenuLabel className="text-[10px] uppercase text-ink-muted">
                     Preview role as
                   </DropdownMenuLabel>
                   {(["lead", "outgoing", "successor", "contractor", "auditor"] as Role[]).map(

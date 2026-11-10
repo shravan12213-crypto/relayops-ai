@@ -351,7 +351,7 @@ export function AuditLogTable() {
                   <th className="py-2.5 px-3 w-16 text-center">Payload</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border">
+              <tbody className="divide-y divide-card-border">
                 {data.items.map((item: AuditLogItem) => {
                   const isExpanded = expandedSeq === item.seq;
                   return (
