@@ -123,9 +123,11 @@ export function LoginPage() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-sidebar-from to-sidebar-to px-4 py-12 antialiased sm:px-6 lg:px-8">
       {/* Brand Header */}
       <div className="mb-8 flex flex-col items-center text-center">
-        <span className="grid size-12 place-items-center rounded-2xl bg-white/10 font-mono text-xl font-bold text-white ring-1 ring-inset ring-white/15 shadow-md">
-          R
-        </span>
+        <img
+          src="/logo.png"
+          alt="RelayOps"
+          className="size-14 rounded-2xl object-contain shadow-lg ring-1 ring-white/15"
+        />
         <h1 className="mt-4 text-[30px] font-bold leading-tight tracking-[-0.02em] text-white">
           Sign in to RelayOps
         </h1>

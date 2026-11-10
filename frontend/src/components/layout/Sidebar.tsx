@@ -56,9 +56,11 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
             collapsed && "justify-center w-full",
           )}
         >
-          <span className="grid size-7 shrink-0 place-items-center rounded-full bg-white/10 font-mono text-xs font-bold text-white ring-1 ring-inset ring-white/15 shadow-sm">
-            R
-          </span>
+          <img
+            src="/logo.png"
+            alt="RelayOps"
+            className="size-7 shrink-0 rounded-lg object-contain shadow-sm ring-1 ring-white/10"
+          />
           {!collapsed && (
             <div className="flex flex-col">
               <span className="text-sm font-semibold tracking-tight text-white">RelayOps</span>

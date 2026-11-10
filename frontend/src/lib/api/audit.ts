@@ -13,10 +13,12 @@ export interface AuditLogItem {
   hash: string;
 }
 
-export function useAuditLogs(limit: number = 20) {
+export function useAuditLogs(limit: number = 20, enabled: boolean = true) {
   return useQuery({
     queryKey: ["audit-logs", { limit }],
     queryFn: ({ signal }) => apiGet<AuditLogItem[]>(`/api/v1/audit/logs?limit=${limit}`, signal),
     refetchInterval: 15_000,
+    enabled,
+    retry: false,
   });
 }

@@ -243,8 +243,13 @@ export function usePatchClaim(handoverId: string | undefined) {
 export function useAmbiguities(handoverId: string | undefined) {
   return useQuery({
     queryKey: queryKeys.handovers.ambiguities(handoverId || "none"),
-    queryFn: ({ signal }) =>
-      apiGet<Ambiguity[]>(`/api/v1/handovers/${handoverId}/ambiguities`, signal),
+    queryFn: async ({ signal }) => {
+      const res = await apiGet<Ambiguity[] | { items: Ambiguity[] }>(
+        `/api/v1/handovers/${handoverId}/ambiguities`,
+        signal,
+      );
+      return Array.isArray(res) ? res : res.items || [];
+    },
     enabled: Boolean(handoverId),
   });
 }

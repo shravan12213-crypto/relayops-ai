@@ -33,7 +33,8 @@ export function DashboardPage() {
   const { user } = useAuth();
   const { data: projects } = useProjects();
   const { data: handovers } = useHandovers();
-  const { data: auditLogs } = useAuditLogs(15);
+  const isLeadOrAuditor = user?.role === "lead" || user?.role === "auditor";
+  const { data: auditLogs } = useAuditLogs(15, isLeadOrAuditor);
   const loadDemo = useLoadDemo();
   const navigate = useNavigate();
 
@@ -318,7 +319,11 @@ export function DashboardPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-1 p-3">
-              {auditLogs && auditLogs.length > 0 ? (
+              {!isLeadOrAuditor ? (
+                <div className="py-8 text-center text-xs text-ink-muted">
+                  Audit trail restricted to Lead & Auditor clearance.
+                </div>
+              ) : auditLogs && auditLogs.length > 0 ? (
                 <div className="space-y-2.5">
                   {auditLogs.slice(0, 8).map((log) => (
                     <div

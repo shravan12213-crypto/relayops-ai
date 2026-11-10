@@ -51,9 +51,10 @@ export interface ScorecardMetrics {
 export function useHandovers(projectId?: string) {
   return useQuery({
     queryKey: queryKeys.handovers.list(projectId),
-    queryFn: ({ signal }) => {
+    queryFn: async ({ signal }) => {
       const url = projectId ? `/api/v1/projects/${projectId}/handovers` : "/api/v1/handovers";
-      return apiGet<Handover[]>(url, signal);
+      const res = await apiGet<Handover[] | { items: Handover[] }>(url, signal);
+      return Array.isArray(res) ? res : res.items || [];
     },
   });
 }
