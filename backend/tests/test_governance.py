@@ -80,6 +80,28 @@ def test_audit_logs_rbac_and_filtering(client: TestClient, gov_setup: dict[str, 
     assert paged_data["page"] == 1
     assert len(paged_data["items"]) <= 5
 
+    # 4. The envelope reports a page count derived from total/page_size
+    expected_pages = -(-paged_data["total"] // paged_data["page_size"])
+    assert expected_pages >= 1
+    assert paged_data["pages"] == expected_pages
+
+    # 5. A page size larger than the ledger still reports exactly one page
+    res_wide = client.get("/api/v1/audit/logs?paged=true&page=1&page_size=200", headers=auth_headers(lead))
+    assert res_wide.status_code == 200
+    wide_data = res_wide.json()
+    assert wide_data["page_size"] == 200
+    assert wide_data["pages"] == 1
+
+    # 6. Asking for the last page keeps page and page count consistent
+    res_last = client.get(
+        f"/api/v1/audit/logs?paged=true&page={expected_pages}&page_size={paged_data['page_size']}",
+        headers=auth_headers(lead),
+    )
+    assert res_last.status_code == 200
+    last_data = res_last.json()
+    assert last_data["page"] == expected_pages
+    assert last_data["pages"] == expected_pages
+
 
 def test_verify_chain_and_cli_tamper(client: TestClient, gov_setup: dict[str, Any]) -> None:
     lead = gov_setup["lead"]

@@ -114,11 +114,13 @@ def list_governance_audit_logs(
 
     validated_items = [AuditLogRead.model_validate(item) for item in items]
     if paged:
+        pages = max(1, -(-total // eff_limit)) if eff_limit else 1
         return AuditLogsPaginated(
             items=validated_items,
             total=total,
             page=eff_page,
             page_size=eff_limit,
+            pages=pages,
         )
     return validated_items
 

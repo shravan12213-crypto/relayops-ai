@@ -514,6 +514,7 @@ class AuditLogsPaginated(BaseModel):
     total: int
     page: int
     page_size: int
+    pages: int
 
 
 class AuditChainVerifyResponse(BaseModel):
