@@ -119,7 +119,7 @@ export function ReviewClaimCard({
     <div
       onClick={onSelect}
       className={cn(
-        "group relative rounded-xl border bg-card p-4 transition-all duration-150",
+        "group relative rounded-2xl border bg-card p-4 transition-all duration-150",
         isSelected
           ? "border-brand shadow-sm ring-2 ring-primary/20"
           : "border-card-border hover:border-card-border hover:shadow-xs",
