@@ -5,7 +5,7 @@
   "description": "RelayOps — traceable, human-verified handovers from scattered project activity.",
   "scripts": {
     "setup": "bash scripts/setup.sh",
-    "dev": "bash scripts/dev.sh",
+    "dev": "node scripts/dev.mjs",
     "test": "bash scripts/test.sh",
     "build": "bash scripts/build.sh",
     "seed": "bash scripts/seed.sh",

@@ -68,8 +68,15 @@ export function TopBar({ onOpenCommandPalette, onSwitchPreviewRole }: TopBarProp
               {isLast ? (
                 <span className="font-semibold text-ink">{crumb.label}</span>
               ) : (
-                <Link to={crumb.href} className="transition-colors hover:text-ink">
-                  {crumb.label}
+                <Link to={crumb.href} className="inline-flex items-center gap-1.5 transition-colors hover:text-ink">
+                  {idx === 0 && (
+                    <img
+                      src="/logo.png"
+                      alt=""
+                      className="size-4 shrink-0 rounded-md object-contain sm:hidden"
+                    />
+                  )}
+                  <span>{crumb.label}</span>
                 </Link>
               )}
             </React.Fragment>

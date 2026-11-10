@@ -55,7 +55,9 @@ function humanizeMessage(status: number, message?: string): string {
     case 429:
       return "Rate limit exceeded: too many requests. Please wait a moment before trying again.";
     case 500:
-      return "An unexpected server error occurred. Please try again or check the system audit log.";
+      return message && message !== "Internal Server Error"
+        ? message
+        : "Unable to connect to the RelayOps backend service. Please check if the server is running on port 8000.";
     case 502:
     case 503:
     case 504:

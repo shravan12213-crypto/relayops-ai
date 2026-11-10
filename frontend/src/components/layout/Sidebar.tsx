@@ -59,7 +59,7 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
           <img
             src="/logo.png"
             alt="RelayOps"
-            className="size-7 shrink-0 rounded-lg object-contain shadow-sm ring-1 ring-white/10"
+            className="size-8 shrink-0 rounded-xl object-contain shadow-sm ring-1 ring-white/10"
           />
           {!collapsed && (
             <div className="flex flex-col">

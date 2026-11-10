@@ -120,7 +120,21 @@ export function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-sidebar-from to-sidebar-to px-4 py-12 antialiased sm:px-6 lg:px-8">
+    <div className="relative flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-sidebar-from to-sidebar-to px-4 py-12 antialiased sm:px-6 lg:px-8">
+      {/* Top-Left Corner Brand Anchor */}
+      <div className="absolute top-5 left-5 sm:top-6 sm:left-8 flex items-center gap-2.5">
+        <img
+          src="/logo.png"
+          alt="RelayOps"
+          className="size-8 shrink-0 rounded-xl object-contain shadow-md ring-1 ring-white/15"
+        />
+        <div className="flex flex-col">
+          <span className="text-sm font-semibold tracking-tight text-white">RelayOps</span>
+          <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-sidebar-fg-muted">
+            Verifiable Handovers
+          </span>
+        </div>
+      </div>
       {/* Brand Header */}
       <div className="mb-8 flex flex-col items-center text-center">
         <img
