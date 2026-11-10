@@ -547,7 +547,7 @@ def reset_demo_dataset_endpoint(
     if cfg.env == "prod":
         raise AppError("FORBIDDEN", "Reset demo data is disabled in production environments", status_code=403)
 
-    proj, counts, total = execute_demo_load(session, current_user.id)
+    proj, counts, total = execute_demo_load(session, current_user.id, seed_workflows=True)
     audit(
         session,
         actor_id=current_user.id,

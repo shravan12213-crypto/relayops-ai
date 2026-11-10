@@ -23,7 +23,7 @@ def cmd_seed(_: argparse.Namespace) -> int:
 
     init_db()
     with Session(get_engine()) as session:
-        proj, counts, total = execute_demo_load(session)
+        proj, counts, total = execute_demo_load(session, seed_workflows=True)
         print(f"[OK] Seeded project '{proj.name}' ({proj.id}) with {total} artifacts: {counts}")
     return 0
 

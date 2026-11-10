@@ -358,7 +358,7 @@ def delete_source(
 
 
 def execute_demo_load(
-    session: Session, current_user_id: str | None = None
+    session: Session, current_user_id: str | None = None, *, seed_workflows: bool = False
 ) -> tuple[Project, dict[str, int], int]:
     """Load the full PayFlow demo dataset into the database."""
     # 1. Ensure PayFlow project exists
@@ -489,6 +489,15 @@ def execute_demo_load(
     )
     session.commit()
 
+    # Seed rich demo data across all workflow modes when requested
+    if seed_workflows:
+        try:
+            from app.demo_seeder import seed_demo_data
+
+            seed_demo_data(session)
+        except Exception as exc:
+            logger.warning("Could not populate advanced demo handover workflows: %s", exc)
+
     return project, counts, total
 
 
@@ -503,7 +512,7 @@ def load_demo_dataset_for_project(
     if not project:
         raise AppError("NOT_FOUND", "Project not found", status_code=404)
 
-    proj, counts, total = execute_demo_load(session, current_user.id)
+    proj, counts, total = execute_demo_load(session, current_user.id, seed_workflows=True)
     return DemoLoadResponse(
         status="ok",
         project_id=proj.id,
@@ -518,7 +527,7 @@ def load_demo_dataset_global(
     current_user: User = Depends(get_current_user),
 ) -> DemoLoadResponse:
     """One-click endpoint to initialize and load the PayFlow demo dataset."""
-    proj, counts, total = execute_demo_load(session, current_user.id)
+    proj, counts, total = execute_demo_load(session, current_user.id, seed_workflows=True)
     return DemoLoadResponse(
         status="ok",
         project_id=proj.id,

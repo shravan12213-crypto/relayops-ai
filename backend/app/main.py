@@ -160,7 +160,7 @@ async def lifespan(app: FastAPI):
                 project_count = len(session.exec(select(Project)).all())
 
                 if user_count == 0 or project_count == 0:
-                    execute_demo_load(session)
+                    execute_demo_load(session, seed_workflows=True)
                     logger.info("SEED_ON_START: PayFlow demo dataset seeded into empty database")
                 else:
                     logger.info("SEED_ON_START: Database already populated; skipping initial seed")
