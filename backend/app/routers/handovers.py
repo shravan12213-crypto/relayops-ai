@@ -140,6 +140,29 @@ def list_project_handovers(
 
 
 @router.get(
+    "/handovers",
+    response_model=list[HandoverRead],
+)
+def list_handovers(
+    session: Session = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+) -> list[HandoverRead]:
+    """List all handovers accessible to the current user."""
+    user_project_ids = set(
+        session.exec(select(ProjectMember.project_id).where(ProjectMember.user_id == current_user.id)).all()
+    )
+    all_handovers = session.exec(select(Handover).order_by(Handover.created_at.desc())).all()
+    accessible = [
+        h
+        for h in all_handovers
+        if h.project_id in user_project_ids
+        or current_user.id in (h.lead_user_id, h.outgoing_user_id, h.successor_user_id)
+        or current_user.role in ("lead", "auditor")
+    ]
+    return [HandoverRead.model_validate(h) for h in accessible]
+
+
+@router.get(
     "/handovers/{handover_id}",
     response_model=HandoverRead,
 )

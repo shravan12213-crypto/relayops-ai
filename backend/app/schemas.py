@@ -558,6 +558,28 @@ class SensitivityDistributionResponse(BaseModel):
     buckets: list[SensitivityBucket]
 
 
+class ProjectRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    name: str
+    slug: str
+    description: str = ""
+    repo_url: str | None = None
+    default_branch: str = "main"
+    status: str = "active"
+    created_at: datetime
+    updated_at: datetime
+
+
+class ProjectCreate(BaseModel):
+    name: str
+    slug: str | None = None
+    description: str = ""
+    repo_url: str | None = None
+    default_branch: str = "main"
+
+
 class ProjectMemberRead(BaseModel):
     id: str
     project_id: str

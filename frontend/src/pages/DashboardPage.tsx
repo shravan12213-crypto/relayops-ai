@@ -45,7 +45,8 @@ export function DashboardPage() {
 
   const totalHandovers = handovers?.length ?? 0;
   const draftCount = handovers?.filter((h) => h.status === "draft").length ?? 0;
-  const reviewCount = handovers?.filter((h) => h.status === "review").length ?? 0;
+  const reviewCount =
+    handovers?.filter((h) => h.status === "review" || h.status === "in_review").length ?? 0;
   const signedCount = handovers?.filter((h) => h.status === "signed").length ?? 0;
   const deliveredCount = handovers?.filter((h) => h.status === "delivered").length ?? 0;
 

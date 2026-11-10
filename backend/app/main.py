@@ -36,6 +36,7 @@ OPENAPI_TAGS = [
     {"name": "system", "description": "System health checks and operational status"},
     {"name": "auth", "description": "Authentication, session cookies, and current user profile"},
     {"name": "users", "description": "User accounts, roles, and clearance administration"},
+    {"name": "projects", "description": "Project administration and inspection"},
     {"name": "sources", "description": "Data source ingestion, file uploads, and demo seeding"},
     {
         "name": "handovers",
@@ -297,10 +298,11 @@ def create_app(custom_settings: Settings | None = None) -> FastAPI:
             db="ok" if db_ok else "error",
         )
 
-    from .routers import auth, governance, handovers, jobs, portal, review, sources, users
+    from .routers import auth, governance, handovers, jobs, portal, projects, review, sources, users
 
     app.include_router(auth.router, prefix="/api/v1")
     app.include_router(users.router, prefix="/api/v1")
+    app.include_router(projects.router, prefix="/api/v1")
     app.include_router(sources.router, prefix="/api/v1")
     app.include_router(handovers.router, prefix="/api/v1")
     app.include_router(jobs.router, prefix="/api/v1")

@@ -5,7 +5,7 @@ import { apiGet, apiPost, type ApiError } from "@/lib/api/client";
 import { type Job } from "@/lib/api/jobs";
 import { queryKeys } from "@/lib/api/query-keys";
 
-export type HandoverStatus = "draft" | "review" | "signed" | "delivered" | "archived";
+export type HandoverStatus = "draft" | "review" | "in_review" | "signed" | "delivered" | "archived";
 
 export interface Handover {
   id: string;
