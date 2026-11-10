@@ -199,13 +199,13 @@ export function ReviewLeftOutline({
                   : "text-muted-foreground hover:bg-muted/70 hover:text-foreground",
               )}
             >
-              <div className="flex items-center gap-2 truncate">
+              <div className="flex items-center gap-2 min-w-0 truncate">
                 <Icon className={cn("h-3.5 w-3.5 shrink-0", isSelected ? "text-primary-foreground" : "text-muted-foreground")} />
                 <span className="truncate">{sec.label}</span>
               </div>
               <span
                 className={cn(
-                  "rounded-full px-1.5 py-0.2 text-[10px] font-mono font-semibold",
+                  "rounded-full px-1.5 py-0.5 text-[10px] font-mono font-semibold shrink-0 ml-1",
                   isSelected ? "bg-white/20 text-white" : "bg-muted text-muted-foreground",
                 )}
               >

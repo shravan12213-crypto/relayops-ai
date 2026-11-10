@@ -176,24 +176,24 @@ export function AmbiguitiesTab({ handoverId }: AmbiguitiesTabProps) {
                         </Badge>
                       )}
                     </div>
-                    <h4 className="text-xs font-semibold text-foreground leading-snug">
+                    <h4 className="text-xs font-semibold text-foreground leading-snug break-words">
                       {amb.title}
                     </h4>
                   </div>
                 </div>
 
                 {amb.description && (
-                  <p className="text-xs leading-relaxed text-muted-foreground">
+                  <p className="text-xs leading-relaxed text-muted-foreground break-words">
                     {amb.description}
                   </p>
                 )}
 
                 {amb.resolution_note && (
-                  <div className="rounded bg-muted/60 p-2 text-xs text-foreground space-y-0.5 border-l-2 border-primary">
+                  <div className="rounded bg-muted/60 p-2 text-xs text-foreground space-y-0.5 border-l-2 border-primary break-words">
                     <span className="text-[10px] font-semibold text-muted-foreground uppercase">
                       Resolution Note:
                     </span>
-                    <p>{amb.resolution_note}</p>
+                    <p className="break-words">{amb.resolution_note}</p>
                   </div>
                 )}
 

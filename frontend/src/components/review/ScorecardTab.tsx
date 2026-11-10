@@ -88,53 +88,53 @@ export function ScorecardTab({ handoverId, claims }: ScorecardTabProps) {
       {/* Metrics Grid */}
       <div className="grid grid-cols-2 gap-2 text-xs">
         {/* Verified Claims */}
-        <div className="rounded-lg border border-border/70 bg-card p-3 shadow-2xs space-y-1">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-[10px] font-semibold uppercase">Evidence Backed</span>
-            <ShieldCheck className="h-3.5 w-3.5 text-verified" />
+        <div className="rounded-lg border border-border/70 bg-card p-2.5 sm:p-3 shadow-2xs space-y-1 min-w-0">
+          <div className="flex items-center justify-between text-muted-foreground gap-1">
+            <span className="text-[10px] font-semibold uppercase truncate">Evidence Backed</span>
+            <ShieldCheck className="h-3.5 w-3.5 text-verified shrink-0" />
           </div>
           <div className="text-lg font-bold text-foreground">
             {verifiedPct}%
           </div>
-          <p className="text-[11px] text-muted-foreground">
-            {verifiedClaims} of {totalClaims} claims verified
+          <p className="text-[11px] text-muted-foreground truncate">
+            {verifiedClaims} of {totalClaims} claims
           </p>
         </div>
 
         {/* Modules Documented */}
-        <div className="rounded-lg border border-border/70 bg-card p-3 shadow-2xs space-y-1">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-[10px] font-semibold uppercase">Module Coverage</span>
-            <Layers className="h-3.5 w-3.5 text-primary" />
+        <div className="rounded-lg border border-border/70 bg-card p-2.5 sm:p-3 shadow-2xs space-y-1 min-w-0">
+          <div className="flex items-center justify-between text-muted-foreground gap-1">
+            <span className="text-[10px] font-semibold uppercase truncate">Module Coverage</span>
+            <Layers className="h-3.5 w-3.5 text-primary shrink-0" />
           </div>
           <div className="text-lg font-bold text-foreground">
             {Math.round(scorecard?.modules_documented_pct ?? 100)}%
           </div>
-          <p className="text-[11px] text-muted-foreground">Components documented</p>
+          <p className="text-[11px] text-muted-foreground truncate">Components documented</p>
         </div>
 
         {/* Epistemic Avg */}
-        <div className="rounded-lg border border-border/70 bg-card p-3 shadow-2xs space-y-1">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-[10px] font-semibold uppercase">Epistemic Avg</span>
-            <Sparkles className="h-3.5 w-3.5 text-purple-500" />
+        <div className="rounded-lg border border-border/70 bg-card p-2.5 sm:p-3 shadow-2xs space-y-1 min-w-0">
+          <div className="flex items-center justify-between text-muted-foreground gap-1">
+            <span className="text-[10px] font-semibold uppercase truncate">Epistemic Avg</span>
+            <Sparkles className="h-3.5 w-3.5 text-purple-500 shrink-0" />
           </div>
           <div className="text-lg font-bold text-foreground">
             {((scorecard?.epistemic_confidence_avg ?? 0.85) * 100).toFixed(0)}%
           </div>
-          <p className="text-[11px] text-muted-foreground">Average source trust</p>
+          <p className="text-[11px] text-muted-foreground truncate">Average source trust</p>
         </div>
 
         {/* Open Ambiguities */}
-        <div className="rounded-lg border border-border/70 bg-card p-3 shadow-2xs space-y-1">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-[10px] font-semibold uppercase">High Severity Gaps</span>
-            <AlertCircle className="h-3.5 w-3.5 text-rose-500" />
+        <div className="rounded-lg border border-border/70 bg-card p-2.5 sm:p-3 shadow-2xs space-y-1 min-w-0">
+          <div className="flex items-center justify-between text-muted-foreground gap-1">
+            <span className="text-[10px] font-semibold uppercase truncate">High Severity</span>
+            <AlertCircle className="h-3.5 w-3.5 text-rose-500 shrink-0" />
           </div>
           <div className="text-lg font-bold text-foreground">
             {scorecard?.open_ambiguities_by_severity?.high ?? 0}
           </div>
-          <p className="text-[11px] text-muted-foreground">Must be resolved/waived</p>
+          <p className="text-[11px] text-muted-foreground truncate">Open gap items</p>
         </div>
       </div>
 

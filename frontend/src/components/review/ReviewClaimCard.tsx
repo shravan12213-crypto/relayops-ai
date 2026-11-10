@@ -236,7 +236,7 @@ export function ReviewClaimCard({
           </div>
         ) : (
           <div>
-            <p className="text-sm font-medium leading-relaxed text-foreground select-text">
+            <p className="text-sm font-medium leading-relaxed text-foreground select-text break-words">
               {claim.text}
             </p>
 
@@ -289,8 +289,8 @@ export function ReviewClaimCard({
       )}
 
       {/* Footer action bar */}
-      <div className="mt-3 flex items-center justify-between pt-2 border-t border-border/40 text-xs">
-        <div className="flex items-center gap-1.5 text-muted-foreground">
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-border/40 text-xs">
+        <div className="flex items-center gap-1.5 text-muted-foreground min-w-0">
           <span className="capitalize">{claim.section}</span>
           <span>•</span>
           <span className="font-mono text-[11px]">order #{claim.order_index}</span>

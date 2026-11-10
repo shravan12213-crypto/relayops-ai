@@ -137,22 +137,22 @@ export function ConflictsTab({ handoverId, onJumpToClaim }: ConflictsTabProps) {
                 </div>
 
                 {conf.description && (
-                  <p className="text-xs text-muted-foreground leading-relaxed">
+                  <p className="text-xs text-muted-foreground leading-relaxed break-words">
                     {conf.description}
                   </p>
                 )}
 
-                {/* Side-by-side comparison */}
-                <div className="grid grid-cols-2 gap-2 text-xs">
+                {/* Conflict Sources comparison (stacked in drawer to prevent horizontal overflow) */}
+                <div className="flex flex-col gap-2 text-xs">
                   {/* Claim A */}
-                  <div className="rounded-md border border-border/60 bg-muted/20 p-2.5 space-y-2">
-                    <div className="flex items-center justify-between">
+                  <div className="rounded-md border border-border/60 bg-muted/20 p-2.5 space-y-1.5 min-w-0">
+                    <div className="flex items-center justify-between gap-1 flex-wrap">
                       <span className="text-[10px] font-bold uppercase text-muted-foreground">
                         Source A {conf.claim_a_id === conf.loser_claim_id && "(Older)"}
                       </span>
                       {getAuthorityBadge(conf.claim_a_authority)}
                     </div>
-                    <p className="font-medium text-foreground text-xs leading-relaxed">
+                    <p className="font-medium text-foreground text-xs leading-relaxed break-words">
                       {conf.claim_a_text || "Claim A reference"}
                     </p>
                     {onJumpToClaim && conf.claim_a_id && (
@@ -167,14 +167,14 @@ export function ConflictsTab({ handoverId, onJumpToClaim }: ConflictsTabProps) {
                   </div>
 
                   {/* Claim B */}
-                  <div className="rounded-md border border-border/60 bg-muted/20 p-2.5 space-y-2">
-                    <div className="flex items-center justify-between">
+                  <div className="rounded-md border border-border/60 bg-muted/20 p-2.5 space-y-1.5 min-w-0">
+                    <div className="flex items-center justify-between gap-1 flex-wrap">
                       <span className="text-[10px] font-bold uppercase text-muted-foreground">
                         Source B {conf.claim_b_id === conf.winner_claim_id && "(Newer Winner)"}
                       </span>
                       {getAuthorityBadge(conf.claim_b_authority)}
                     </div>
-                    <p className="font-medium text-foreground text-xs leading-relaxed">
+                    <p className="font-medium text-foreground text-xs leading-relaxed break-words">
                       {conf.claim_b_text || "Claim B reference"}
                     </p>
                     {onJumpToClaim && conf.claim_b_id && (
@@ -190,8 +190,8 @@ export function ConflictsTab({ handoverId, onJumpToClaim }: ConflictsTabProps) {
                 </div>
 
                 {/* Resolution Summary / Actions */}
-                <div className="flex items-center justify-between pt-2 border-t border-border/40 text-xs">
-                  <span className="text-[11px] text-muted-foreground truncate max-w-[220px]">
+                <div className="flex items-center justify-between pt-2 border-t border-border/40 text-xs gap-2">
+                  <span className="text-[11px] text-muted-foreground truncate flex-1 min-w-0">
                     {conf.chosen_resolution || "Higher authority & recency precedence"}
                   </span>
 

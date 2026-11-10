@@ -137,7 +137,7 @@ export function EvidenceTab({ evidence }: EvidenceTabProps) {
         </div>
 
         <ScrollArea className="flex-1 p-3">
-          <div className="rounded-md border border-verified/30 bg-verified/5 p-3 font-mono text-xs leading-relaxed text-foreground whitespace-pre-wrap select-text">
+          <div className="rounded-md border border-verified/30 bg-verified/5 p-3 font-mono text-xs leading-relaxed text-foreground whitespace-pre-wrap break-words select-text">
             {evidence.snippet || (isLoading ? "Loading snippet..." : "No snippet recorded.")}
           </div>
 

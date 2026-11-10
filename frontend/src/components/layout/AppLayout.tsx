@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 import { CommandPalette } from "@/components/CommandPalette";
 import { OfflineBanner } from "@/components/layout/OfflineBanner";
@@ -19,6 +19,15 @@ export function AppLayout() {
   });
 
   const [commandPaletteOpen, setCommandPaletteOpen] = React.useState(false);
+  const location = useLocation();
+
+  // Full-bleed routes (studios and visualizations) need full width/height without max-w-6xl or outer padding
+  const isFullBleed =
+    location.pathname.includes("/review") ||
+    /^\/handovers\/[^/]+$/.test(location.pathname) ||
+    location.pathname.includes("/timeline") ||
+    location.pathname.includes("/topology") ||
+    location.pathname.includes("/visualizations");
 
   const toggleCollapse = React.useCallback(() => {
     setCollapsed((prev) => {
@@ -39,7 +48,7 @@ export function AppLayout() {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-background text-foreground antialiased selection:bg-primary/20">
+    <div className="flex h-screen max-h-screen w-full overflow-hidden bg-background text-foreground antialiased selection:bg-primary/20">
       {/* Accessible Skip to Content Link */}
       <a
         href="#main-content"
@@ -52,7 +61,7 @@ export function AppLayout() {
       <Sidebar collapsed={collapsed} onToggleCollapse={toggleCollapse} />
 
       {/* Main Content Area */}
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden h-full min-h-0">
         {/* Offline / Disconnection Banner */}
         <OfflineBanner />
 
@@ -61,11 +70,17 @@ export function AppLayout() {
           onSwitchPreviewRole={handleSwitchPreviewRole}
         />
 
-        <main id="main-content" tabIndex={-1} className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8 outline-none">
-          <div className="mx-auto max-w-6xl space-y-6">
+        {isFullBleed ? (
+          <main id="main-content" tabIndex={-1} className="flex-1 overflow-hidden outline-none flex flex-col w-full min-h-0">
             <Outlet />
-          </div>
-        </main>
+          </main>
+        ) : (
+          <main id="main-content" tabIndex={-1} className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8 outline-none">
+            <div className="mx-auto max-w-6xl space-y-6">
+              <Outlet />
+            </div>
+          </main>
+        )}
       </div>
 
       {/* Global Command Palette */}

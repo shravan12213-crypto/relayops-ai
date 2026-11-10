@@ -89,6 +89,7 @@ export function ReviewStudioPage() {
   // Refs
   const searchInputRef = React.useRef<HTMLInputElement>(null);
   const claimCardsContainerRef = React.useRef<HTMLDivElement>(null);
+  const studioContainerRef = React.useRef<HTMLDivElement>(null);
 
   // Resize handling
   const isDraggingLeft = React.useRef(false);
@@ -109,12 +110,19 @@ export function ReviewStudioPage() {
   };
 
   const onMouseMove = (e: MouseEvent) => {
+    const rect = studioContainerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
     if (isDraggingLeft.current) {
-      const newWidth = Math.max(200, Math.min(420, e.clientX));
+      const offsetLeft = e.clientX - rect.left;
+      const maxLeft = Math.min(420, rect.width * 0.4);
+      const newWidth = Math.max(200, Math.min(maxLeft, offsetLeft));
       setLeftWidth(newWidth);
       localStorage.setItem("relayops_pane_left", String(newWidth));
     } else if (isDraggingRight.current) {
-      const newWidth = Math.max(280, Math.min(560, window.innerWidth - e.clientX));
+      const offsetRight = rect.right - e.clientX;
+      const maxRight = Math.min(560, rect.width * 0.5);
+      const newWidth = Math.max(280, Math.min(maxRight, offsetRight));
       setRightWidth(newWidth);
       localStorage.setItem("relayops_pane_right", String(newWidth));
     }
@@ -418,86 +426,87 @@ export function ReviewStudioPage() {
   }, [filteredClaims, selectedClaimId, editingClaimId, handleAcceptClaim, moveToNextClaim, moveToPrevClaim]);
 
   return (
-    <div className="flex h-[calc(100vh-3.5rem)] flex-col bg-background overflow-hidden">
+    <div ref={studioContainerRef} className="flex h-full w-full flex-col bg-background overflow-hidden min-w-0">
       {/* Studio Header Bar */}
-      <div className="flex h-11 shrink-0 items-center justify-between border-b border-border/80 px-4 bg-card/60 backdrop-blur-xs select-none">
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" className="h-7 w-7" asChild>
+      <div className="flex h-11 shrink-0 items-center justify-between border-b border-border/80 px-3 sm:px-4 bg-card/60 backdrop-blur-xs select-none min-w-0 gap-2">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0" asChild>
             <Link to="/handovers" title="Back to Handovers">
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
 
-          <div className="flex items-center gap-2">
-            <h1 className="text-xs font-semibold text-foreground uppercase tracking-wider">
+          <div className="flex items-center gap-2 min-w-0">
+            <h1 className="text-xs font-semibold text-foreground uppercase tracking-wider shrink-0">
               Review Studio
             </h1>
-            <span className="text-muted-foreground/60">•</span>
-            <span className="text-xs font-medium text-muted-foreground truncate max-w-[240px]">
+            <span className="text-muted-foreground/60 shrink-0">•</span>
+            <span className="text-xs font-medium text-muted-foreground truncate max-w-[140px] sm:max-w-[200px] md:max-w-xs">
               {handover?.notes || `Handover ${handoverId.slice(0, 8)}`}
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <Button
             variant="outline"
             size="sm"
-            className="h-7 text-xs gap-1.5"
+            className="h-7 text-xs gap-1 px-2"
             asChild
           >
-            <Link to={`/handovers/${handoverId}/portal`}>
+            <Link to={`/handovers/${handoverId}/portal`} title="Successor Portal">
               <BookOpen className="h-3.5 w-3.5 text-primary" />
-              <span>Portal</span>
+              <span className="hidden md:inline">Portal</span>
             </Link>
           </Button>
 
           <Button
             variant="outline"
             size="sm"
-            className="h-7 text-xs gap-1.5"
+            className="h-7 text-xs gap-1 px-2"
             asChild
           >
-            <Link to={`/handovers/${handoverId}/timeline`}>
+            <Link to={`/handovers/${handoverId}/timeline`} title="Decision Timeline">
               <Workflow className="h-3.5 w-3.5 text-primary" />
-              <span>Timeline</span>
+              <span className="hidden md:inline">Timeline</span>
             </Link>
           </Button>
 
           <Button
             variant="outline"
             size="sm"
-            className="h-7 text-xs gap-1.5"
+            className="h-7 text-xs gap-1 px-2"
             asChild
           >
-            <Link to={`/handovers/${handoverId}/topology`}>
+            <Link to={`/handovers/${handoverId}/topology`} title="Dependency Topology">
               <GitFork className="h-3.5 w-3.5 text-primary" />
-              <span>Topology</span>
+              <span className="hidden md:inline">Topology</span>
             </Link>
           </Button>
 
-          <div className="h-4 w-px bg-border/60 mx-0.5" />
+          <div className="h-4 w-px bg-border/60 mx-0.5 hidden sm:block" />
 
           <Button
             variant="ghost"
             size="sm"
-            className="h-7 text-xs gap-1.5 text-muted-foreground hover:text-foreground"
+            className="h-7 text-xs gap-1 px-2 text-muted-foreground hover:text-foreground"
             onClick={() => setShortcutsHelpOpen(true)}
+            title="Keyboard Shortcuts (?)"
           >
             <Keyboard className="h-3.5 w-3.5" />
-            <span className="hidden sm:inline">Shortcuts</span>
-            <kbd className="rounded border bg-muted px-1 text-[10px] font-mono">?</kbd>
+            <span className="hidden lg:inline">Shortcuts</span>
+            <kbd className="rounded border bg-muted px-1 text-[10px] font-mono hidden sm:inline">?</kbd>
           </Button>
 
           <Button
             variant="outline"
             size="sm"
-            className="h-7 text-xs gap-1"
+            className="h-7 text-xs gap-1 px-2"
             asChild
           >
-            <Link to={`/handovers/${handoverId}/pipeline`}>
+            <Link to={`/handovers/${handoverId}/pipeline`} title="Pipeline Run">
               <Play className="h-3 w-3 text-primary" />
-              <span>Pipeline</span>
+              <span className="hidden sm:inline">Pipeline</span>
             </Link>
           </Button>
         </div>
@@ -540,7 +549,7 @@ export function ReviewStudioPage() {
           <div
             style={isCompact ? { width: "100%" } : { width: `${leftWidth}px` }}
             className={cn(
-              "shrink-0 overflow-hidden",
+              "shrink-0 overflow-hidden h-full flex flex-col min-h-0",
               !isCompact && "border-r border-border/70"
             )}
           >
@@ -566,11 +575,11 @@ export function ReviewStudioPage() {
           />
         )}
 
-        {/* CENTER PANE: Claim Cards Stream */}
+        {/* CENTER PANE: Claim Cards Stream (Independently scrollable) */}
         {(!isCompact || compactTab === "claims") && (
           <div
             ref={claimCardsContainerRef}
-            className="flex-1 min-w-0 overflow-y-auto bg-muted/15 p-4 space-y-3"
+            className="flex-1 min-w-0 h-full min-h-0 overflow-y-auto bg-muted/15 p-4 space-y-3"
           >
             {claimsLoading ? (
               <div className="space-y-3 max-w-3xl mx-auto">
@@ -671,7 +680,7 @@ export function ReviewStudioPage() {
           <div
             style={isCompact ? { width: "100%" } : { width: `${rightWidth}px` }}
             className={cn(
-              "shrink-0 overflow-hidden",
+              "shrink-0 overflow-hidden h-full flex flex-col min-h-0",
               !isCompact && "border-l border-border/70"
             )}
           >

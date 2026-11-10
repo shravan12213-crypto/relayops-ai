@@ -91,34 +91,34 @@ export function ReviewFooter({
 
   return (
     <>
-      <footer className="flex h-12 w-full items-center justify-between border-t border-border/80 bg-card/90 px-4 backdrop-blur-xs select-none">
+      <footer className="flex h-12 w-full shrink-0 items-center justify-between border-t border-border/80 bg-card/90 px-3 sm:px-4 backdrop-blur-xs select-none gap-2 overflow-x-auto min-w-0">
         {/* Left Side: Unsaved Changes & Version Info */}
-        <div className="flex items-center gap-3 text-xs">
+        <div className="flex items-center gap-2 sm:gap-3 text-xs shrink-0 min-w-0">
           {hasUnsavedEdits ? (
-            <div className="flex items-center gap-1.5 text-amber-600 dark:text-amber-400 font-medium">
+            <div className="flex items-center gap-1.5 text-amber-600 dark:text-amber-400 font-medium shrink-0">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
               </span>
-              <span>Unsaved inline draft</span>
+              <span>Unsaved draft</span>
             </div>
           ) : (
-            <div className="flex items-center gap-1.5 text-muted-foreground">
+            <div className="flex items-center gap-1.5 text-muted-foreground shrink-0">
               <CheckCircle2 className="h-3.5 w-3.5 text-verified" />
-              <span>All changes synced</span>
+              <span className="hidden sm:inline">All changes synced</span>
             </div>
           )}
 
-          <div className="h-4 w-px bg-border/60" />
+          <div className="h-4 w-px bg-border/60 shrink-0" />
 
           {/* Version Selector */}
-          <div className="flex items-center gap-1.5">
-            <span className="text-muted-foreground">Snapshot:</span>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className="text-muted-foreground hidden sm:inline">Snapshot:</span>
             <Select
               value={selectedVersion}
               onValueChange={setSelectedVersion}
             >
-              <SelectTrigger className="h-7 w-28 text-xs bg-muted/40">
+              <SelectTrigger className="h-7 w-24 sm:w-28 text-xs bg-muted/40">
                 <SelectValue placeholder="Version" />
               </SelectTrigger>
               <SelectContent>
@@ -139,17 +139,17 @@ export function ReviewFooter({
             <Button
               size="sm"
               variant="ghost"
-              className="h-7 text-xs gap-1 text-muted-foreground hover:text-foreground"
+              className="h-7 text-xs gap-1 px-2 text-muted-foreground hover:text-foreground shrink-0"
               onClick={() => setDiffModalOpen(true)}
             >
               <GitCompare className="h-3.5 w-3.5" />
-              Compare Versions
+              <span className="hidden md:inline">Compare Versions</span>
             </Button>
           )}
         </div>
 
         {/* Right Side: Actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           {/* Shortcuts Help */}
           <TooltipProvider delayDuration={300}>
             <Tooltip>
@@ -171,11 +171,11 @@ export function ReviewFooter({
           <Button
             size="sm"
             variant="outline"
-            className="h-7 text-xs gap-1"
+            className="h-7 text-xs gap-1 px-2.5"
             onClick={() => setSnapshotDialogOpen(true)}
           >
             <Camera className="h-3.5 w-3.5 text-primary" />
-            Create Snapshot
+            <span><span className="hidden sm:inline">Create </span>Snapshot</span>
           </Button>
 
           {/* Request Sign-off Button with Blockers Explanation */}
@@ -187,13 +187,13 @@ export function ReviewFooter({
                     size="sm"
                     disabled={isSignoffBlocked}
                     className={cn(
-                      "h-7 text-xs gap-1.5 font-medium shadow-xs",
+                      "h-7 text-xs gap-1.5 px-2.5 font-medium shadow-xs",
                       !isSignoffBlocked && "bg-verified hover:bg-verified/90 text-white",
                     )}
                     onClick={() => setSignoffModalOpen(true)}
                   >
                     <FileSignature className="h-3.5 w-3.5" />
-                    Request Sign-Off
+                    <span><span className="hidden sm:inline">Request </span>Sign-Off</span>
                   </Button>
                 </div>
               </TooltipTrigger>
