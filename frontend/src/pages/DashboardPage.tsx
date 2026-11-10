@@ -74,7 +74,7 @@ export function DashboardPage() {
                 variant="outline"
                 onClick={handleQuickLoadDemo}
                 disabled={loadDemo.isPending}
-                className="gap-1.5 text-xs text-primary"
+                className="gap-1.5 text-xs text-brand-text"
               >
                 {loadDemo.isPending ? (
                   <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -138,14 +138,17 @@ export function DashboardPage() {
         {/* Left Column: Needs Your Action & Active Handovers */}
         <div className="space-y-6 lg:col-span-7">
           {/* "Needs Your Action" Card */}
-          <Card className="border-border">
-            <CardHeader className="pb-3 border-b">
+          <Card>
+            <CardHeader className="border-b border-card-border pb-4">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-sm font-semibold flex items-center gap-2">
                   <AlertTriangle className="h-4 w-4 text-needs-review" />
                   Needs Your Action
                 </CardTitle>
-                <Badge variant="outline" className="text-[10px]">
+                <Badge
+                  variant="outline"
+                  className="border-transparent bg-brand-soft text-[10px] text-brand-text"
+                >
                   Role: <span className="capitalize font-semibold ml-1">{user?.role}</span>
                 </Badge>
               </div>
@@ -155,20 +158,22 @@ export function DashboardPage() {
             </CardHeader>
             <CardContent className="space-y-3 p-4">
               {/* Dual Sign-off action item */}
-              <div className="flex items-start justify-between gap-3 rounded-lg border border-border/80 p-3 hover:bg-muted/40 transition-colors">
+              <div className="flex items-start justify-between gap-3 rounded-2xl bg-canvas-2 p-3.5 transition-shadow hover:shadow-card">
                 <div className="flex items-start gap-3">
-                  <FileCheck2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-card text-brand-text">
+                    <FileCheck2 className="h-4 w-4" />
+                  </span>
                   <div className="space-y-0.5 text-xs">
-                    <p className="font-semibold text-foreground">
+                    <p className="font-semibold text-ink">
                       Dual Sign-off Pending: PayFlow Webhook Refactor
                     </p>
-                    <p className="text-muted-foreground">
+                    <p className="text-ink-muted">
                       Aarav Kulkarni (Outgoing) and Meera Patel (Lead) sign-off required before
                       delivery.
                     </p>
                   </div>
                 </div>
-                <Button asChild size="sm" variant="outline" className="text-[11px] h-7 shrink-0">
+                <Button asChild size="sm" variant="outline" className="h-8 shrink-0 text-[11px]">
                   <Link
                     to={handovers && handovers[0] ? `/handovers/${handovers[0].id}` : "/handovers"}
                   >
@@ -178,37 +183,41 @@ export function DashboardPage() {
               </div>
 
               {/* Ambiguity Resolution Item */}
-              <div className="flex items-start justify-between gap-3 rounded-lg border border-border/80 p-3 hover:bg-muted/40 transition-colors">
+              <div className="flex items-start justify-between gap-3 rounded-2xl bg-canvas-2 p-3.5 transition-shadow hover:shadow-card">
                 <div className="flex items-start gap-3">
-                  <AlertTriangle className="h-4 w-4 text-needs-review shrink-0 mt-0.5" />
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-card text-needs-review">
+                    <AlertTriangle className="h-4 w-4" />
+                  </span>
                   <div className="space-y-0.5 text-xs">
-                    <p className="font-semibold text-foreground">
+                    <p className="font-semibold text-ink">
                       Resolve Contradiction: Webhook Retry Limit
                     </p>
-                    <p className="text-muted-foreground">
+                    <p className="text-ink-muted">
                       Commit 8f3a sets retry limit to 5 while ADR 004 mentions 3.
                     </p>
                   </div>
                 </div>
-                <Button asChild size="sm" variant="outline" className="text-[11px] h-7 shrink-0">
+                <Button asChild size="sm" variant="outline" className="h-8 shrink-0 text-[11px]">
                   <Link to="/handovers">Resolve</Link>
                 </Button>
               </div>
 
               {/* Comprehension Receipt Item for Successor */}
-              <div className="flex items-start justify-between gap-3 rounded-lg border border-border/80 p-3 hover:bg-muted/40 transition-colors">
+              <div className="flex items-start justify-between gap-3 rounded-2xl bg-canvas-2 p-3.5 transition-shadow hover:shadow-card">
                 <div className="flex items-start gap-3">
-                  <Sparkles className="h-4 w-4 text-verified shrink-0 mt-0.5" />
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-card text-verified">
+                    <Sparkles className="h-4 w-4" />
+                  </span>
                   <div className="space-y-0.5 text-xs">
-                    <p className="font-semibold text-foreground">
+                    <p className="font-semibold text-ink">
                       Comprehension Receipts: Core Runbooks
                     </p>
-                    <p className="text-muted-foreground">
+                    <p className="text-ink-muted">
                       2 onboarding sections awaiting reading acknowledgement from Kabir Sharma.
                     </p>
                   </div>
                 </div>
-                <Button asChild size="sm" variant="outline" className="text-[11px] h-7 shrink-0">
+                <Button asChild size="sm" variant="outline" className="h-8 shrink-0 text-[11px]">
                   <Link
                     to={
                       handovers && handovers[0]
@@ -225,7 +234,7 @@ export function DashboardPage() {
 
           {/* Active Handover Workflows */}
           <Card>
-            <CardHeader className="pb-3 border-b">
+            <CardHeader className="border-b border-card-border pb-4">
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle className="text-sm font-semibold">Active Handover Workflows</CardTitle>
@@ -243,16 +252,16 @@ export function DashboardPage() {
                 handovers.map((h) => (
                   <div
                     key={h.id}
-                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-lg border p-3.5 hover:border-primary/40 transition-all"
+                    className="flex flex-col justify-between gap-3 rounded-2xl border border-card-border p-3.5 transition-all duration-200 hover:shadow-card-hover motion-safe:hover:-translate-y-0.5 sm:flex-row sm:items-center"
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-semibold text-foreground">
+                        <span className="text-xs font-semibold text-ink">
                           {h.notes || "PayFlow Handover"}
                         </span>
                         <StatusBadge status={h.status} size="sm" />
                       </div>
-                      <p className="font-mono text-[11px] text-muted-foreground">
+                      <p className="font-mono text-[11px] text-ink-muted">
                         ID: {h.id} · Version: v{h.current_version}
                       </p>
                     </div>
@@ -290,15 +299,15 @@ export function DashboardPage() {
         {/* Right Column: Immutable Audit Trail Feed */}
         <div className="space-y-6 lg:col-span-5">
           <Card className="flex flex-col h-full">
-            <CardHeader className="pb-3 border-b">
+            <CardHeader className="border-b border-card-border pb-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <History className="h-4 w-4 text-primary" />
+                  <History className="h-4 w-4 text-brand-text" />
                   <CardTitle className="text-xs font-semibold">Cryptographic Audit Trail</CardTitle>
                 </div>
                 <Badge
                   variant="outline"
-                  className="font-mono text-[10px] text-verified border-verified/30"
+                  className="border-transparent bg-brand-soft font-mono text-[10px] text-brand-text"
                 >
                   <Shield className="h-2.5 w-2.5 mr-1" />
                   SHA-256 Chained
@@ -314,15 +323,15 @@ export function DashboardPage() {
                   {auditLogs.slice(0, 8).map((log) => (
                     <div
                       key={log.seq}
-                      className="rounded-md border border-border/70 p-2.5 space-y-1 text-xs hover:bg-muted/40 transition-colors"
+                      className="space-y-1 rounded-xl bg-canvas-2 p-2.5 text-xs transition-shadow hover:shadow-card"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-mono font-bold text-primary text-[11px]">
+                        <span className="font-mono text-[11px] font-bold text-brand-text">
                           #{log.seq} {log.action}
                         </span>
                         <RelativeTime date={log.created_at} />
                       </div>
-                      <div className="flex items-center justify-between text-[11px] text-muted-foreground font-mono">
+                      <div className="flex items-center justify-between font-mono text-[11px] text-ink-muted">
                         <span>Target: {log.target_type}</span>
                         <span className="truncate max-w-[120px]" title={log.hash}>
                           {log.hash.substring(0, 8)}...
@@ -332,7 +341,7 @@ export function DashboardPage() {
                   ))}
                 </div>
               ) : (
-                <div className="py-8 text-center text-xs text-muted-foreground italic">
+                <div className="py-8 text-center text-xs italic text-ink-muted">
                   No audit events recorded yet.
                 </div>
               )}

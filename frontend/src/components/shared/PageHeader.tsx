@@ -28,7 +28,7 @@ export function PageHeader({
   return (
     <div
       className={cn(
-        "flex flex-col gap-4 border-b border-border/60 pb-5 md:flex-row md:items-center md:justify-between",
+        "flex flex-col gap-4 border-b border-card-border pb-5 md:flex-row md:items-center md:justify-between",
         className,
       )}
       {...props}
@@ -37,7 +37,7 @@ export function PageHeader({
         {breadcrumbs && breadcrumbs.length > 0 && (
           <nav
             aria-label="Breadcrumb"
-            className="flex items-center space-x-1.5 text-xs text-muted-foreground"
+            className="flex items-center space-x-1.5 text-xs text-ink-muted"
           >
             {breadcrumbs.map((item, index) => {
               const isLast = index === breadcrumbs.length - 1;
@@ -45,11 +45,11 @@ export function PageHeader({
                 <React.Fragment key={item.label}>
                   {index > 0 && <ChevronRight className="h-3 w-3 shrink-0 opacity-40" />}
                   {item.href && !isLast ? (
-                    <Link to={item.href} className="transition-colors hover:text-foreground">
+                    <Link to={item.href} className="transition-colors hover:text-ink">
                       {item.label}
                     </Link>
                   ) : (
-                    <span className={cn(isLast && "font-medium text-foreground")}>
+                    <span className={cn(isLast && "font-semibold text-ink")}>
                       {item.label}
                     </span>
                   )}
@@ -58,8 +58,10 @@ export function PageHeader({
             })}
           </nav>
         )}
-        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">{title}</h1>
-        {description && <p className="text-sm text-muted-foreground">{description}</p>}
+        <h1 className="text-[27px] font-bold leading-[1.15] tracking-[-0.02em] text-ink sm:text-[30px]">
+          {title}
+        </h1>
+        {description && <p className="text-sm text-ink-muted">{description}</p>}
       </div>
 
       {(actions || children) && (

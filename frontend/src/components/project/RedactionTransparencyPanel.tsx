@@ -20,11 +20,11 @@ export function RedactionTransparencyPanel({ projectId }: RedactionTransparencyP
 
   return (
     <Card className="overflow-hidden">
-      <CardHeader className="pb-3 border-b border-border/60">
+      <CardHeader className="border-b border-card-border pb-3">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <Shield className="h-4 w-4 text-primary" />
+              <Shield className="h-4 w-4 text-brand-text" />
               <CardTitle className="text-sm font-semibold">Redaction Transparency Report</CardTitle>
               {audit && (
                 <Badge variant="outline" className="font-mono text-[10px]">
@@ -61,10 +61,10 @@ export function RedactionTransparencyPanel({ projectId }: RedactionTransparencyP
 
       <CardContent className="space-y-4 p-5">
         {/* Reassurance Copy */}
-        <div className="flex items-start gap-3 rounded-lg border border-verified/30 bg-verified/5 p-3.5 text-xs">
+        <div className="flex items-start gap-3 rounded-2xl border border-brand/30 bg-brand-soft p-3.5 text-xs">
           <ShieldCheck className="h-4 w-4 shrink-0 text-verified mt-0.5" />
-          <div className="space-y-1 text-muted-foreground">
-            <p className="font-medium text-foreground">Zero-leakage security guarantee</p>
+          <div className="space-y-1 text-ink-muted">
+            <p className="font-semibold text-ink">Zero-leakage security guarantee</p>
             <p className="leading-relaxed">
               Secrets, API keys, credentials, and personal identifiers are scrubbed at ingestion
               BEFORE storage in the database and BEFORE any LLM retrieval. Only safe masked
@@ -76,31 +76,31 @@ export function RedactionTransparencyPanel({ projectId }: RedactionTransparencyP
         {/* Table of redaction rules */}
         {isLoading ? (
           <div className="space-y-2 py-4">
-            <div className="h-4 w-full bg-muted animate-pulse rounded" />
-            <div className="h-4 w-3/4 bg-muted animate-pulse rounded" />
-            <div className="h-4 w-1/2 bg-muted animate-pulse rounded" />
+            <div className="h-4 w-full animate-pulse rounded bg-canvas-2" />
+            <div className="h-4 w-3/4 animate-pulse rounded bg-canvas-2" />
+            <div className="h-4 w-1/2 animate-pulse rounded bg-canvas-2" />
           </div>
         ) : audit && audit.rules.length > 0 ? (
-          <div className="overflow-x-auto rounded-lg border">
+          <div className="overflow-x-auto rounded-2xl border border-card-border">
             <table className="w-full text-left text-xs">
-              <thead className="border-b bg-muted/50 font-medium text-muted-foreground">
+              <thead className="border-b border-card-border text-ink-muted">
                 <tr>
                   <th className="px-4 py-2.5">Rule Name</th>
                   <th className="px-4 py-2.5 text-right">Occurrences</th>
                   <th className="px-4 py-2.5">Masked Replacement Pattern</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border/60">
+              <tbody className="divide-y divide-card-border">
                 {audit.rules.map((rule) => (
-                  <tr key={rule.rule} className="hover:bg-muted/30 transition-colors">
+                  <tr key={rule.rule} className="transition-colors hover:bg-canvas-2">
                     <td className="px-4 py-2.5 font-mono text-[11px] font-semibold text-foreground">
                       {rule.rule}
                     </td>
                     <td className="px-4 py-2.5 text-right font-mono text-[11px] text-foreground">
-                      <span className="rounded bg-muted px-2 py-0.5 font-bold">{rule.count}</span>
+                      <span className="rounded-md bg-canvas-2 px-2 py-0.5 font-bold">{rule.count}</span>
                     </td>
                     <td className="px-4 py-2.5 font-mono text-[11px] text-muted-foreground">
-                      <span className="rounded bg-muted/80 px-2 py-0.5 border border-border/60">
+                      <span className="rounded-md border border-card-border bg-canvas-2 px-2 py-0.5">
                         {rule.sample_masked}
                       </span>
                     </td>
@@ -110,7 +110,7 @@ export function RedactionTransparencyPanel({ projectId }: RedactionTransparencyP
             </table>
           </div>
         ) : (
-          <div className="py-6 text-center text-xs text-muted-foreground">
+          <div className="py-6 text-center text-xs text-ink-muted">
             No secrets or sensitive tokens have been detected yet in this project.
           </div>
         )}

@@ -21,17 +21,17 @@ export function StatCard({
   ...props
 }: StatCardProps) {
   const accentClasses = {
-    default: "",
-    verified: "border-l-4 border-l-verified",
-    "needs-review": "border-l-4 border-l-needs-review",
-    conflict: "border-l-4 border-l-conflict",
-    primary: "border-l-4 border-l-primary",
+    default: "bg-canvas-2 text-ink-muted",
+    verified: "bg-brand-soft text-verified",
+    "needs-review": "bg-warn-soft text-needs-review",
+    conflict: "bg-danger-soft text-conflict",
+    primary: "bg-brand-soft text-brand-text",
   }[accent];
 
   return (
     <Card
       className={cn(
-        "relative overflow-hidden transition-all duration-200 hover:shadow-sm",
+        "relative overflow-hidden transition-shadow duration-200 hover:shadow-card-hover",
         accentClasses,
         className,
       )}
@@ -39,21 +39,21 @@ export function StatCard({
     >
       <CardContent className="p-5">
         <div className="flex items-center justify-between space-x-2">
-          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.06em] text-ink-muted">
             {title}
           </p>
           {Icon && (
-            <div className="rounded-md bg-muted/60 p-1.5 text-muted-foreground">
-              <Icon className="h-4 w-4" />
+            <div className={cn("grid size-10 shrink-0 place-items-center rounded-full", accentClasses)}>
+              <Icon className="h-[18px] w-[18px]" />
             </div>
           )}
         </div>
-        <div className="mt-2 flex items-baseline gap-2">
-          <span className="font-mono text-2xl font-bold tracking-tight text-foreground">
+        <div className="mt-4 flex items-baseline gap-2">
+          <span className="text-[44px] font-semibold leading-none tracking-[-0.02em] text-ink tabular">
             {value}
           </span>
         </div>
-        {description && <p className="mt-1 text-xs text-muted-foreground">{description}</p>}
+        {description && <p className="mt-1.5 text-xs text-ink-muted">{description}</p>}
       </CardContent>
     </Card>
   );

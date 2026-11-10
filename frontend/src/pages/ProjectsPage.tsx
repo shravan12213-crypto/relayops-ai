@@ -55,7 +55,7 @@ export function ProjectsPage() {
               size="sm"
               onClick={handleLoadDemo}
               disabled={loadDemo.isPending}
-              className="gap-1.5 text-xs text-primary"
+              className="gap-1.5 text-xs text-brand-text"
             >
               {loadDemo.isPending ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -79,11 +79,16 @@ export function ProjectsPage() {
       ) : projects && projects.length > 0 ? (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
-            <Card key={project.id} className="transition-all hover:border-primary/40">
+            <Card
+              key={project.id}
+              className="transition-all duration-200 hover:shadow-card-hover motion-safe:hover:-translate-y-0.5"
+            >
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <FolderGit2 className="h-4 w-4 text-primary" />
+                    <span className="grid size-9 shrink-0 place-items-center rounded-full bg-brand-soft text-brand-text">
+                      <FolderGit2 className="h-4 w-4" />
+                    </span>
                     <CardTitle className="text-sm font-semibold">{project.name}</CardTitle>
                   </div>
                   <Badge variant="outline" className="font-mono text-[10px]">
@@ -92,12 +97,12 @@ export function ProjectsPage() {
                 </div>
               </CardHeader>
               <CardContent className="space-y-3">
-                <p className="text-xs text-muted-foreground line-clamp-2">
+                <p className="text-xs text-ink-muted line-clamp-2">
                   {project.description || "Active engineering project with integrated sources."}
                 </p>
-                <div className="flex items-center justify-between pt-2 text-[11px] text-muted-foreground border-t">
+                <div className="flex items-center justify-between border-t border-card-border pt-2 text-[11px] text-ink-muted">
                   <span className="font-mono">{project.id}</span>
-                  <Button asChild variant="ghost" size="sm" className="h-7 text-xs text-primary">
+                  <Button asChild variant="ghost" size="sm" className="h-8 text-xs text-brand-text">
                     <Link to={`/projects/${project.id}`}>Configure Sources →</Link>
                   </Button>
                 </div>

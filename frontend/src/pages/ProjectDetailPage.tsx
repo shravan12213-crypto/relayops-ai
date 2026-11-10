@@ -108,8 +108,8 @@ export function ProjectDetailPage() {
       <section className="space-y-3">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-sm font-semibold tracking-tight text-foreground flex items-center gap-1.5">
-              <FolderGit2 className="h-4 w-4 text-primary" />
+            <h2 className="flex items-center gap-1.5 text-sm font-semibold tracking-tight text-ink">
+              <FolderGit2 className="h-4 w-4 text-brand-text" />
               Connected Data Sources
             </h2>
             <p className="text-xs text-muted-foreground">
@@ -120,7 +120,7 @@ export function ProjectDetailPage() {
             variant="ghost"
             size="sm"
             onClick={() => void refetchSources()}
-            className="text-xs text-muted-foreground"
+            className="text-xs text-ink-muted"
           >
             <RefreshCw className="mr-1.5 h-3 w-3" />
             Refresh
@@ -135,31 +135,37 @@ export function ProjectDetailPage() {
               const Icon = getSourceIcon(src.type);
               const artifactCount = (src.stats?.artifacts_count as number) || 0;
               return (
-                <Card key={src.id} className="transition-all hover:border-primary/40">
+                <Card
+                  key={src.id}
+                  className="transition-all duration-200 hover:shadow-card-hover motion-safe:hover:-translate-y-0.5"
+                >
                   <CardHeader className="pb-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="rounded-md bg-muted p-1.5 text-foreground">
+                        <div className="grid size-9 shrink-0 place-items-center rounded-full bg-canvas-2 text-ink-muted">
                           <Icon className="h-4 w-4" />
                         </div>
                         <CardTitle className="text-xs font-semibold truncate max-w-[140px]">
                           {src.name}
                         </CardTitle>
                       </div>
-                      <Badge variant="outline" className="text-[10px] capitalize">
+                      <Badge
+                        variant="outline"
+                        className="border-transparent bg-canvas-2 text-[10px] capitalize text-ink-muted"
+                      >
                         {src.status}
                       </Badge>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-3 pt-2">
                     <div className="flex items-baseline justify-between text-xs">
-                      <span className="text-muted-foreground">Artifacts:</span>
-                      <span className="font-mono font-semibold text-foreground">
+                      <span className="text-ink-muted">Artifacts:</span>
+                      <span className="font-mono font-semibold text-ink">
                         {artifactCount}
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between text-[11px] text-muted-foreground pt-1 border-t">
+                    <div className="flex items-center justify-between border-t border-card-border pt-1 text-[11px] text-ink-muted">
                       <span>Last sync:</span>
                       <RelativeTime date={src.last_synced_at} />
                     </div>
@@ -169,7 +175,7 @@ export function ProjectDetailPage() {
                       size="sm"
                       onClick={() => syncSource.mutate(src.id)}
                       disabled={syncSource.isPending}
-                      className="w-full text-xs h-7 gap-1.5"
+                      className="h-9 w-full gap-1.5 text-xs"
                     >
                       <RefreshCw className="h-3 w-3" />
                       Sync Now
@@ -200,7 +206,7 @@ export function ProjectDetailPage() {
       {/* Active Handovers for this project */}
       <section className="space-y-3">
         <h2 className="text-sm font-semibold tracking-tight text-foreground flex items-center gap-1.5">
-          <FileText className="h-4 w-4 text-primary" />
+          <FileText className="h-4 w-4 text-brand-text" />
           Active Handovers
         </h2>
         {handovers && handovers.length > 0 ? (
@@ -210,12 +216,12 @@ export function ProjectDetailPage() {
                 <CardContent className="flex items-center justify-between p-4">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-semibold text-foreground">
+                      <span className="text-xs font-semibold text-ink">
                         {h.notes || "Engineering Handover"}
                       </span>
                       <StatusBadge status={h.status} size="sm" />
                     </div>
-                    <p className="font-mono text-[11px] text-muted-foreground">
+                    <p className="font-mono text-[11px] text-ink-muted">
                       ID: {h.id} · Version: v{h.current_version}
                     </p>
                   </div>
@@ -227,7 +233,7 @@ export function ProjectDetailPage() {
             ))}
           </div>
         ) : (
-          <p className="text-xs text-muted-foreground italic">
+          <p className="text-xs italic text-ink-muted">
             No handovers initiated for this project yet. Click "New Handover" above to create one.
           </p>
         )}
