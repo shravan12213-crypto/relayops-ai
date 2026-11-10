@@ -60,13 +60,10 @@ ENV ENV=prod \
 # Expose HTTP port
 EXPOSE 8000
 
-# Persistent volume for SQLite database and storage
-VOLUME ["/app/data"]
-
-# Healthcheck on standard API endpoint
+# Healthcheck on standard API endpoint (respects dynamic PORT)
 HEALTHCHECK --interval=15s --timeout=5s --start-period=10s --retries=3 \
-    CMD curl -f http://127.0.0.1:8000/api/v1/health || exit 1
+    CMD curl -f "http://127.0.0.1:${PORT:-8000}/api/v1/health" || exit 1
 
-# Launch uvicorn production server
+# Launch uvicorn production server (respects dynamic PORT from Render)
 WORKDIR /app/backend
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
