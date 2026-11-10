@@ -236,7 +236,7 @@ export function LoginPage() {
                   type="button"
                   onClick={() => handleSelectDemo(account)}
                   disabled={submitting}
-                  className="group flex flex-col justify-between rounded-2xl border border-white/10 bg-card p-3.5 text-left transition-all duration-150 hover:border-brand hover:shadow-card-hover focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-sidebar-to disabled:opacity-60"
+                  className="group flex flex-col justify-between rounded-2xl border border-card-border bg-card p-3.5 text-left transition-all duration-150 hover:border-brand hover:shadow-card-hover focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-sidebar-to disabled:opacity-60"
                   aria-label={`Log in as ${account.name}, ${account.roleLabel}`}
                 >
                   <div className="flex items-center justify-between gap-2">
