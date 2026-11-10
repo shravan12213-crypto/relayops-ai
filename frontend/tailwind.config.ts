@@ -78,10 +78,12 @@ const config: Config = {
         danger: {
           DEFAULT: "var(--danger)",
           soft: "var(--danger-soft)",
+          hover: "var(--danger-hover)",
         },
         dark: {
           DEFAULT: "var(--dark)",
           fg: "var(--dark-fg)",
+          hover: "var(--dark-hover)",
         },
         // Status tokens: used only for verification state, never for decoration.
         verified: "hsl(var(--verified))",
