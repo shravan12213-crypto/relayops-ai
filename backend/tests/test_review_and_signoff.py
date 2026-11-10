@@ -20,7 +20,7 @@ Covers:
 from __future__ import annotations
 
 import copy
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 import pytest
@@ -190,7 +190,7 @@ def test_claim_patch_optimistic_concurrency(
     headers = auth_headers(lead)
 
     # Provide stale expected_updated_at (1 hour in the past)
-    stale_ts = (datetime.utcnow() - timedelta(hours=1)).isoformat()
+    stale_ts = (datetime.now(UTC) - timedelta(hours=1)).isoformat()
     res = client.patch(
         f"/api/v1/claims/{c1.id}",
         json={"text": "Concurrent modification attempt", "expected_updated_at": stale_ts},

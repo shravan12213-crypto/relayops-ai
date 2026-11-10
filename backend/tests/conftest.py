@@ -18,6 +18,23 @@ def configure_test_env(monkeypatch: pytest.MonkeyPatch, db_path: Path) -> None:
     monkeypatch.setenv("DATABASE_URL", f"sqlite:///{db_path}")
     monkeypatch.setenv("SEED_ON_START", "false")
     monkeypatch.setenv("ENV", "dev")
+    monkeypatch.setenv("LLM_PROVIDER", "replay")
+    get_settings.cache_clear()
+    db._engine = None
+
+
+@pytest.fixture(autouse=True)
+def isolate_test_environment(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Iterator[None]:
+    """Default test environment isolation: throwaway database and replay LLM provider."""
+    default_db = tmp_path / "relayops-autouse-test.db"
+    monkeypatch.setenv("DATABASE_URL", f"sqlite:///{default_db}")
+    monkeypatch.setenv("SEED_ON_START", "false")
+    monkeypatch.setenv("ENV", "dev")
+    monkeypatch.setenv("LLM_PROVIDER", "replay")
+    get_settings.cache_clear()
+    db._engine = None
+    db.init_db()
+    yield
     get_settings.cache_clear()
     db._engine = None
 
