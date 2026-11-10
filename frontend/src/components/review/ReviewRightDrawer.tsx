@@ -40,8 +40,8 @@ export function ReviewRightDrawer({
         className="flex h-full flex-col"
       >
         {/* Tab Headers */}
-        <div className="border-b border-border/60 px-3 pt-2">
-          <TabsList className="grid w-full grid-cols-4 bg-muted/50 p-1">
+        <div className="border-b border-card-border px-3 pt-2">
+          <TabsList className="grid w-full grid-cols-4 bg-canvas-2 p-1">
             {/* Evidence Tab Trigger */}
             <TabsTrigger
               value="evidence"
@@ -59,7 +59,7 @@ export function ReviewRightDrawer({
               <AlertCircle className="h-3.5 w-3.5 shrink-0" />
               <span className="truncate">Ledger</span>
               {openAmbiguitiesCount > 0 && (
-                <span className="ml-0.5 rounded-full bg-rose-500/20 text-rose-600 dark:text-rose-400 px-1 text-[9px] font-mono font-bold">
+                <span className="ml-0.5 rounded-full bg-danger-soft text-conflict dark:text-conflict px-1 text-[9px] font-mono font-bold">
                   {openAmbiguitiesCount}
                 </span>
               )}
@@ -73,7 +73,7 @@ export function ReviewRightDrawer({
               <GitCompare className="h-3.5 w-3.5 shrink-0" />
               <span className="truncate">Conflicts</span>
               {conflictsCount > 0 && (
-                <span className="ml-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 px-1 text-[9px] font-mono font-bold">
+                <span className="ml-0.5 rounded-full bg-warn-soft text-needs-review dark:text-needs-review px-1 text-[9px] font-mono font-bold">
                   {conflictsCount}
                 </span>
               )}

@@ -97,7 +97,7 @@ export function VersionDiffModal({
       <DialogContent className="max-w-3xl max-h-[85vh] flex flex-col">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-base">
-            <GitCompare className="h-4 w-4 text-primary" />
+            <GitCompare className="h-4 w-4 text-brand-text" />
             <span>Cryptographic Snapshot Version Diff</span>
           </DialogTitle>
           <DialogDescription className="text-xs">
@@ -106,9 +106,9 @@ export function VersionDiffModal({
         </DialogHeader>
 
         {/* Version Selectors */}
-        <div className="flex items-center justify-between gap-3 rounded-lg border bg-muted/40 p-3 my-2">
+        <div className="flex items-center justify-between gap-3 rounded-lg border bg-canvas-2 p-3 my-2">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground font-medium">Base:</span>
+            <span className="text-xs text-ink-muted font-medium">Base:</span>
             <Select
               value={v1 !== null ? String(v1) : ""}
               onValueChange={(val) => setV1(Number(val))}
@@ -126,10 +126,10 @@ export function VersionDiffModal({
             </Select>
           </div>
 
-          <ArrowRight className="h-4 w-4 text-muted-foreground" />
+          <ArrowRight className="h-4 w-4 text-ink-muted" />
 
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground font-medium">Target:</span>
+            <span className="text-xs text-ink-muted font-medium">Target:</span>
             <Select
               value={v2 !== null ? String(v2) : ""}
               onValueChange={(val) => setV2(Number(val))}
@@ -147,7 +147,7 @@ export function VersionDiffModal({
             </Select>
           </div>
 
-          <div className="ml-auto text-xs font-mono text-muted-foreground">
+          <div className="ml-auto text-xs font-mono text-ink-muted">
             {totalChanges} claim delta{totalChanges === 1 ? "" : "s"}
           </div>
         </div>
@@ -163,7 +163,7 @@ export function VersionDiffModal({
               />
             </div>
           ) : isLoading ? (
-            <div className="p-8 text-center text-xs text-muted-foreground">
+            <div className="p-8 text-center text-xs text-ink-muted">
               Computing cryptographic version diff...
             </div>
           ) : totalChanges === 0 ? (
@@ -180,8 +180,8 @@ export function VersionDiffModal({
                 {/* Changed Claims */}
                 {changedClaims.length > 0 && (
                   <div className="space-y-2">
-                    <h4 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      <Edit3 className="h-3 w-3 text-amber-500" />
+                    <h4 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-ink-muted">
+                      <Edit3 className="h-3 w-3 text-needs-review" />
                       Modified Claims ({changedClaims.length})
                     </h4>
                     {changedClaims.map((item: ChangedClaimItem, idx: number) => {
@@ -189,9 +189,9 @@ export function VersionDiffModal({
                       return (
                         <div
                           key={idx}
-                          className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3 space-y-2 text-xs"
+                          className="rounded-lg border border-needs-review bg-warn-soft p-3 space-y-2 text-xs"
                         >
-                          <div className="font-mono text-[10px] text-muted-foreground">
+                          <div className="font-mono text-[10px] text-ink-muted">
                             Claim #{item.id?.slice(0, 8)}
                           </div>
                           {textChange?.word_diff ? (
@@ -211,7 +211,7 @@ export function VersionDiffModal({
                                   return (
                                     <span
                                       key={tIdx}
-                                      className="bg-rose-500/25 text-rose-700 dark:text-rose-300 line-through px-0.5"
+                                      className="bg-danger-soft text-conflict dark:text-conflict line-through px-0.5"
                                     >
                                       {token.text}{" "}
                                     </span>
@@ -222,7 +222,7 @@ export function VersionDiffModal({
                             </div>
                           ) : (
                             <div className="space-y-1">
-                              <p className="line-through text-rose-500/80">{textChange?.from}</p>
+                              <p className="line-through text-conflict/80">{textChange?.from}</p>
                               <p className="text-verified">{textChange?.to}</p>
                             </div>
                           )}
@@ -235,7 +235,7 @@ export function VersionDiffModal({
                 {/* Added Claims */}
                 {addedClaims.length > 0 && (
                   <div className="space-y-2">
-                    <h4 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    <h4 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-ink-muted">
                       <Plus className="h-3 w-3 text-verified" />
                       Added Claims ({addedClaims.length})
                     </h4>
@@ -245,14 +245,14 @@ export function VersionDiffModal({
                         className="rounded-lg border border-verified/30 bg-verified/5 p-3 space-y-1 text-xs"
                       >
                         <div className="flex items-center justify-between">
-                          <span className="font-mono text-[10px] text-muted-foreground">
+                          <span className="font-mono text-[10px] text-ink-muted">
                             #{claim.id?.slice(0, 8)}
                           </span>
                           <Badge variant="outline" className="text-[10px] text-verified border-verified/30">
                             + added in v{v2}
                           </Badge>
                         </div>
-                        <p className="font-medium text-foreground">{claim.text}</p>
+                        <p className="font-medium text-ink">{claim.text}</p>
                       </div>
                     ))}
                   </div>
@@ -261,24 +261,24 @@ export function VersionDiffModal({
                 {/* Removed Claims */}
                 {removedClaims.length > 0 && (
                   <div className="space-y-2">
-                    <h4 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      <Minus className="h-3 w-3 text-rose-500" />
+                    <h4 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-ink-muted">
+                      <Minus className="h-3 w-3 text-conflict" />
                       Removed Claims ({removedClaims.length})
                     </h4>
                     {removedClaims.map((claim: DiffClaimItem, idx: number) => (
                       <div
                         key={idx}
-                        className="rounded-lg border border-rose-500/30 bg-rose-500/5 p-3 space-y-1 text-xs opacity-80"
+                        className="rounded-lg border border-conflict/30 bg-danger-soft p-3 space-y-1 text-xs opacity-80"
                       >
                         <div className="flex items-center justify-between">
-                          <span className="font-mono text-[10px] text-muted-foreground">
+                          <span className="font-mono text-[10px] text-ink-muted">
                             #{claim.id?.slice(0, 8)}
                           </span>
-                          <Badge variant="outline" className="text-[10px] text-rose-600 border-rose-500/30">
+                          <Badge variant="outline" className="text-[10px] text-conflict border-conflict/30">
                             - removed in v{v2}
                           </Badge>
                         </div>
-                        <p className="line-through text-muted-foreground">{claim.text}</p>
+                        <p className="line-through text-ink-muted">{claim.text}</p>
                       </div>
                     ))}
                   </div>

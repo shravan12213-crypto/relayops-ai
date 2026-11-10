@@ -68,7 +68,7 @@ export function RejectClaimModal({
         </DialogHeader>
 
         {claimText && (
-          <div className="rounded bg-muted/40 p-2.5 text-xs text-muted-foreground border line-clamp-2 italic">
+          <div className="rounded bg-canvas-2 p-2.5 text-xs text-ink-muted border line-clamp-2 italic">
             "{claimText}"
           </div>
         )}
@@ -76,14 +76,14 @@ export function RejectClaimModal({
         <form onSubmit={handleSubmit} className="space-y-3 pt-2">
           {/* Quick chips */}
           <div className="space-y-1.5">
-            <span className="text-[11px] text-muted-foreground font-medium">Quick Reasons:</span>
+            <span className="text-[11px] text-ink-muted font-medium">Quick Reasons:</span>
             <div className="flex flex-wrap gap-1.5">
               {COMMON_REASONS.map((r) => (
                 <button
                   key={r}
                   type="button"
                   onClick={() => setReason(r)}
-                  className="rounded-full border border-border/80 bg-muted/40 px-2 py-0.5 text-[10px] text-muted-foreground hover:border-primary hover:text-foreground transition-colors"
+                  className="rounded-full border border-card-border bg-canvas-2 px-2 py-0.5 text-[10px] text-ink-muted hover:border-primary hover:text-ink transition-colors"
                 >
                   {r}
                 </button>
@@ -92,7 +92,7 @@ export function RejectClaimModal({
           </div>
 
           <div className="space-y-1">
-            <label htmlFor="reject-reason" className="text-xs font-medium text-foreground">
+            <label htmlFor="reject-reason" className="text-xs font-medium text-ink">
               Rejection Reason Note *
             </label>
             <Textarea

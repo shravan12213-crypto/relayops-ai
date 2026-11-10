@@ -55,17 +55,17 @@ export function HandoversPage() {
       ) : handovers && handovers.length > 0 ? (
         <div className="space-y-3">
           {handovers.map((h) => (
-            <Card key={h.id} className="transition-all hover:border-primary/40">
+            <Card key={h.id} className="transition-all hover:border-brand">
               <CardContent className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-primary" />
-                    <span className="font-semibold text-xs sm:text-sm text-foreground">
+                    <FileText className="h-4 w-4 text-brand-text" />
+                    <span className="font-semibold text-xs sm:text-sm text-ink">
                       {h.notes || "Engineering Handover"}
                     </span>
                     <StatusBadge status={h.status} size="sm" />
                   </div>
-                  <div className="flex flex-wrap items-center gap-3 text-[11px] text-muted-foreground font-mono">
+                  <div className="flex flex-wrap items-center gap-3 text-[11px] text-ink-muted font-mono">
                     <span>ID: {h.id}</span>
                     <span>Version: v{h.current_version}</span>
                     {h.due_date && <span>Due: {h.due_date}</span>}

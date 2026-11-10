@@ -13,7 +13,7 @@ export function WordDiff({ originalText, editedText, className }: WordDiffProps)
   return (
     <div
       className={cn(
-        "rounded-md border border-border/80 bg-muted/30 p-2.5 font-sans text-xs leading-relaxed text-foreground",
+        "rounded-md border border-card-border bg-canvas-2 p-2.5 font-sans text-xs leading-relaxed text-ink",
         className,
       )}
     >

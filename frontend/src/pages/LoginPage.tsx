@@ -120,16 +120,16 @@ export function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-12 antialiased sm:px-6 lg:px-8">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-sidebar-from to-sidebar-to px-4 py-12 antialiased sm:px-6 lg:px-8">
       {/* Brand Header */}
       <div className="mb-8 flex flex-col items-center text-center">
-        <span className="grid size-12 place-items-center rounded-xl bg-primary font-mono text-xl font-bold text-primary-foreground shadow-md">
+        <span className="grid size-12 place-items-center rounded-2xl bg-white/10 font-mono text-xl font-bold text-white ring-1 ring-inset ring-white/15 shadow-md">
           R
         </span>
-        <h1 className="mt-4 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+        <h1 className="mt-4 text-[30px] font-bold leading-tight tracking-[-0.02em] text-white">
           Sign in to RelayOps
         </h1>
-        <p className="mt-2 text-xs text-muted-foreground sm:text-sm">
+        <p className="mt-2 text-xs text-sidebar-fg-muted sm:text-sm">
           Traceable, human-verified engineering handovers with tamper-evident auditing.
         </p>
       </div>
@@ -137,7 +137,7 @@ export function LoginPage() {
       <div className="w-full max-w-4xl space-y-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
           {/* Main Credentials Login Card */}
-          <Card className="shadow-sm md:col-span-5">
+          <Card className="rounded-[24px] shadow-card-hover md:col-span-5">
             <CardHeader className="pb-4">
               <CardTitle className="text-base font-semibold">Account Sign In</CardTitle>
               <CardDescription className="text-xs">
@@ -159,7 +159,7 @@ export function LoginPage() {
                 <div className="space-y-1.5">
                   <label
                     htmlFor="email-input"
-                    className="block text-xs font-medium text-foreground"
+                    className="block text-xs font-medium text-ink"
                   >
                     Email address
                   </label>
@@ -180,7 +180,7 @@ export function LoginPage() {
                   <div className="flex items-center justify-between">
                     <label
                       htmlFor="password-input"
-                      className="block text-xs font-medium text-foreground"
+                      className="block text-xs font-medium text-ink"
                     >
                       Password
                     </label>
@@ -220,11 +220,11 @@ export function LoginPage() {
           {/* Quick One-Click Demo Accounts */}
           <div className="space-y-3 md:col-span-7">
             <div>
-              <h2 className="text-sm font-semibold tracking-tight text-foreground flex items-center gap-1.5">
-                <KeyRound className="h-4 w-4 text-primary" />
+              <h2 className="flex items-center gap-1.5 text-sm font-semibold tracking-tight text-white">
+                <KeyRound className="h-4 w-4 text-brand" />
                 Select a Demo Persona
               </h2>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-sidebar-fg-muted">
                 One-click login for team members in the PayFlow demo scenario.
               </p>
             </div>
@@ -236,12 +236,12 @@ export function LoginPage() {
                   type="button"
                   onClick={() => handleSelectDemo(account)}
                   disabled={submitting}
-                  className="group flex flex-col justify-between rounded-lg border border-border bg-card p-3 text-left transition-all duration-150 hover:border-primary/50 hover:bg-accent/40 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-1 disabled:opacity-60"
+                  className="group flex flex-col justify-between rounded-2xl border border-white/10 bg-card p-3.5 text-left transition-all duration-150 hover:border-brand hover:shadow-card-hover focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-sidebar-to disabled:opacity-60"
                   aria-label={`Log in as ${account.name}, ${account.roleLabel}`}
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold text-xs text-foreground group-hover:text-primary">
+                      <span className="text-xs font-semibold text-ink group-hover:text-brand-text">
                         {account.name}
                       </span>
                       <Badge variant="outline" className="text-[10px] capitalize">
@@ -250,10 +250,10 @@ export function LoginPage() {
                     </div>
                     <SensitivityBadge level={account.clearance} size="sm" />
                   </div>
-                  <p className="mt-1 font-mono text-[11px] text-muted-foreground">
+                  <p className="mt-1 font-mono text-[11px] text-ink-muted">
                     {account.email}
                   </p>
-                  <p className="mt-1 text-[11px] text-muted-foreground line-clamp-1">
+                  <p className="mt-1 text-[11px] text-ink-muted line-clamp-1">
                     {account.description}
                   </p>
                 </button>
@@ -263,8 +263,8 @@ export function LoginPage() {
         </div>
 
         {/* Security & Audit note */}
-        <div className="rounded-lg border border-border/60 bg-muted/30 p-4 text-center">
-          <p className="flex items-center justify-center gap-1.5 font-mono text-xs text-muted-foreground">
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center">
+          <p className="flex items-center justify-center gap-1.5 font-mono text-xs text-sidebar-fg-muted">
             <ShieldCheck className="h-4 w-4 text-verified" />
             Secrets scrubbed at ingestion. Claims verified with real artifact citations.
           </p>

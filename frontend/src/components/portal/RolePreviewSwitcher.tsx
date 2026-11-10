@@ -54,10 +54,10 @@ export function RolePreviewSwitcher({
   // If not lead, display quiet view badge without preview switcher
   if (!isLead) {
     return (
-      <div className="flex items-center gap-2 rounded-lg border bg-muted/30 px-3 py-1.5 text-xs text-muted-foreground">
-        <Eye className="h-3.5 w-3.5 text-primary" />
+      <div className="flex items-center gap-2 rounded-lg border bg-canvas-2 px-3 py-1.5 text-xs text-ink-muted">
+        <Eye className="h-3.5 w-3.5 text-brand-text" />
         <span>
-          Viewing as <strong className="capitalize text-foreground">{actualUserRole}</strong>
+          Viewing as <strong className="capitalize text-ink">{actualUserRole}</strong>
         </span>
         <Badge variant="outline" className="text-[10px]">
           Clearance Level {effectiveClearance}
@@ -73,11 +73,11 @@ export function RolePreviewSwitcher({
       {/* Segmented Control */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
-            <Eye className="h-3.5 w-3.5 text-primary" />
+          <span className="text-xs font-semibold text-ink-muted flex items-center gap-1.5">
+            <Eye className="h-3.5 w-3.5 text-brand-text" />
             Lead Role Preview:
           </span>
-          <div className="inline-flex rounded-lg border bg-muted/40 p-1 text-xs">
+          <div className="inline-flex rounded-lg border bg-canvas-2 p-1 text-xs">
             {ROLES.map((role) => {
               const Icon = role.icon;
               const isActive = currentRole === role.id;
@@ -88,8 +88,8 @@ export function RolePreviewSwitcher({
                   onClick={() => onRoleChange(role.id)}
                   className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-medium transition-all ${
                     isActive
-                      ? "bg-background text-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground hover:bg-background/50"
+                      ? "bg-background text-ink shadow-sm"
+                      : "text-ink-muted hover:text-ink hover:bg-background/50"
                   }`}
                   aria-pressed={isActive}
                 >
@@ -112,10 +112,10 @@ export function RolePreviewSwitcher({
           role="status"
           className={`flex items-start gap-2.5 rounded-lg border p-2.5 text-xs transition-colors ${
             currentRole === "contractor"
-              ? "border-amber-500/30 bg-amber-500/10 text-amber-900 dark:text-amber-200"
+              ? "border-needs-review bg-warn-soft text-needs-review dark:text-needs-review"
               : currentRole === "auditor"
-                ? "border-primary/30 bg-primary/10 text-primary-900 dark:text-primary-100"
-                : "border-blue-500/30 bg-blue-500/10 text-blue-900 dark:text-blue-200"
+                ? "border-brand bg-brand-soft text-brand-text-900 dark:text-brand-text-100"
+                : "border-brand bg-canvas-2 text-ink-muted"
           }`}
         >
           <Info className="h-4 w-4 shrink-0 mt-0.5" />

@@ -35,13 +35,13 @@ const COLUMNS: ColumnConfig[] = [
     id: "d1_7",
     title: "Day 1-7",
     subtitle: "First week environment & triage",
-    accent: "border-blue-500/40 text-blue-500",
+    accent: "border-brand text-ink-muted",
   },
   {
     id: "d8_14",
     title: "Day 8-14",
     subtitle: "Deep dive & independent tasks",
-    accent: "border-amber-500/40 text-amber-500",
+    accent: "border-needs-review text-needs-review",
   },
   {
     id: "d15_30",
@@ -97,11 +97,11 @@ export function DayBoard({ handoverId }: DayBoardProps) {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-base font-semibold text-foreground flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-primary" />
+          <h2 className="text-base font-semibold text-ink flex items-center gap-2">
+            <Calendar className="h-4 w-4 text-brand-text" />
             Day 1-30 Successor Execution Board
           </h2>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-ink-muted">
             Structured roadmap for onboarding. Drag cards between buckets to reorganize timeline.
           </p>
         </div>
@@ -137,26 +137,26 @@ export function DayBoard({ handoverId }: DayBoardProps) {
                 if (dragOverCol === col.id) setDragOverCol(null);
               }}
               onDrop={(e) => handleDrop(e, col.id)}
-              className={`flex flex-col rounded-xl border bg-card/60 p-3.5 transition-all min-h-[420px] ${
-                isDragOver ? "border-primary ring-2 ring-primary/20 bg-primary/5" : "border-border"
+              className={`flex flex-col rounded-xl border bg-card p-3.5 transition-all min-h-[420px] ${
+                isDragOver ? "border-primary ring-2 ring-primary/20 bg-brand-soft" : "border-card-border"
               }`}
             >
               {/* Column Header */}
               <div className="flex items-center justify-between border-b pb-2.5 mb-3">
                 <div className="space-y-0.5">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-foreground">{col.title}</span>
+                    <span className="text-xs font-bold text-ink">{col.title}</span>
                     <Badge variant="secondary" className="text-[10px] h-5 px-1.5 font-mono">
                       {colItems.length}
                     </Badge>
                   </div>
-                  <p className="text-[10px] text-muted-foreground">{col.subtitle}</p>
+                  <p className="text-[10px] text-ink-muted">{col.subtitle}</p>
                 </div>
 
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="h-6 w-6 text-muted-foreground hover:text-foreground"
+                  className="h-6 w-6 text-ink-muted hover:text-ink"
                   onClick={() => {
                     setTargetBucket(col.id);
                     setAddDialogOpen(true);
@@ -170,7 +170,7 @@ export function DayBoard({ handoverId }: DayBoardProps) {
               {/* Cards List */}
               <div className="flex-1 space-y-2.5">
                 {colItems.length === 0 && (
-                  <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border/80 p-6 text-center text-xs text-muted-foreground">
+                  <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-card-border p-6 text-center text-xs text-ink-muted">
                     <p className="italic">No tasks in this bucket.</p>
                     <p className="text-[10px]">Drag tasks here or click +</p>
                   </div>
@@ -185,20 +185,20 @@ export function DayBoard({ handoverId }: DayBoardProps) {
                       setSelectedItem(item);
                       setDetailOpen(true);
                     }}
-                    className="group relative flex flex-col gap-2 rounded-lg border border-border/90 bg-card p-3 shadow-xs hover:border-primary/50 hover:shadow-sm cursor-grab active:cursor-grabbing transition-all"
+                    className="group relative flex flex-col gap-2 rounded-lg border border-card-border bg-card p-3 shadow-xs hover:border-brand hover:shadow-sm cursor-grab active:cursor-grabbing transition-all"
                   >
                     {/* Card Top: Priority & Status */}
                     <div className="flex items-center justify-between gap-1.5">
                       <div className="flex items-center gap-1.5">
-                        <GripVertical className="h-3 w-3 text-muted-foreground opacity-40 group-hover:opacity-100" />
+                        <GripVertical className="h-3 w-3 text-ink-muted opacity-40 group-hover:opacity-100" />
                         <Badge
                           variant="outline"
                           className={`text-[9px] px-1.5 py-0 font-medium uppercase ${
                             item.priority === "high"
                               ? "border-red-500/30 text-red-500 bg-red-500/10"
                               : item.priority === "med" || item.priority === "medium"
-                                ? "border-amber-500/30 text-amber-500 bg-amber-500/10"
-                                : "border-blue-500/30 text-blue-500 bg-blue-500/10"
+                                ? "border-needs-review text-needs-review bg-warn-soft"
+                                : "border-brand text-ink-muted bg-canvas-2"
                           }`}
                         >
                           <Flame className="h-2.5 w-2.5 mr-0.5" />
@@ -214,8 +214,8 @@ export function DayBoard({ handoverId }: DayBoardProps) {
                           item.status === "done"
                             ? "bg-verified/15 text-verified"
                             : item.status === "doing"
-                              ? "bg-amber-500/15 text-amber-500"
-                              : "bg-muted text-muted-foreground"
+                              ? "bg-warn-soft text-needs-review"
+                              : "bg-canvas-2 text-ink-muted"
                         }`}
                         title="Click to advance status"
                       >
@@ -224,28 +224,28 @@ export function DayBoard({ handoverId }: DayBoardProps) {
                         ) : item.status === "doing" ? (
                           <Clock className="h-3 w-3" />
                         ) : (
-                          <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground" />
+                          <span className="h-1.5 w-1.5 rounded-full bg-canvas-2-foreground" />
                         )}
                         <span className="capitalize">{item.status}</span>
                       </button>
                     </div>
 
                     {/* Title */}
-                    <p className="text-xs font-semibold text-foreground line-clamp-2">
+                    <p className="text-xs font-semibold text-ink line-clamp-2">
                       {item.title}
                     </p>
 
                     {/* Description preview */}
                     {item.description && (
-                      <p className="text-[11px] text-muted-foreground line-clamp-2 leading-relaxed">
+                      <p className="text-[11px] text-ink-muted line-clamp-2 leading-relaxed">
                         {item.description}
                       </p>
                     )}
 
                     {/* Linked Claims & Footer */}
                     {item.linked_claims && item.linked_claims.length > 0 && (
-                      <div className="flex items-center gap-1 text-[10px] text-muted-foreground pt-1 border-t border-border/50">
-                        <Tag className="h-3 w-3 text-primary" />
+                      <div className="flex items-center gap-1 text-[10px] text-ink-muted pt-1 border-t border-card-border">
+                        <Tag className="h-3 w-3 text-brand-text" />
                         <span>{item.linked_claims.length} grounded claims</span>
                       </div>
                     )}

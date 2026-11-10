@@ -56,13 +56,13 @@ export function DevComponentsPage() {
 
       {/* 1. Status Colors & Semantic Badges */}
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold tracking-tight text-foreground flex items-center gap-1.5">
-          <Zap className="h-4 w-4 text-primary" />
+        <h2 className="text-sm font-semibold tracking-tight text-ink flex items-center gap-1.5">
+          <Zap className="h-4 w-4 text-brand-text" />
           1. Semantic Status Badges & Tokens
         </h2>
         <Card>
           <CardContent className="space-y-4 p-5">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-ink-muted">
               Status colors are reserved strictly for verification & claim lifecycle, never for
               arbitrary decoration.
             </p>
@@ -79,7 +79,7 @@ export function DevComponentsPage() {
               <StatusBadge status="delivered" />
             </div>
             <div className="flex flex-wrap gap-2.5 pt-2 border-t">
-              <span className="text-xs text-muted-foreground mr-2 self-center">
+              <span className="text-xs text-ink-muted mr-2 self-center">
                 Compact (dot only):
               </span>
               <StatusBadge status="verified" showIcon={false} size="sm" />
@@ -93,13 +93,13 @@ export function DevComponentsPage() {
 
       {/* 2. Sensitivity Levels (0 - 3) */}
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold tracking-tight text-foreground flex items-center gap-1.5">
-          <Sparkles className="h-4 w-4 text-primary" />
+        <h2 className="text-sm font-semibold tracking-tight text-ink flex items-center gap-1.5">
+          <Sparkles className="h-4 w-4 text-brand-text" />
           2. Sensitivity Badges (0-3 with Lock Icons & Tooltips)
         </h2>
         <Card>
           <CardContent className="space-y-3 p-5">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-ink-muted">
               Hover over each badge to read its clearance policy and visibility rules:
             </p>
             <div className="flex flex-wrap items-center gap-3">
@@ -109,7 +109,7 @@ export function DevComponentsPage() {
               <SensitivityBadge level={3} />
             </div>
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <span className="text-xs text-muted-foreground mr-2">Small variant:</span>
+              <span className="text-xs text-ink-muted mr-2">Small variant:</span>
               <SensitivityBadge level={0} size="sm" />
               <SensitivityBadge level={1} size="sm" />
               <SensitivityBadge level={2} size="sm" />
@@ -121,7 +121,7 @@ export function DevComponentsPage() {
 
       {/* 3. Stat Cards */}
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold tracking-tight text-foreground">
+        <h2 className="text-sm font-semibold tracking-tight text-ink">
           3. Stat Cards with Semantic Accents
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -158,12 +158,12 @@ export function DevComponentsPage() {
 
       {/* 4. Citation Pills & Evidence Micro-UI */}
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold tracking-tight text-foreground">
+        <h2 className="text-sm font-semibold tracking-tight text-ink">
           4. Citation Pills & Evidence Links
         </h2>
         <Card>
           <CardContent className="space-y-3 p-5">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-ink-muted">
               Every claim displayed to a successor links directly to source artifacts (PRs, commits,
               issues, Slack threads, ADRs):
             </p>
@@ -201,13 +201,13 @@ export function DevComponentsPage() {
 
       {/* 5. Utility Micro-Components: Kbd, CopyButton, RelativeTime */}
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold tracking-tight text-foreground">
+        <h2 className="text-sm font-semibold tracking-tight text-ink">
           5. Micro-Components (Kbd, CopyButton, RelativeTime)
         </h2>
         <Card>
           <CardContent className="flex flex-wrap items-center gap-6 p-5 text-xs">
             <div className="flex items-center gap-2">
-              <span className="text-muted-foreground">Keyboard shortcut:</span>
+              <span className="text-ink-muted">Keyboard shortcut:</span>
               <Kbd>⌘K</Kbd>
               <Kbd>Esc</Kbd>
               <Kbd>J</Kbd>
@@ -217,15 +217,15 @@ export function DevComponentsPage() {
             <Separator orientation="vertical" className="h-6" />
 
             <div className="flex items-center gap-2">
-              <span className="text-muted-foreground">Copy button:</span>
-              <span className="font-mono text-foreground">01JBCDEFGHJKMNPQRSTVWXYZ</span>
+              <span className="text-ink-muted">Copy button:</span>
+              <span className="font-mono text-ink">01JBCDEFGHJKMNPQRSTVWXYZ</span>
               <CopyButton value="01JBCDEFGHJKMNPQRSTVWXYZ" label="Copy ULID" />
             </div>
 
             <Separator orientation="vertical" className="h-6" />
 
             <div className="flex items-center gap-2">
-              <span className="text-muted-foreground">Relative time:</span>
+              <span className="text-ink-muted">Relative time:</span>
               <RelativeTime date={new Date(Date.now() - 3600000 * 4)} />
             </div>
           </CardContent>
@@ -235,7 +235,7 @@ export function DevComponentsPage() {
       {/* 6. Pipeline Job Progress */}
       <section className="space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold tracking-tight text-foreground">
+          <h2 className="text-sm font-semibold tracking-tight text-ink">
             6. Pipeline Orchestration & Job Progress
           </h2>
           <Button
@@ -252,7 +252,7 @@ export function DevComponentsPage() {
 
       {/* 7. Dialogs, Alerts, Skeletons, and Feedback */}
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold tracking-tight text-foreground">
+        <h2 className="text-sm font-semibold tracking-tight text-ink">
           7. Modals, Alerts, Error/Empty States & Skeletons
         </h2>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -352,7 +352,7 @@ export function DevComponentsPage() {
 
       {/* 8. Loading Skeleton Preview */}
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold tracking-tight text-foreground">
+        <h2 className="text-sm font-semibold tracking-tight text-ink">
           8. Table Loading Skeletons
         </h2>
         <TableSkeleton rows={3} cols={4} />

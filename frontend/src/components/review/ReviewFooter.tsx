@@ -91,19 +91,19 @@ export function ReviewFooter({
 
   return (
     <>
-      <footer className="flex h-12 w-full shrink-0 items-center justify-between border-t border-border/80 bg-card/90 px-3 sm:px-4 backdrop-blur-xs select-none gap-2 overflow-x-auto min-w-0">
+      <footer className="flex h-12 w-full shrink-0 items-center justify-between border-t border-card-border bg-card px-3 sm:px-4 backdrop-blur-xs select-none gap-2 overflow-x-auto min-w-0">
         {/* Left Side: Unsaved Changes & Version Info */}
         <div className="flex items-center gap-2 sm:gap-3 text-xs shrink-0 min-w-0">
           {hasUnsavedEdits ? (
-            <div className="flex items-center gap-1.5 text-amber-600 dark:text-amber-400 font-medium shrink-0">
+            <div className="flex items-center gap-1.5 text-needs-review dark:text-needs-review font-medium shrink-0">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-needs-review opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-needs-review"></span>
               </span>
               <span>Unsaved draft</span>
             </div>
           ) : (
-            <div className="flex items-center gap-1.5 text-muted-foreground shrink-0">
+            <div className="flex items-center gap-1.5 text-ink-muted shrink-0">
               <CheckCircle2 className="h-3.5 w-3.5 text-verified" />
               <span className="hidden sm:inline">All changes synced</span>
             </div>
@@ -113,12 +113,12 @@ export function ReviewFooter({
 
           {/* Version Selector */}
           <div className="flex items-center gap-1.5 shrink-0">
-            <span className="text-muted-foreground hidden sm:inline">Snapshot:</span>
+            <span className="text-ink-muted hidden sm:inline">Snapshot:</span>
             <Select
               value={selectedVersion}
               onValueChange={setSelectedVersion}
             >
-              <SelectTrigger className="h-7 w-24 sm:w-28 text-xs bg-muted/40">
+              <SelectTrigger className="h-7 w-24 sm:w-28 text-xs bg-canvas-2">
                 <SelectValue placeholder="Version" />
               </SelectTrigger>
               <SelectContent>
@@ -139,7 +139,7 @@ export function ReviewFooter({
             <Button
               size="sm"
               variant="ghost"
-              className="h-7 text-xs gap-1 px-2 text-muted-foreground hover:text-foreground shrink-0"
+              className="h-7 text-xs gap-1 px-2 text-ink-muted hover:text-ink shrink-0"
               onClick={() => setDiffModalOpen(true)}
             >
               <GitCompare className="h-3.5 w-3.5" />
@@ -157,7 +157,7 @@ export function ReviewFooter({
                 <Button
                   size="icon"
                   variant="ghost"
-                  className="h-7 w-7 text-muted-foreground hover:text-foreground"
+                  className="h-7 w-7 text-ink-muted hover:text-ink"
                   onClick={onOpenShortcutsHelp}
                 >
                   <HelpCircle className="h-4 w-4" />
@@ -174,7 +174,7 @@ export function ReviewFooter({
             className="h-7 text-xs gap-1 px-2.5"
             onClick={() => setSnapshotDialogOpen(true)}
           >
-            <Camera className="h-3.5 w-3.5 text-primary" />
+            <Camera className="h-3.5 w-3.5 text-brand-text" />
             <span><span className="hidden sm:inline">Create </span>Snapshot</span>
           </Button>
 
@@ -201,11 +201,11 @@ export function ReviewFooter({
               {isSignoffBlocked ? (
                 <TooltipContent side="top" className="max-w-xs p-2.5 text-xs bg-popover text-popover-foreground">
                   <div className="space-y-1">
-                    <div className="flex items-center gap-1 font-semibold text-rose-500">
+                    <div className="flex items-center gap-1 font-semibold text-conflict">
                       <AlertCircle className="h-3.5 w-3.5" />
                       Sign-off Blocked
                     </div>
-                    <ul className="list-disc pl-4 space-y-0.5 text-muted-foreground">
+                    <ul className="list-disc pl-4 space-y-0.5 text-ink-muted">
                       {blockers.map((b, idx) => (
                         <li key={idx}>{b}</li>
                       ))}
@@ -227,7 +227,7 @@ export function ReviewFooter({
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-base">
-              <Camera className="h-4 w-4 text-primary" />
+              <Camera className="h-4 w-4 text-brand-text" />
               <span>Freeze Cryptographic Snapshot</span>
             </DialogTitle>
             <DialogDescription className="text-xs">
@@ -237,7 +237,7 @@ export function ReviewFooter({
           </DialogHeader>
 
           <div className="space-y-2 py-2">
-            <label className="text-xs font-medium text-foreground">
+            <label className="text-xs font-medium text-ink">
               Snapshot Reason / Tag (Optional)
             </label>
             <Input

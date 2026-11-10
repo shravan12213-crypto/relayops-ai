@@ -112,7 +112,7 @@ export function ProjectDetailPage() {
               <FolderGit2 className="h-4 w-4 text-brand-text" />
               Connected Data Sources
             </h2>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-ink-muted">
               Repository feeds, ticket exports, channels, and architecture markdown files.
             </p>
           </div>
@@ -205,7 +205,7 @@ export function ProjectDetailPage() {
 
       {/* Active Handovers for this project */}
       <section className="space-y-3">
-        <h2 className="text-sm font-semibold tracking-tight text-foreground flex items-center gap-1.5">
+        <h2 className="text-sm font-semibold tracking-tight text-ink flex items-center gap-1.5">
           <FileText className="h-4 w-4 text-brand-text" />
           Active Handovers
         </h2>

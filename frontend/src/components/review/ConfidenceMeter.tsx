@@ -49,7 +49,7 @@ export function ConfidenceMeter({ confidence, className }: ConfidenceMeterProps)
         <TooltipTrigger asChild>
           <div
             className={cn(
-              "inline-flex cursor-default items-center gap-1.5 rounded border border-border/80 bg-muted/40 px-2 py-0.5 font-mono text-[11px]",
+              "inline-flex cursor-default items-center gap-1.5 rounded border border-card-border bg-canvas-2 px-2 py-0.5 font-mono text-[11px]",
               className,
             )}
           >
@@ -64,10 +64,10 @@ export function ConfidenceMeter({ confidence, className }: ConfidenceMeterProps)
           </div>
         </TooltipTrigger>
         <TooltipContent side="top" className="max-w-xs text-xs">
-          <p className="font-semibold text-foreground">
+          <p className="font-semibold text-ink">
             {tier.label} ({pct}%)
           </p>
-          <p className="mt-1 text-muted-foreground">{tier.description}</p>
+          <p className="mt-1 text-ink-muted">{tier.description}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

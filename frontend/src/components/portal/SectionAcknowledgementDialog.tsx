@@ -58,7 +58,7 @@ export function SectionAcknowledgementDialog({
                 Acknowledge Comprehension: {sectionTitle}
               </DialogTitle>
             </div>
-            <DialogDescription className="text-xs text-muted-foreground">
+            <DialogDescription className="text-xs text-ink-muted">
               Confirm that you have read and understood the verified claims and runbooks in this
               section. This comprehension receipt will be timestamped and sealed in the handover
               audit record.
@@ -66,7 +66,7 @@ export function SectionAcknowledgementDialog({
           </DialogHeader>
 
           <div className="space-y-2 text-xs">
-            <label className="font-medium text-foreground">
+            <label className="font-medium text-ink">
               Comprehension Note / Follow-up (Optional)
             </label>
             <Textarea

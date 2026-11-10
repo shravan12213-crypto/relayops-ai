@@ -74,14 +74,14 @@ export function AddPlanItemDialog({
             <DialogTitle className="text-base font-semibold">
               Add Task to 30-Day Plan
             </DialogTitle>
-            <DialogDescription className="text-xs text-muted-foreground">
+            <DialogDescription className="text-xs text-ink-muted">
               Define an onboarding milestone or operational transfer task for the successor.
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-3 py-1 text-xs">
             <div className="space-y-1">
-              <label className="font-medium text-foreground">Task Title</label>
+              <label className="font-medium text-ink">Task Title</label>
               <Input
                 placeholder="e.g. Set up local Docker payment webhook simulation"
                 value={title}
@@ -92,7 +92,7 @@ export function AddPlanItemDialog({
             </div>
 
             <div className="space-y-1">
-              <label className="font-medium text-foreground">Description & Context</label>
+              <label className="font-medium text-ink">Description & Context</label>
               <Textarea
                 placeholder="Describe setup commands, expectations, or tests to run..."
                 value={description}
@@ -104,7 +104,7 @@ export function AddPlanItemDialog({
 
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
-                <label className="font-medium text-foreground">Timeline Bucket</label>
+                <label className="font-medium text-ink">Timeline Bucket</label>
                 <Select value={dayBucket} onValueChange={setDayBucket}>
                   <SelectTrigger className="text-xs h-8">
                     <SelectValue />
@@ -118,7 +118,7 @@ export function AddPlanItemDialog({
               </div>
 
               <div className="space-y-1">
-                <label className="font-medium text-foreground">Priority</label>
+                <label className="font-medium text-ink">Priority</label>
                 <Select value={priority} onValueChange={setPriority}>
                   <SelectTrigger className="text-xs h-8">
                     <SelectValue />

@@ -293,7 +293,7 @@ export function DecisionTimeline({ timeline, className }: DecisionTimelineProps)
                   className={cn(
                     "rounded-xl border bg-card p-4 shadow-2xs space-y-2 cursor-pointer transition-all hover:border-primary/50",
                     ev.status === "superseded" && "opacity-60 bg-muted/30 border-dashed",
-                    ev.status === "conflict" && "border-rose-500/50 bg-rose-500/5",
+                    ev.status === "conflict" && "border-conflict bg-danger-soft",
                   )}
                 >
                   <div className="flex items-center justify-between gap-2">
@@ -303,7 +303,7 @@ export function DecisionTimeline({ timeline, className }: DecisionTimelineProps)
                         className={cn(
                           "text-[10px]",
                           ev.status === "conflict"
-                            ? "border-rose-500 text-rose-600 bg-rose-500/10"
+                            ? "border-conflict text-conflict bg-danger-soft"
                             : ev.status === "superseded"
                               ? "border-muted-foreground text-muted-foreground line-through"
                               : "border-verified/40 text-verified bg-verified/10",
@@ -412,7 +412,7 @@ export function DecisionTimeline({ timeline, className }: DecisionTimelineProps)
                         className={cn(
                           "flex items-center justify-center rounded-full px-2 py-0.5 text-[9px] font-mono font-bold shadow-xs border",
                           isConflict
-                            ? "bg-rose-500 text-white border-rose-600 animate-pulse"
+                            ? "bg-conflict text-white border-conflict animate-pulse"
                             : "bg-indigo-600 text-white border-indigo-700",
                         )}
                       >
@@ -465,7 +465,7 @@ export function DecisionTimeline({ timeline, className }: DecisionTimelineProps)
                               isSuperseded &&
                                 "opacity-50 border-dashed border-muted-foreground/60 bg-muted/40",
                               isConflict &&
-                                "border-rose-500 bg-rose-500/10 shadow-rose-500/10 ring-1 ring-rose-500/30",
+                                "border-conflict bg-danger-soft  ring-1 ring-conflict/30",
                               !isSuperseded && !isConflict && "border-border/90 hover:border-primary",
                             )}
                           >
@@ -474,7 +474,7 @@ export function DecisionTimeline({ timeline, className }: DecisionTimelineProps)
                                 className={cn(
                                   "inline-flex items-center gap-1 font-mono text-[9px] font-bold uppercase",
                                   isConflict
-                                    ? "text-rose-600 dark:text-rose-400"
+                                    ? "text-conflict dark:text-conflict"
                                     : isSuperseded
                                       ? "text-muted-foreground line-through"
                                       : "text-primary",
@@ -537,8 +537,8 @@ export function DecisionTimeline({ timeline, className }: DecisionTimelineProps)
             <span className="line-through">Superseded Decision</span>
           </div>
 
-          <div className="flex items-center gap-1.5 text-rose-600 dark:text-rose-400 font-semibold">
-            <span className="inline-block h-2 w-2 rounded-full bg-rose-500 animate-ping" />
+          <div className="flex items-center gap-1.5 text-conflict dark:text-conflict font-semibold">
+            <span className="inline-block h-2 w-2 rounded-full bg-conflict animate-ping" />
             <span>Contemporaneous Conflict</span>
           </div>
 
@@ -548,7 +548,7 @@ export function DecisionTimeline({ timeline, className }: DecisionTimelineProps)
           </div>
 
           <div className="flex items-center gap-1.5">
-            <span className="inline-block h-0.5 w-4 border-t border-dashed border-rose-500" />
+            <span className="inline-block h-0.5 w-4 border-t border-dashed border-conflict" />
             <span>CONFLICT Link</span>
           </div>
         </div>

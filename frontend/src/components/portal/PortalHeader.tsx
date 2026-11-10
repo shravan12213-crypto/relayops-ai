@@ -70,7 +70,7 @@ export function PortalHeader({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="space-y-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <h1 className="text-xl font-bold tracking-tight text-foreground">
+            <h1 className="text-xl font-bold tracking-tight text-ink">
               Handover Portal: {outgoingName}
             </h1>
             <div className="inline-flex items-center gap-1.5 rounded-full border border-verified/30 bg-verified/10 px-2.5 py-0.5 text-xs font-semibold text-verified">
@@ -78,9 +78,9 @@ export function PortalHeader({
               Verified Handover
             </div>
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-ink-muted">
             Target Completion:{" "}
-            <span className="font-medium text-foreground">
+            <span className="font-medium text-ink">
               {handoverDate ? new Date(handoverDate).toLocaleDateString() : "Active Transition"}
             </span>{" "}
             · Version v{handoverView.version}
@@ -92,7 +92,7 @@ export function PortalHeader({
           {/* Visualizations link */}
           <Button asChild variant="outline" size="sm" className="h-8 gap-1.5 text-xs">
             <Link to={`/handovers/${handoverView.handover_id}/visualizations`}>
-              <GitBranch className="h-3.5 w-3.5 text-primary" />
+              <GitBranch className="h-3.5 w-3.5 text-brand-text" />
               Timeline & Topology
             </Link>
           </Button>
@@ -102,7 +102,7 @@ export function PortalHeader({
             variant="outline"
             size="sm"
             onClick={onOpenCopilot}
-            className="h-8 gap-1.5 text-xs border-primary/30 text-primary hover:bg-primary/10"
+            className="h-8 gap-1.5 text-xs border-brand text-brand-text hover:bg-brand-soft"
           >
             <Bot className="h-3.5 w-3.5" />
             Ask Copilot
@@ -150,12 +150,12 @@ export function PortalHeader({
 
       {/* Subtle Confetti-Free Delivered State Celebration */}
       {handoverView.status === "delivered" && (
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between rounded-lg border border-verified/40 bg-verified/10 px-4 py-2.5 text-xs text-foreground animate-in fade-in-50 duration-300">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between rounded-lg border border-verified/40 bg-verified/10 px-4 py-2.5 text-xs text-ink animate-in fade-in-50 duration-300">
           <div className="flex items-center gap-2.5">
             <ShieldCheck className="h-4 w-4 text-verified shrink-0" />
             <div>
               <span className="font-semibold text-verified">Handover Officially Delivered</span>
-              <span className="text-muted-foreground ml-2 text-[11px] hidden sm:inline">
+              <span className="text-ink-muted ml-2 text-[11px] hidden sm:inline">
                 Dual sign-offs verified. Successor active onboarding and execution plan unlocked.
               </span>
             </div>
@@ -170,11 +170,11 @@ export function PortalHeader({
       <div className="flex flex-col gap-4 border-t pt-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Trust Strip */}
         <div className="flex items-center gap-3 text-xs flex-wrap">
-          <div className="flex items-center gap-1.5 rounded-md bg-muted/50 px-2.5 py-1 text-muted-foreground">
+          <div className="flex items-center gap-1.5 rounded-md bg-canvas-2 px-2.5 py-1 text-ink-muted">
             <UserCheck className="h-3.5 w-3.5 text-verified" />
             <span>
               Signed by:{" "}
-              <strong className="text-foreground">
+              <strong className="text-ink">
                 {outgoingName} & {leadName}
               </strong>
             </span>
@@ -183,7 +183,7 @@ export function PortalHeader({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="flex items-center gap-1.5 rounded-md bg-muted/50 px-2.5 py-1 font-mono text-[11px] text-muted-foreground">
+                <div className="flex items-center gap-1.5 rounded-md bg-canvas-2 px-2.5 py-1 font-mono text-[11px] text-ink-muted">
                   <span>Hash: {shortHash}</span>
                   <CopyButton value={handoverView.hash} title="Copy SHA-256 seal" />
                 </div>
@@ -205,10 +205,10 @@ export function PortalHeader({
         {/* Readiness / Comprehension Progress Ring */}
         <div className="flex items-center gap-3 print:hidden">
           <div className="text-right">
-            <p className="text-xs font-semibold text-foreground">
+            <p className="text-xs font-semibold text-ink">
               Comprehension: {Math.round(progressPct)}%
             </p>
-            <p className="text-[10px] text-muted-foreground">
+            <p className="text-[10px] text-ink-muted">
               {acknowledgedCount} of {totalSectionsCount} sections read
             </p>
           </div>
@@ -235,7 +235,7 @@ export function PortalHeader({
                 fill="none"
               />
             </svg>
-            <div className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-foreground">
+            <div className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-ink">
               {Math.round(progressPct)}%
             </div>
           </div>

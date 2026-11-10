@@ -428,7 +428,7 @@ export function ReviewStudioPage() {
   return (
     <div ref={studioContainerRef} className="flex h-full w-full flex-col bg-background overflow-hidden min-w-0">
       {/* Studio Header Bar */}
-      <div className="flex h-11 shrink-0 items-center justify-between border-b border-border/80 px-3 sm:px-4 bg-card/60 backdrop-blur-xs select-none min-w-0 gap-2">
+      <div className="flex h-11 shrink-0 items-center justify-between border-b border-card-border px-3 sm:px-4 bg-card backdrop-blur-xs select-none min-w-0 gap-2">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0" asChild>
             <Link to="/handovers" title="Back to Handovers">
@@ -437,11 +437,11 @@ export function ReviewStudioPage() {
           </Button>
 
           <div className="flex items-center gap-2 min-w-0">
-            <h1 className="text-xs font-semibold text-foreground uppercase tracking-wider shrink-0">
+            <h1 className="text-xs font-semibold text-ink uppercase tracking-wider shrink-0">
               Review Studio
             </h1>
-            <span className="text-muted-foreground/60 shrink-0">•</span>
-            <span className="text-xs font-medium text-muted-foreground truncate max-w-[140px] sm:max-w-[200px] md:max-w-xs">
+            <span className="text-ink-faint shrink-0">•</span>
+            <span className="text-xs font-medium text-ink-muted truncate max-w-[140px] sm:max-w-[200px] md:max-w-xs">
               {handover?.notes || `Handover ${handoverId.slice(0, 8)}`}
             </span>
           </div>
@@ -455,7 +455,7 @@ export function ReviewStudioPage() {
             asChild
           >
             <Link to={`/handovers/${handoverId}/portal`} title="Successor Portal">
-              <BookOpen className="h-3.5 w-3.5 text-primary" />
+              <BookOpen className="h-3.5 w-3.5 text-brand-text" />
               <span className="hidden md:inline">Portal</span>
             </Link>
           </Button>
@@ -467,7 +467,7 @@ export function ReviewStudioPage() {
             asChild
           >
             <Link to={`/handovers/${handoverId}/timeline`} title="Decision Timeline">
-              <Workflow className="h-3.5 w-3.5 text-primary" />
+              <Workflow className="h-3.5 w-3.5 text-brand-text" />
               <span className="hidden md:inline">Timeline</span>
             </Link>
           </Button>
@@ -479,7 +479,7 @@ export function ReviewStudioPage() {
             asChild
           >
             <Link to={`/handovers/${handoverId}/topology`} title="Dependency Topology">
-              <GitFork className="h-3.5 w-3.5 text-primary" />
+              <GitFork className="h-3.5 w-3.5 text-brand-text" />
               <span className="hidden md:inline">Topology</span>
             </Link>
           </Button>
@@ -489,13 +489,13 @@ export function ReviewStudioPage() {
           <Button
             variant="ghost"
             size="sm"
-            className="h-7 text-xs gap-1 px-2 text-muted-foreground hover:text-foreground"
+            className="h-7 text-xs gap-1 px-2 text-ink-muted hover:text-ink"
             onClick={() => setShortcutsHelpOpen(true)}
             title="Keyboard Shortcuts (?)"
           >
             <Keyboard className="h-3.5 w-3.5" />
             <span className="hidden lg:inline">Shortcuts</span>
-            <kbd className="rounded border bg-muted px-1 text-[10px] font-mono hidden sm:inline">?</kbd>
+            <kbd className="rounded border bg-canvas-2 px-1 text-[10px] font-mono hidden sm:inline">?</kbd>
           </Button>
 
           <Button
@@ -505,7 +505,7 @@ export function ReviewStudioPage() {
             asChild
           >
             <Link to={`/handovers/${handoverId}/pipeline`} title="Pipeline Run">
-              <Play className="h-3 w-3 text-primary" />
+              <Play className="h-3 w-3 text-brand-text" />
               <span className="hidden sm:inline">Pipeline</span>
             </Link>
           </Button>
@@ -514,7 +514,7 @@ export function ReviewStudioPage() {
 
       {/* Compact / Mobile / Tablet Tab Switcher (< 1024px) */}
       {isCompact && (
-        <div className="flex items-center justify-around border-b border-border bg-card px-2 py-1 text-xs shrink-0 select-none">
+        <div className="flex items-center justify-around border-b border-card-border bg-card px-2 py-1 text-xs shrink-0 select-none">
           <Button
             variant={compactTab === "outline" ? "default" : "ghost"}
             size="sm"
@@ -550,7 +550,7 @@ export function ReviewStudioPage() {
             style={isCompact ? { width: "100%" } : { width: `${leftWidth}px` }}
             className={cn(
               "shrink-0 overflow-hidden h-full flex flex-col min-h-0",
-              !isCompact && "border-r border-border/70"
+              !isCompact && "border-r border-card-border"
             )}
           >
             <ReviewLeftOutline
@@ -570,7 +570,7 @@ export function ReviewStudioPage() {
         {!isCompact && (
           <div
             onMouseDown={startResizeLeft}
-            className="w-1 cursor-col-resize hover:bg-primary/50 transition-colors bg-transparent select-none z-10 -ml-0.5"
+            className="w-1 cursor-col-resize hover:bg-brand transition-colors bg-transparent select-none z-10 -ml-0.5"
             title="Drag to resize left outline"
           />
         )}
@@ -579,7 +579,7 @@ export function ReviewStudioPage() {
         {(!isCompact || compactTab === "claims") && (
           <div
             ref={claimCardsContainerRef}
-            className="flex-1 min-w-0 h-full min-h-0 overflow-y-auto bg-muted/15 p-4 space-y-3"
+            className="flex-1 min-w-0 h-full min-h-0 overflow-y-auto bg-canvas-2 p-4 space-y-3"
           >
             {claimsLoading ? (
               <div className="space-y-3 max-w-3xl mx-auto">
@@ -670,7 +670,7 @@ export function ReviewStudioPage() {
         {!isCompact && (
           <div
             onMouseDown={startResizeRight}
-            className="w-1 cursor-col-resize hover:bg-primary/50 transition-colors bg-transparent select-none z-10 -mr-0.5"
+            className="w-1 cursor-col-resize hover:bg-brand transition-colors bg-transparent select-none z-10 -mr-0.5"
             title="Drag to resize right drawer"
           />
         )}
@@ -681,7 +681,7 @@ export function ReviewStudioPage() {
             style={isCompact ? { width: "100%" } : { width: `${rightWidth}px` }}
             className={cn(
               "shrink-0 overflow-hidden h-full flex flex-col min-h-0",
-              !isCompact && "border-l border-border/70"
+              !isCompact && "border-l border-card-border"
             )}
           >
             <ReviewRightDrawer

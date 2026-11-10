@@ -72,8 +72,8 @@ export function ConflictsTab({ handoverId, onJumpToClaim }: ConflictsTabProps) {
   const getAuthorityBadge = (authority: number) => {
     const pct = Math.round(authority * 100);
     return (
-      <span className="inline-flex items-center gap-1 rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
-        <Scale className="h-2.5 w-2.5 text-primary" />
+      <span className="inline-flex items-center gap-1 rounded bg-canvas-2 px-1.5 py-0.5 font-mono text-[10px] text-ink-muted">
+        <Scale className="h-2.5 w-2.5 text-brand-text" />
         Auth: {authority.toFixed(1)} ({pct}%)
       </span>
     );
@@ -93,14 +93,14 @@ export function ConflictsTab({ handoverId, onJumpToClaim }: ConflictsTabProps) {
 
   return (
     <div className="flex h-full flex-col p-4 space-y-3">
-      <div className="flex items-center justify-between border-b border-border/60 pb-2">
+      <div className="flex items-center justify-between border-b border-card-border pb-2">
         <div className="flex items-center gap-2">
-          <GitCompare className="h-4 w-4 text-primary" />
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          <GitCompare className="h-4 w-4 text-brand-text" />
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-ink-muted">
             Contradiction & Authority Engine ({conflicts.length})
           </h3>
         </div>
-        <span className="text-[11px] text-muted-foreground">
+        <span className="text-[11px] text-ink-muted">
           Bi-temporal resolution
         </span>
       </div>
@@ -113,23 +113,23 @@ export function ConflictsTab({ handoverId, onJumpToClaim }: ConflictsTabProps) {
             return (
               <div
                 key={conf.id}
-                className="rounded-lg border border-border/80 bg-card p-3 shadow-2xs space-y-3"
+                className="rounded-lg border border-card-border bg-card p-3 shadow-2xs space-y-3"
               >
                 {/* Title & Status */}
                 <div className="flex items-center justify-between gap-2">
                   <div className="space-y-0.5">
-                    <span className="rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground uppercase">
+                    <span className="rounded bg-canvas-2 px-1.5 py-0.5 font-mono text-[10px] text-ink-muted uppercase">
                       {conf.subject}
                     </span>
-                    <h4 className="text-xs font-semibold text-foreground">{conf.title}</h4>
+                    <h4 className="text-xs font-semibold text-ink">{conf.title}</h4>
                   </div>
                   <Badge
                     variant="outline"
                     className={cn(
                       "text-[10px]",
                       isSuperseded
-                        ? "border-primary/30 text-primary bg-primary/10"
-                        : "border-rose-500/30 text-rose-600 bg-rose-500/10",
+                        ? "border-brand text-brand-text bg-brand-soft"
+                        : "border-conflict/30 text-conflict bg-danger-soft",
                     )}
                   >
                     {isSuperseded ? "Authority Superseded" : "Open Contradiction"}
@@ -137,7 +137,7 @@ export function ConflictsTab({ handoverId, onJumpToClaim }: ConflictsTabProps) {
                 </div>
 
                 {conf.description && (
-                  <p className="text-xs text-muted-foreground leading-relaxed break-words">
+                  <p className="text-xs text-ink-muted leading-relaxed break-words">
                     {conf.description}
                   </p>
                 )}
@@ -145,21 +145,21 @@ export function ConflictsTab({ handoverId, onJumpToClaim }: ConflictsTabProps) {
                 {/* Conflict Sources comparison (stacked in drawer to prevent horizontal overflow) */}
                 <div className="flex flex-col gap-2 text-xs">
                   {/* Claim A */}
-                  <div className="rounded-md border border-border/60 bg-muted/20 p-2.5 space-y-1.5 min-w-0">
+                  <div className="rounded-md border border-card-border bg-canvas-2 p-2.5 space-y-1.5 min-w-0">
                     <div className="flex items-center justify-between gap-1 flex-wrap">
-                      <span className="text-[10px] font-bold uppercase text-muted-foreground">
+                      <span className="text-[10px] font-bold uppercase text-ink-muted">
                         Source A {conf.claim_a_id === conf.loser_claim_id && "(Older)"}
                       </span>
                       {getAuthorityBadge(conf.claim_a_authority)}
                     </div>
-                    <p className="font-medium text-foreground text-xs leading-relaxed break-words">
+                    <p className="font-medium text-ink text-xs leading-relaxed break-words">
                       {conf.claim_a_text || "Claim A reference"}
                     </p>
                     {onJumpToClaim && conf.claim_a_id && (
                       <button
                         type="button"
                         onClick={() => onJumpToClaim(conf.claim_a_id)}
-                        className="text-[11px] text-primary hover:underline flex items-center gap-0.5"
+                        className="text-[11px] text-brand-text hover:underline flex items-center gap-0.5"
                       >
                         Inspect claim <ArrowRight className="h-2.5 w-2.5" />
                       </button>
@@ -167,21 +167,21 @@ export function ConflictsTab({ handoverId, onJumpToClaim }: ConflictsTabProps) {
                   </div>
 
                   {/* Claim B */}
-                  <div className="rounded-md border border-border/60 bg-muted/20 p-2.5 space-y-1.5 min-w-0">
+                  <div className="rounded-md border border-card-border bg-canvas-2 p-2.5 space-y-1.5 min-w-0">
                     <div className="flex items-center justify-between gap-1 flex-wrap">
-                      <span className="text-[10px] font-bold uppercase text-muted-foreground">
+                      <span className="text-[10px] font-bold uppercase text-ink-muted">
                         Source B {conf.claim_b_id === conf.winner_claim_id && "(Newer Winner)"}
                       </span>
                       {getAuthorityBadge(conf.claim_b_authority)}
                     </div>
-                    <p className="font-medium text-foreground text-xs leading-relaxed break-words">
+                    <p className="font-medium text-ink text-xs leading-relaxed break-words">
                       {conf.claim_b_text || "Claim B reference"}
                     </p>
                     {onJumpToClaim && conf.claim_b_id && (
                       <button
                         type="button"
                         onClick={() => onJumpToClaim(conf.claim_b_id)}
-                        className="text-[11px] text-primary hover:underline flex items-center gap-0.5"
+                        className="text-[11px] text-brand-text hover:underline flex items-center gap-0.5"
                       >
                         Inspect claim <ArrowRight className="h-2.5 w-2.5" />
                       </button>
@@ -190,8 +190,8 @@ export function ConflictsTab({ handoverId, onJumpToClaim }: ConflictsTabProps) {
                 </div>
 
                 {/* Resolution Summary / Actions */}
-                <div className="flex items-center justify-between pt-2 border-t border-border/40 text-xs gap-2">
-                  <span className="text-[11px] text-muted-foreground truncate flex-1 min-w-0">
+                <div className="flex items-center justify-between pt-2 border-t border-card-border text-xs gap-2">
+                  <span className="text-[11px] text-ink-muted truncate flex-1 min-w-0">
                     {conf.chosen_resolution || "Higher authority & recency precedence"}
                   </span>
 
@@ -199,7 +199,7 @@ export function ConflictsTab({ handoverId, onJumpToClaim }: ConflictsTabProps) {
                     <Button
                       size="sm"
                       variant="ghost"
-                      className="h-6 text-xs text-muted-foreground"
+                      className="h-6 text-xs text-ink-muted"
                       onClick={() => handleKeepBoth(conf)}
                     >
                       Keep Both

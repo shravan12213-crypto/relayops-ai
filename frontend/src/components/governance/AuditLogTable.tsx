@@ -111,7 +111,7 @@ export function AuditLogTable() {
   return (
     <div className="space-y-4">
       {/* Verify Chain Header Card */}
-      <Card className="border-border">
+      <Card className="border-card-border">
         <CardHeader className="pb-3">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -138,7 +138,7 @@ export function AuditLogTable() {
                 size="sm"
                 onClick={handleVerify}
                 disabled={verifyMutation.isPending}
-                className="gap-1.5 text-xs bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
+                className="gap-1.5 text-xs bg-primary hover:bg-brand-soft text-primary-foreground font-medium"
               >
                 {verifyMutation.isPending ? (
                   <>
@@ -160,7 +160,7 @@ export function AuditLogTable() {
         {verifyResult && (
           <div className="px-6 pb-4">
             {verifyResult.valid ? (
-              <div className="flex items-center gap-3 rounded-lg border border-verified/40 bg-verified/10 p-3 text-xs text-foreground">
+              <div className="flex items-center gap-3 rounded-lg border border-verified/40 bg-verified/10 p-3 text-xs text-ink">
                 <ShieldCheck className="h-5 w-5 text-verified shrink-0" />
                 <div className="flex-1">
                   <span className="font-semibold text-verified">
@@ -172,13 +172,13 @@ export function AuditLogTable() {
                   variant="ghost"
                   size="sm"
                   onClick={() => setVerifyResult(null)}
-                  className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+                  className="h-6 w-6 p-0 text-ink-muted hover:text-ink"
                 >
                   <X className="h-3.5 w-3.5" />
                 </Button>
               </div>
             ) : (
-              <div className="flex items-start gap-3 rounded-lg border border-destructive bg-destructive/10 p-3 text-xs text-foreground">
+              <div className="flex items-start gap-3 rounded-lg border border-destructive bg-destructive/10 p-3 text-xs text-ink">
                 <ShieldAlert className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
                 <div className="flex-1">
                   <div className="font-bold text-destructive flex items-center gap-2">
@@ -189,7 +189,7 @@ export function AuditLogTable() {
                       </Badge>
                     )}
                   </div>
-                  <p className="mt-1 text-muted-foreground">
+                  <p className="mt-1 text-ink-muted">
                     {verifyResult.error ||
                       `Sequence #${verifyResult.tampered_seq} failed cryptographic verification. Database records have been modified out-of-band.`}
                   </p>
@@ -198,7 +198,7 @@ export function AuditLogTable() {
                   variant="ghost"
                   size="sm"
                   onClick={() => setVerifyResult(null)}
-                  className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+                  className="h-6 w-6 p-0 text-ink-muted hover:text-ink"
                 >
                   <X className="h-3.5 w-3.5" />
                 </Button>
@@ -209,11 +209,11 @@ export function AuditLogTable() {
       </Card>
 
       {/* Filter Toolbar */}
-      <Card className="border-border">
+      <Card className="border-card-border">
         <CardContent className="pt-4 pb-4">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5 items-end">
             <div>
-              <label className="text-[11px] font-medium text-muted-foreground block mb-1">
+              <label className="text-[11px] font-medium text-ink-muted block mb-1">
                 Filter by Action
               </label>
               <Select
@@ -237,11 +237,11 @@ export function AuditLogTable() {
             </div>
 
             <div>
-              <label className="text-[11px] font-medium text-muted-foreground block mb-1">
+              <label className="text-[11px] font-medium text-ink-muted block mb-1">
                 Actor User ID
               </label>
               <div className="relative">
-                <Search className="absolute left-2.5 top-2 h-3.5 w-3.5 text-muted-foreground" />
+                <Search className="absolute left-2.5 top-2 h-3.5 w-3.5 text-ink-muted" />
                 <Input
                   placeholder="e.g. 01J..."
                   value={actorFilter}
@@ -255,7 +255,7 @@ export function AuditLogTable() {
             </div>
 
             <div>
-              <label className="text-[11px] font-medium text-muted-foreground block mb-1">
+              <label className="text-[11px] font-medium text-ink-muted block mb-1">
                 From Date
               </label>
               <Input
@@ -270,7 +270,7 @@ export function AuditLogTable() {
             </div>
 
             <div>
-              <label className="text-[11px] font-medium text-muted-foreground block mb-1">
+              <label className="text-[11px] font-medium text-ink-muted block mb-1">
                 To Date
               </label>
               <Input
@@ -290,13 +290,13 @@ export function AuditLogTable() {
                   variant="outline"
                   size="sm"
                   onClick={handleClearFilters}
-                  className="h-8 gap-1 text-xs text-muted-foreground hover:text-foreground"
+                  className="h-8 gap-1 text-xs text-ink-muted hover:text-ink"
                 >
                   <Filter className="h-3 w-3" />
                   Clear
                 </Button>
               )}
-              <div className="text-[11px] text-muted-foreground ml-auto">
+              <div className="text-[11px] text-ink-muted ml-auto">
                 {data ? `${data.total} recorded events` : ""}
               </div>
             </div>
@@ -305,10 +305,10 @@ export function AuditLogTable() {
       </Card>
 
       {/* Audit Log Table */}
-      <Card className="border-border">
+      <Card className="border-card-border">
         {isLoading ? (
-          <div className="p-8 flex flex-col items-center justify-center gap-2 text-muted-foreground">
-            <Loader2 className="h-6 w-6 animate-spin text-primary" />
+          <div className="p-8 flex flex-col items-center justify-center gap-2 text-ink-muted">
+            <Loader2 className="h-6 w-6 animate-spin text-brand-text" />
             <span className="text-xs">Loading cryptographically verified audit records...</span>
           </div>
         ) : isError ? (
@@ -340,7 +340,7 @@ export function AuditLogTable() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="border-b border-border bg-muted/40 font-medium text-muted-foreground">
+              <thead className="border-b border-card-border bg-canvas-2 font-medium text-ink-muted">
                 <tr>
                   <th className="py-2.5 px-3 w-12 text-center">Seq</th>
                   <th className="py-2.5 px-3">Timestamp</th>
@@ -356,19 +356,19 @@ export function AuditLogTable() {
                   const isExpanded = expandedSeq === item.seq;
                   return (
                     <React.Fragment key={item.seq}>
-                      <tr className="hover:bg-muted/20 transition-colors">
-                        <td className="py-2.5 px-3 text-center font-mono text-muted-foreground text-[11px]">
+                      <tr className="hover:bg-canvas-2 transition-colors">
+                        <td className="py-2.5 px-3 text-center font-mono text-ink-muted text-[11px]">
                           #{item.seq}
                         </td>
                         <td className="py-2.5 px-3 whitespace-nowrap">
                           <RelativeTime date={item.created_at} />
                         </td>
                         <td className="py-2.5 px-3">
-                          <Badge variant="outline" className="font-mono text-[10px] bg-muted/60">
+                          <Badge variant="outline" className="font-mono text-[10px] bg-canvas-2">
                             {item.action}
                           </Badge>
                         </td>
-                        <td className="py-2.5 px-3 font-mono text-[11px] text-muted-foreground">
+                        <td className="py-2.5 px-3 font-mono text-[11px] text-ink-muted">
                           {item.actor_id ? (
                             <span title={item.actor_id}>
                               {item.actor_id.length > 12
@@ -376,18 +376,18 @@ export function AuditLogTable() {
                                 : item.actor_id}
                             </span>
                           ) : (
-                            <span className="italic text-muted-foreground/60">system</span>
+                            <span className="italic text-ink-faint">system</span>
                           )}
                         </td>
                         <td className="py-2.5 px-3 font-mono text-[11px]">
-                          <span className="text-muted-foreground">{item.target_type}</span>
+                          <span className="text-ink-muted">{item.target_type}</span>
                           {item.target_id && (
-                            <span className="text-foreground ml-1 font-semibold">
+                            <span className="text-ink ml-1 font-semibold">
                               #{item.target_id.slice(-6)}
                             </span>
                           )}
                         </td>
-                        <td className="py-2.5 px-3 font-mono text-[10px] text-muted-foreground">
+                        <td className="py-2.5 px-3 font-mono text-[10px] text-ink-muted">
                           <div className="flex items-center gap-1.5">
                             <span title={item.hash}>{item.hash.slice(0, 12)}...</span>
                             <CopyButton value={item.hash} label="Copy full SHA-256 hash" />
@@ -410,11 +410,11 @@ export function AuditLogTable() {
                         </td>
                       </tr>
                       {isExpanded && (
-                        <tr className="bg-muted/10 border-b border-border">
+                        <tr className="bg-canvas-2 border-b border-card-border">
                           <td colSpan={7} className="py-3 px-4">
-                            <div className="rounded-md border border-border bg-card p-3 space-y-2">
-                              <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-                                <span className="font-semibold text-foreground">
+                            <div className="rounded-md border border-card-border bg-card p-3 space-y-2">
+                              <div className="flex items-center justify-between text-[11px] text-ink-muted">
+                                <span className="font-semibold text-ink">
                                   Payload Data for Event #{item.seq} ({item.action})
                                 </span>
                                 <CopyButton
@@ -422,7 +422,7 @@ export function AuditLogTable() {
                                   label="Copy JSON"
                                 />
                               </div>
-                              <pre className="font-mono text-[11px] leading-relaxed overflow-x-auto p-2 bg-muted/50 rounded text-foreground max-h-60">
+                              <pre className="font-mono text-[11px] leading-relaxed overflow-x-auto p-2 bg-canvas-2 rounded text-ink max-h-60">
                                 {JSON.stringify(item.payload, null, 2)}
                               </pre>
                             </div>
@@ -439,10 +439,10 @@ export function AuditLogTable() {
 
         {/* Pagination Bar */}
         {data && data.pages > 1 && (
-          <div className="flex items-center justify-between border-t border-border px-4 py-3 text-xs text-muted-foreground">
+          <div className="flex items-center justify-between border-t border-card-border px-4 py-3 text-xs text-ink-muted">
             <div>
-              Page <span className="font-medium text-foreground">{data.page}</span> of{" "}
-              <span className="font-medium text-foreground">{data.pages}</span> ({data.total} total
+              Page <span className="font-medium text-ink">{data.page}</span> of{" "}
+              <span className="font-medium text-ink">{data.pages}</span> ({data.total} total
               events)
             </div>
             <div className="flex items-center gap-2">

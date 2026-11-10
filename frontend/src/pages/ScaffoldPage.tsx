@@ -69,15 +69,15 @@ function HealthCard() {
           </div>
         ) : (
           <dl className="grid grid-cols-[auto_1fr] gap-x-6 gap-y-2 text-sm">
-            <dt className="text-muted-foreground">Version</dt>
+            <dt className="text-ink-muted">Version</dt>
             <dd className="font-mono text-xs leading-6">{health.data.version}</dd>
-            <dt className="text-muted-foreground">LLM mode</dt>
+            <dt className="text-ink-muted">LLM mode</dt>
             <dd>
               <Badge variant="secondary" className="font-mono text-[11px]">
                 {health.data.llm_mode}
               </Badge>
             </dd>
-            <dt className="text-muted-foreground">Database</dt>
+            <dt className="text-ink-muted">Database</dt>
             <dd className="font-mono text-xs leading-6">{health.data.db}</dd>
           </dl>
         )}
@@ -117,13 +117,13 @@ export function ScaffoldPage() {
       </header>
 
       <main className="mx-auto max-w-5xl px-6 py-14">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-muted">
           Foundation ready
         </p>
         <h1 className="mt-3 max-w-2xl text-4xl font-semibold tracking-tight">
           A handover you can check.
         </h1>
-        <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+        <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-muted">
           RelayOps turns scattered commits, tickets, chat and docs into a traceable handover — every
           claim tied to real evidence, every gap named instead of smoothed over. This page is the
           P01 scaffold: theme, API proxy and tooling are live; the pipeline lands in the next
@@ -143,7 +143,7 @@ export function ScaffoldPage() {
                 {SWATCHES.map((swatch) => (
                   <div key={swatch.name} className="space-y-1.5">
                     <div className={cn("h-10 rounded-md", swatch.className)} />
-                    <p className="font-mono text-[10px] leading-tight text-muted-foreground">
+                    <p className="font-mono text-[10px] leading-tight text-ink-muted">
                       {swatch.name}
                     </p>
                   </div>
@@ -152,7 +152,7 @@ export function ScaffoldPage() {
               <Separator />
               <div className="space-y-1.5">
                 <p className="text-sm">Inter — dense, quiet interface text.</p>
-                <p className="font-mono text-xs text-muted-foreground">
+                <p className="font-mono text-xs text-ink-muted">
                   JetBrains Mono — commit 9f2c1ab · PAY-142 · application/json
                 </p>
               </div>
@@ -163,7 +163,7 @@ export function ScaffoldPage() {
         <section className="mt-4 rounded-lg border bg-card p-6">
           <div className="flex items-baseline justify-between gap-4">
             <h2 className="text-sm font-semibold">Pipeline</h2>
-            <span className="font-mono text-[11px] text-muted-foreground">
+            <span className="font-mono text-[11px] text-ink-muted">
               5 stages · not yet wired
             </span>
           </div>
@@ -174,8 +174,8 @@ export function ScaffoldPage() {
                   className={cn(
                     "flex items-center gap-2 rounded-md border px-3 py-1.5 text-sm",
                     index === 0
-                      ? "border-primary/30 bg-accent text-accent-foreground"
-                      : "text-muted-foreground",
+                      ? "border-brand bg-accent text-accent-foreground"
+                      : "text-ink-muted",
                   )}
                 >
                   <span className="font-mono text-[10px] tabular-nums">
@@ -184,7 +184,7 @@ export function ScaffoldPage() {
                   {stage}
                 </span>
                 {index < STAGES.length - 1 && (
-                  <ArrowRight className="size-3.5 text-muted-foreground/60" aria-hidden="true" />
+                  <ArrowRight className="size-3.5 text-ink-faint" aria-hidden="true" />
                 )}
               </li>
             ))}
@@ -193,7 +193,7 @@ export function ScaffoldPage() {
       </main>
 
       <footer className="border-t">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-6 py-6 text-xs text-muted-foreground">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-6 py-6 text-xs text-ink-muted">
           <span className="font-mono">make dev · npm run dev · make test</span>
           <span>RelayOps — verifiable handovers, not a chatbot.</span>
         </div>

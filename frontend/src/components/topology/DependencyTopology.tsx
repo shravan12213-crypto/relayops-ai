@@ -60,8 +60,8 @@ const OWNER_COLORS: Record<string, { bg: string; border: string; text: string; d
     dot: "#a855f7",
   },
   shared: {
-    bg: "bg-slate-500/10",
-    border: "border-slate-500/40",
+    bg: "bg-canvas-2",
+    border: "border-card-border",
     text: "text-slate-600 dark:text-slate-400",
     dot: "#64748b",
   },
@@ -86,7 +86,7 @@ function ModuleNode(props: NodeProps<ModuleCustomNode>) {
         isSelected
           ? "ring-2 ring-primary shadow-md border-primary"
           : "hover:shadow-md hover:border-primary/60",
-        node.bus_factor_risk === "high" && "ring-1 ring-rose-500/40",
+        node.bus_factor_risk === "high" && "ring-1 ring-conflict/30",
       )}
       style={{ width: "230px" }}
     >
@@ -102,7 +102,7 @@ function ModuleNode(props: NodeProps<ModuleCustomNode>) {
         {node.bus_factor_risk === "high" && (
           <Badge
             variant="outline"
-            className="border-rose-500 bg-rose-500/15 text-rose-600 dark:text-rose-400 text-[9px] gap-1 px-1.5 py-0 font-bold animate-pulse"
+            className="border-conflict bg-danger-soft text-conflict dark:text-conflict text-[9px] gap-1 px-1.5 py-0 font-bold animate-pulse"
           >
             <ShieldAlert className="h-2.5 w-2.5" />
             Bus Factor 1
@@ -113,7 +113,7 @@ function ModuleNode(props: NodeProps<ModuleCustomNode>) {
         {node.undocumented && (
           <Badge
             variant="outline"
-            className="border-amber-500 bg-amber-500/15 text-amber-700 dark:text-amber-400 text-[9px] gap-1 px-1.5 py-0 font-semibold"
+            className="border-needs-review bg-warn-soft text-[9px] font-semibold text-needs-review gap-1 px-1.5 py-0"
           >
             <FileWarning className="h-2.5 w-2.5" />
             0 Docs
@@ -359,7 +359,7 @@ export function DependencyTopology({ graph, className }: DependencyTopologyProps
                 </span>
 
                 {selectedNode.bus_factor_risk === "high" && (
-                  <Badge variant="outline" className="border-rose-500 bg-rose-500/10 text-rose-600 text-[10px]">
+                  <Badge variant="outline" className="border-conflict bg-danger-soft text-conflict text-[10px]">
                     Bus Factor 1
                   </Badge>
                 )}
@@ -381,8 +381,8 @@ export function DependencyTopology({ graph, className }: DependencyTopologyProps
           <ScrollArea className="flex-1 p-4 space-y-4">
             {/* Bus Factor Warning Card */}
             {selectedNode.bus_factor_risk === "high" && (
-              <div className="rounded-lg border border-rose-500/40 bg-rose-500/10 p-3 space-y-1 text-xs">
-                <div className="flex items-center gap-1.5 font-bold text-rose-600 dark:text-rose-400">
+              <div className="rounded-lg border border-conflict/40 bg-danger-soft p-3 space-y-1 text-xs">
+                <div className="flex items-center gap-1.5 font-bold text-conflict dark:text-conflict">
                   <ShieldAlert className="h-4 w-4" />
                   <span>Bus-Factor Risk Warning</span>
                 </div>
@@ -455,10 +455,10 @@ export function DependencyTopology({ graph, className }: DependencyTopologyProps
                   {selectedNode.open_work.map((ow) => (
                     <div
                       key={ow.id}
-                      className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-2.5 text-xs space-y-1"
+                      className="rounded-lg border border-amber-500/30 bg-needs-review/5 p-2.5 text-xs space-y-1"
                     >
                       <p className="font-medium text-foreground">{ow.text}</p>
-                      <Badge variant="outline" className="text-[10px] text-amber-600 border-amber-500/30">
+                      <Badge variant="outline" className="text-[10px] text-needs-review border-amber-500/30">
                         {ow.kind}
                       </Badge>
                     </div>

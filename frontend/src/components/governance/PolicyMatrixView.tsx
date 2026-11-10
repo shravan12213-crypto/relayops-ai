@@ -32,20 +32,20 @@ export function PolicyMatrixView() {
   return (
     <div className="space-y-4">
       {/* Policy Philosophy Card */}
-      <Card className="border-border">
+      <Card className="border-card-border">
         <CardHeader className="pb-3">
           <CardTitle className="text-base font-semibold flex items-center gap-2">
-            <Shield className="h-5 w-5 text-primary" />
+            <Shield className="h-5 w-5 text-brand-text" />
             Input-Filtered Access Control Matrix
           </CardTitle>
           <CardDescription className="text-xs">
-            Derived directly from <code className="font-mono text-[11px] bg-muted px-1.5 py-0.5 rounded">backend/app/policy.py</code>.
+            Derived directly from <code className="font-mono text-[11px] bg-canvas-2 px-1.5 py-0.5 rounded">backend/app/policy.py</code>.
             Access control is enforced <strong>before retrieval and before LLM prompting</strong>, ensuring restricted context is never leaked.
           </CardDescription>
         </CardHeader>
         <CardContent className="pt-0">
-          <div className="rounded-lg border border-border bg-muted/20 p-3 text-xs leading-relaxed text-muted-foreground flex items-start gap-2.5">
-            <Info className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+          <div className="rounded-lg border border-card-border bg-canvas-2 p-3 text-xs leading-relaxed text-ink-muted flex items-start gap-2.5">
+            <Info className="h-4 w-4 text-brand-text shrink-0 mt-0.5" />
             <div>
               <span>
                 <strong>Non-Negotiable Policy Invariant:</strong> Handover claims and evidence artifacts are scoped by the viewer's active Role and Security Clearance (0–3).
@@ -57,11 +57,11 @@ export function PolicyMatrixView() {
       </Card>
 
       {/* Filter Bar */}
-      <Card className="border-border">
+      <Card className="border-card-border">
         <CardContent className="py-3">
           <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-medium text-muted-foreground">Filter Role:</span>
+              <span className="text-xs font-medium text-ink-muted">Filter Role:</span>
               <Select value={selectedRole} onValueChange={setSelectedRole}>
                 <SelectTrigger className="h-8 w-36 text-xs">
                   <SelectValue placeholder="All Roles" />
@@ -80,7 +80,7 @@ export function PolicyMatrixView() {
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="text-xs font-medium text-muted-foreground">Clearance:</span>
+              <span className="text-xs font-medium text-ink-muted">Clearance:</span>
               <Select value={selectedClearance} onValueChange={setSelectedClearance}>
                 <SelectTrigger className="h-8 w-36 text-xs">
                   <SelectValue placeholder="All Levels" />
@@ -113,7 +113,7 @@ export function PolicyMatrixView() {
                   setSelectedRole("ALL");
                   setSelectedClearance("ALL");
                 }}
-                className="h-8 text-xs text-muted-foreground hover:text-foreground ml-auto"
+                className="h-8 text-xs text-ink-muted hover:text-ink ml-auto"
               >
                 Reset Filters
               </Button>
@@ -123,9 +123,9 @@ export function PolicyMatrixView() {
       </Card>
 
       {/* Matrix Table */}
-      <Card className="border-border">
+      <Card className="border-card-border">
         {isLoading ? (
-          <div className="p-8 text-center text-xs text-muted-foreground">
+          <div className="p-8 text-center text-xs text-ink-muted">
             Loading authorization matrix rules...
           </div>
         ) : isError ? (
@@ -139,7 +139,7 @@ export function PolicyMatrixView() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="border-b border-border bg-muted/40 font-medium text-muted-foreground">
+              <thead className="border-b border-card-border bg-canvas-2 font-medium text-ink-muted">
                 <tr>
                   <th className="py-2.5 px-3">Role</th>
                   <th className="py-2.5 px-3">Clearance</th>
@@ -155,8 +155,8 @@ export function PolicyMatrixView() {
               </thead>
               <tbody className="divide-y divide-border">
                 {rules.map((rule: PolicyMatrixRule, idx: number) => (
-                  <tr key={`${rule.role}-${rule.clearance}-${idx}`} className="hover:bg-muted/20 transition-colors">
-                    <td className="py-2.5 px-3 font-semibold capitalize text-foreground">
+                  <tr key={`${rule.role}-${rule.clearance}-${idx}`} className="hover:bg-canvas-2 transition-colors">
+                    <td className="py-2.5 px-3 font-semibold capitalize text-ink">
                       <Badge variant="outline" className="text-xs">
                         {rule.role}
                       </Badge>
@@ -185,7 +185,7 @@ export function PolicyMatrixView() {
                     <td className="py-2.5 px-3">
                       <SensitivityBadge level={rule.max_claim_sensitivity} size="sm" />
                     </td>
-                    <td className="py-2.5 px-3 text-muted-foreground text-[11px] max-w-xs">
+                    <td className="py-2.5 px-3 text-ink-muted text-[11px] max-w-xs">
                       {rule.description}
                     </td>
                   </tr>
@@ -208,7 +208,7 @@ function PermissionIndicator({ allowed }: { allowed: boolean }) {
     );
   }
   return (
-    <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-muted text-muted-foreground/50" title="Restricted / Not Allowed">
+    <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-canvas-2 text-ink-faint" title="Restricted / Not Allowed">
       <Minus className="h-3 w-3" />
     </span>
   );

@@ -62,7 +62,7 @@ export function EvidenceTab({ evidence }: EvidenceTabProps) {
         return (
           <span
             key={i}
-            className="inline-flex items-center gap-1 rounded bg-amber-500/20 text-amber-800 dark:text-amber-300 px-1 py-0.5 font-mono text-[11px] font-semibold"
+            className="inline-flex items-center gap-1 rounded bg-warn-soft text-needs-review dark:text-needs-review px-1 py-0.5 font-mono text-[11px] font-semibold"
           >
             <ShieldCheck className="h-3 w-3" />
             {part}
@@ -76,17 +76,17 @@ export function EvidenceTab({ evidence }: EvidenceTabProps) {
   return (
     <div className="flex h-full flex-col p-4 space-y-4">
       {/* Header Info */}
-      <div className="rounded-lg border border-border/70 bg-card p-3 shadow-2xs space-y-2">
+      <div className="rounded-lg border border-card-border bg-card p-3 shadow-2xs space-y-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="rounded-md bg-primary/10 p-1.5 text-primary">
+            <div className="rounded-md bg-brand-soft p-1.5 text-brand-text">
               <Icon className="h-4 w-4" />
             </div>
             <div>
               <span className="text-xs font-semibold capitalize">
                 {evidence.source_type || artifact?.kind || "Artifact Source"}
               </span>
-              <p className="font-mono text-[10px] text-muted-foreground truncate max-w-[200px]">
+              <p className="font-mono text-[10px] text-ink-muted truncate max-w-[200px]">
                 {evidence.artifact_id}
               </p>
             </div>
@@ -98,7 +98,7 @@ export function EvidenceTab({ evidence }: EvidenceTabProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-7 w-7 text-muted-foreground hover:text-foreground"
+                className="h-7 w-7 text-ink-muted hover:text-ink"
                 asChild
               >
                 <a
@@ -115,20 +115,20 @@ export function EvidenceTab({ evidence }: EvidenceTabProps) {
         </div>
 
         {artifact?.title && (
-          <div className="text-xs font-medium text-foreground line-clamp-1 border-t border-border/40 pt-1.5">
+          <div className="text-xs font-medium text-ink line-clamp-1 border-t border-card-border pt-1.5">
             {artifact.title}
           </div>
         )}
       </div>
 
       {/* Snippet Card */}
-      <div className="flex-1 flex flex-col min-h-0 rounded-lg border border-border/70 bg-card overflow-hidden shadow-2xs">
-        <div className="flex items-center justify-between border-b border-border/60 bg-muted/40 px-3 py-2 text-xs font-medium text-muted-foreground">
+      <div className="flex-1 flex flex-col min-h-0 rounded-lg border border-card-border bg-card overflow-hidden shadow-2xs">
+        <div className="flex items-center justify-between border-b border-card-border bg-canvas-2 px-3 py-2 text-xs font-medium text-ink-muted">
           <span>Supporting Snippet</span>
           <Button
             variant="ghost"
             size="sm"
-            className="h-6 px-2 text-[11px] gap-1 hover:text-foreground"
+            className="h-6 px-2 text-[11px] gap-1 hover:text-ink"
             onClick={() => setFullArtifactOpen(true)}
           >
             <Eye className="h-3 w-3" />
@@ -137,12 +137,12 @@ export function EvidenceTab({ evidence }: EvidenceTabProps) {
         </div>
 
         <ScrollArea className="flex-1 p-3">
-          <div className="rounded-md border border-verified/30 bg-verified/5 p-3 font-mono text-xs leading-relaxed text-foreground whitespace-pre-wrap break-words select-text">
+          <div className="rounded-md border border-verified/30 bg-verified/5 p-3 font-mono text-xs leading-relaxed text-ink whitespace-pre-wrap break-words select-text">
             {evidence.snippet || (isLoading ? "Loading snippet..." : "No snippet recorded.")}
           </div>
 
           {evidence.char_start !== undefined && evidence.char_end !== undefined && (
-            <div className="mt-2 text-[11px] font-mono text-muted-foreground">
+            <div className="mt-2 text-[11px] font-mono text-ink-muted">
               Span: [{evidence.char_start} - {evidence.char_end}]
             </div>
           )}
@@ -154,7 +154,7 @@ export function EvidenceTab({ evidence }: EvidenceTabProps) {
         <DialogContent className="max-w-2xl max-h-[85vh] flex flex-col">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-base">
-              <Icon className="h-4 w-4 text-primary" />
+              <Icon className="h-4 w-4 text-brand-text" />
               <span>{artifact?.title || evidence.artifact_id}</span>
             </DialogTitle>
             <DialogDescription className="font-mono text-xs">
@@ -170,7 +170,7 @@ export function EvidenceTab({ evidence }: EvidenceTabProps) {
                 <Skeleton className="h-4 w-5/6" />
               </div>
             ) : (
-              <ScrollArea className="h-[55vh] rounded-md border p-4 bg-muted/30">
+              <ScrollArea className="h-[55vh] rounded-md border p-4 bg-canvas-2">
                 <div className="font-mono text-xs leading-relaxed whitespace-pre-wrap select-text">
                   {artifact?.body_redacted
                     ? renderRedactedBody(artifact.body_redacted)
@@ -180,7 +180,7 @@ export function EvidenceTab({ evidence }: EvidenceTabProps) {
             )}
           </div>
 
-          <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t">
+          <div className="flex items-center justify-between text-xs text-ink-muted pt-2 border-t">
             <span className="flex items-center gap-1.5">
               <ShieldCheck className="h-3.5 w-3.5 text-verified" />
               Pre-scrubbed at ingestion: PII and credentials redacted before LLM and storage.

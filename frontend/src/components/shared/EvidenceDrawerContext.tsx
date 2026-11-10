@@ -57,7 +57,7 @@ export function EvidenceDrawerProvider({ children }: { children: React.ReactNode
         return (
           <span
             key={i}
-            className="inline-flex items-center gap-1 rounded bg-amber-500/20 text-amber-800 dark:text-amber-300 px-1 py-0.5 font-mono text-[11px] font-semibold"
+            className="inline-flex items-center gap-1 rounded-md bg-warn-soft px-1 py-0.5 font-mono text-[11px] font-semibold text-needs-review"
           >
             <ShieldCheck className="h-3 w-3" />
             {part}

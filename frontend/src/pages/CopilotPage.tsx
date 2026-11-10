@@ -43,7 +43,7 @@ export function CopilotPage() {
             </Button>
             <Button asChild variant="outline" size="sm" className="gap-1.5 text-xs h-8">
               <Link to={`/handovers/${handoverId}/visualizations`}>
-                <GitBranch className="h-3.5 w-3.5 text-primary" />
+                <GitBranch className="h-3.5 w-3.5 text-brand-text" />
                 Timeline & Topology
               </Link>
             </Button>
@@ -51,7 +51,7 @@ export function CopilotPage() {
         }
       />
 
-      <Card className="border-border shadow-sm overflow-hidden">
+      <Card className="border-card-border shadow-sm overflow-hidden">
         <CardContent className="p-0">
           <CopilotChatView
             handoverId={handoverId}

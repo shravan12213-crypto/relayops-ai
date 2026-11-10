@@ -305,7 +305,7 @@ export function PipelineRunPage() {
         <Card>
           <CardContent className="p-4 flex items-center justify-between">
             <div>
-              <p className="text-[11px] text-muted-foreground uppercase font-semibold">
+              <p className="text-[11px] text-ink-muted uppercase font-semibold">
                 Pipeline Status
               </p>
               <div className="mt-1 flex items-center gap-2">
@@ -323,7 +323,7 @@ export function PipelineRunPage() {
                 />
               </div>
             </div>
-            {isRunning && <Loader2 className="h-5 w-5 animate-spin text-primary" />}
+            {isRunning && <Loader2 className="h-5 w-5 animate-spin text-brand-text" />}
             {isDone && <CheckCircle2 className="h-5 w-5 text-verified" />}
             {isFailed && <AlertCircle className="h-5 w-5 text-conflict" />}
           </CardContent>
@@ -332,15 +332,15 @@ export function PipelineRunPage() {
         <Card>
           <CardContent className="p-4 flex items-center justify-between">
             <div>
-              <p className="text-[11px] text-muted-foreground uppercase font-semibold">
+              <p className="text-[11px] text-ink-muted uppercase font-semibold">
                 Execution Time
               </p>
-              <div className="mt-1 flex items-center gap-1.5 font-mono text-base font-bold text-foreground">
-                <Clock className="h-4 w-4 text-muted-foreground" />
+              <div className="mt-1 flex items-center gap-1.5 font-mono text-base font-bold text-ink">
+                <Clock className="h-4 w-4 text-ink-muted" />
                 <span>{formatElapsed(elapsedSeconds)}</span>
               </div>
             </div>
-            <span className="font-mono text-xs text-muted-foreground">
+            <span className="font-mono text-xs text-ink-muted">
               {job?.progress ?? 0}% completed
             </span>
           </CardContent>
@@ -349,10 +349,10 @@ export function PipelineRunPage() {
         <Card>
           <CardContent className="p-4 flex items-center justify-between">
             <div>
-              <p className="text-[11px] text-muted-foreground uppercase font-semibold">
+              <p className="text-[11px] text-ink-muted uppercase font-semibold">
                 Active Job ID
               </p>
-              <p className="mt-1 font-mono text-xs font-semibold text-foreground">
+              <p className="mt-1 font-mono text-xs font-semibold text-ink">
                 {activeJobId ?? "No active job"}
               </p>
             </div>
@@ -361,7 +361,7 @@ export function PipelineRunPage() {
                 variant="ghost"
                 size="icon"
                 onClick={() => void refetchJob()}
-                className="h-7 w-7 text-muted-foreground"
+                className="h-7 w-7 text-ink-muted"
                 aria-label="Refresh job status"
               >
                 <RefreshCw className="h-3.5 w-3.5" />
@@ -414,12 +414,12 @@ export function PipelineRunPage() {
                         "relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border text-xs font-mono font-bold transition-all",
                         isStageComplete && "border-verified bg-verified text-primary-foreground",
                         isStageActive &&
-                          "border-primary bg-primary/10 text-primary ring-4 ring-primary/20 animate-pulse",
+                          "border-primary bg-brand-soft text-brand-text ring-4 ring-primary/20 animate-pulse",
                         isStageFailed && "border-conflict bg-conflict text-primary-foreground",
                         !isStageComplete &&
                           !isStageActive &&
                           !isStageFailed &&
-                          "border-border bg-muted text-muted-foreground",
+                          "border-card-border bg-canvas-2 text-ink-muted",
                       )}
                     >
                       {isStageComplete ? (
@@ -439,8 +439,8 @@ export function PipelineRunPage() {
                         <span
                           className={cn(
                             "text-xs font-semibold",
-                            isStageActive && "text-primary",
-                            isStageComplete && "text-foreground",
+                            isStageActive && "text-brand-text",
+                            isStageComplete && "text-ink",
                             isStageFailed && "text-conflict",
                           )}
                         >
@@ -450,7 +450,7 @@ export function PipelineRunPage() {
                         {isStageActive && (
                           <Badge
                             variant="outline"
-                            className="border-primary/40 text-primary text-[10px] animate-pulse"
+                            className="border-brand text-brand-text text-[10px] animate-pulse"
                           >
                             Processing
                           </Badge>
@@ -459,7 +459,7 @@ export function PipelineRunPage() {
                           <span className="font-mono text-[10px] text-verified">Done</span>
                         )}
                       </div>
-                      <p className="text-[11px] text-muted-foreground leading-relaxed">
+                      <p className="text-[11px] text-ink-muted leading-relaxed">
                         {stg.description}
                       </p>
                     </div>
@@ -477,7 +477,7 @@ export function PipelineRunPage() {
                     <p className="text-xs font-semibold text-conflict">
                       Pipeline Execution Interrupted
                     </p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-ink-muted">
                       {job?.error ||
                         "An error occurred during stage execution. Earlier stage outputs were preserved."}
                     </p>
@@ -485,7 +485,7 @@ export function PipelineRunPage() {
                 </div>
 
                 <div className="flex items-center gap-2 pt-2 border-t border-conflict/20">
-                  <span className="text-xs text-muted-foreground">Resume from stage:</span>
+                  <span className="text-xs text-ink-muted">Resume from stage:</span>
                   <Select value={selectedRetryStage} onValueChange={setSelectedRetryStage}>
                     <SelectTrigger className="h-8 text-xs w-48">
                       <SelectValue />
@@ -518,10 +518,10 @@ export function PipelineRunPage() {
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="h-5 w-5 text-verified" />
                     <div>
-                      <p className="text-xs font-semibold text-foreground">
+                      <p className="text-xs font-semibold text-ink">
                         Handover Pipeline Completed Successfully
                       </p>
-                      <p className="text-[11px] text-muted-foreground">
+                      <p className="text-[11px] text-ink-muted">
                         All claims bound to valid evidence citations. Snapshot v1 frozen.
                       </p>
                     </div>
@@ -544,14 +544,14 @@ export function PipelineRunPage() {
         <Card className="lg:col-span-5 flex flex-col">
           <CardHeader className="pb-3 border-b flex flex-row items-center justify-between">
             <div className="flex items-center gap-2">
-              <Terminal className="h-4 w-4 text-primary" />
+              <Terminal className="h-4 w-4 text-brand-text" />
               <CardTitle className="text-xs font-semibold">Live Pipeline Stream</CardTitle>
             </div>
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setLogsExpanded(!logsExpanded)}
-              className="h-6 w-6 text-muted-foreground"
+              className="h-6 w-6 text-ink-muted"
               aria-label="Toggle terminal logs"
             >
               {logsExpanded ? (
@@ -563,11 +563,11 @@ export function PipelineRunPage() {
           </CardHeader>
           <CardContent className="flex-1 p-0">
             {logsExpanded && (
-              <div className="h-[480px] overflow-y-auto bg-black/95 p-3.5 font-mono text-[11px] leading-relaxed text-slate-300">
+              <div className="h-[480px] overflow-y-auto bg-black/95 p-3.5 font-mono text-[11px] leading-relaxed text-ink-muted">
                 {logs.length > 0 ? (
                   logs.map((log, i) => (
                     <div key={`${log.ts}-${i}`} className="flex gap-2 py-0.5">
-                      <span className="text-slate-500 select-none shrink-0">
+                      <span className="text-ink-muted select-none shrink-0">
                         {log.ts ? log.ts.substring(11, 19) : "--:--:--"}
                       </span>
                       <span className="text-emerald-400 select-none shrink-0">&gt;</span>
@@ -575,7 +575,7 @@ export function PipelineRunPage() {
                     </div>
                   ))
                 ) : (
-                  <div className="flex h-full items-center justify-center text-slate-500 italic">
+                  <div className="flex h-full items-center justify-center text-ink-muted italic">
                     Waiting for pipeline events...
                   </div>
                 )}

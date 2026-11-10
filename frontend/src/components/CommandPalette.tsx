@@ -141,9 +141,9 @@ export function CommandPalette({ open, onOpenChange, onSwitchPreviewRole }: Comm
         <CommandGroup heading="Preferences & Account">
           <CommandItem onSelect={() => runCommand(toggleTheme)} className="gap-2">
             {theme === "dark" ? (
-              <Sun className="h-4 w-4 text-amber-500" />
+              <Sun className="h-4 w-4 text-ink-muted" />
             ) : (
-              <Moon className="h-4 w-4 text-blue-500" />
+              <Moon className="h-4 w-4 text-ink-muted" />
             )}
             <span>Toggle {theme === "dark" ? "Light" : "Dark"} Mode</span>
           </CommandItem>

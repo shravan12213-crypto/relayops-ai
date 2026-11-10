@@ -74,7 +74,7 @@ export function SignoffModal({
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-base">
-            <FileSignature className="h-4 w-4 text-primary" />
+            <FileSignature className="h-4 w-4 text-brand-text" />
             <span>Dual Cryptographic Sign-Off</span>
           </DialogTitle>
           <DialogDescription className="text-xs">
@@ -85,28 +85,28 @@ export function SignoffModal({
         <div className="space-y-4 py-2">
           {/* Version & Hash Banner */}
           {latestVersion ? (
-            <div className="rounded-lg border bg-muted/40 p-3 space-y-1 text-xs">
+            <div className="rounded-lg border bg-canvas-2 p-3 space-y-1 text-xs">
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-foreground">
+                <span className="font-semibold text-ink">
                   Snapshot Version {latestVersion.version}
                 </span>
-                <span className="font-mono text-[11px] text-muted-foreground">
+                <span className="font-mono text-[11px] text-ink-muted">
                   Hash: {latestVersion.hash.slice(0, 16)}...
                 </span>
               </div>
-              <p className="text-muted-foreground text-[11px]">
+              <p className="text-ink-muted text-[11px]">
                 Cryptographic integrity anchored via SHA-256 state tree.
               </p>
             </div>
           ) : (
-            <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-700 dark:text-amber-400">
+            <div className="rounded-lg border border-needs-review bg-warn-soft p-3 text-xs text-needs-review dark:text-needs-review">
               No snapshot version created yet. Create a snapshot first to freeze the review.
             </div>
           )}
 
           {/* Verification Checklist */}
           <div className="rounded-lg border p-3 space-y-2 text-xs">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-ink-muted">
               Pre-flight Sign-off Checklist
             </span>
 
@@ -115,9 +115,9 @@ export function SignoffModal({
                 {draftCount === 0 ? (
                   <CheckCircle2 className="h-3.5 w-3.5 text-verified" />
                 ) : (
-                  <AlertCircle className="h-3.5 w-3.5 text-rose-500" />
+                  <AlertCircle className="h-3.5 w-3.5 text-conflict" />
                 )}
-                <span className={cn(draftCount === 0 ? "text-foreground" : "text-rose-600 font-medium")}>
+                <span className={cn(draftCount === 0 ? "text-ink" : "text-conflict font-medium")}>
                   {draftCount === 0
                     ? "All claims reviewed (0 drafts remaining)"
                     : `${draftCount} draft claims still require review`}
@@ -128,13 +128,13 @@ export function SignoffModal({
                 {unresolvedHighAmbiguitiesCount === 0 ? (
                   <CheckCircle2 className="h-3.5 w-3.5 text-verified" />
                 ) : (
-                  <AlertCircle className="h-3.5 w-3.5 text-rose-500" />
+                  <AlertCircle className="h-3.5 w-3.5 text-conflict" />
                 )}
                 <span
                   className={cn(
                     unresolvedHighAmbiguitiesCount === 0
-                      ? "text-foreground"
-                      : "text-rose-600 font-medium",
+                      ? "text-ink"
+                      : "text-conflict font-medium",
                   )}
                 >
                   {unresolvedHighAmbiguitiesCount === 0
@@ -144,8 +144,8 @@ export function SignoffModal({
               </div>
 
               <div className="flex items-center gap-2">
-                <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-                <span className="text-foreground">
+                <ShieldCheck className="h-3.5 w-3.5 text-brand-text" />
+                <span className="text-ink">
                   Dual authorization required (Outgoing Contributor + Lead)
                 </span>
               </div>
@@ -154,7 +154,7 @@ export function SignoffModal({
 
           {/* Current Signers Status Chips */}
           <div className="rounded-lg border bg-card p-3 space-y-2 text-xs">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-ink-muted">
               Signatures Recorded
             </span>
 
@@ -164,19 +164,19 @@ export function SignoffModal({
                   "rounded-md border p-2 flex items-center justify-between",
                   outgoingSigned
                     ? "border-verified/40 bg-verified/5"
-                    : "border-border/60 bg-muted/20",
+                    : "border-card-border bg-canvas-2",
                 )}
               >
                 <div>
                   <div className="text-xs font-semibold">Outgoing Contributor</div>
-                  <div className="text-[11px] text-muted-foreground">
+                  <div className="text-[11px] text-ink-muted">
                     {outgoingSigned ? "Signed & Sealed" : "Pending Signature"}
                   </div>
                 </div>
                 {outgoingSigned ? (
                   <Check className="h-4 w-4 text-verified" />
                 ) : (
-                  <Badge variant="outline" className="text-[10px] text-muted-foreground">
+                  <Badge variant="outline" className="text-[10px] text-ink-muted">
                     Pending
                   </Badge>
                 )}
@@ -187,19 +187,19 @@ export function SignoffModal({
                   "rounded-md border p-2 flex items-center justify-between",
                   leadSigned
                     ? "border-verified/40 bg-verified/5"
-                    : "border-border/60 bg-muted/20",
+                    : "border-card-border bg-canvas-2",
                 )}
               >
                 <div>
                   <div className="text-xs font-semibold">Project Lead</div>
-                  <div className="text-[11px] text-muted-foreground">
+                  <div className="text-[11px] text-ink-muted">
                     {leadSigned ? "Signed & Sealed" : "Pending Signature"}
                   </div>
                 </div>
                 {leadSigned ? (
                   <Check className="h-4 w-4 text-verified" />
                 ) : (
-                  <Badge variant="outline" className="text-[10px] text-muted-foreground">
+                  <Badge variant="outline" className="text-[10px] text-ink-muted">
                     Pending
                   </Badge>
                 )}
@@ -208,7 +208,7 @@ export function SignoffModal({
 
             {/* Verify Chain Status Badge */}
             {verification && (
-              <div className="mt-2 flex items-center justify-between pt-2 border-t text-[11px] font-mono text-muted-foreground">
+              <div className="mt-2 flex items-center justify-between pt-2 border-t text-[11px] font-mono text-ink-muted">
                 <span className="flex items-center gap-1 text-verified">
                   <Key className="h-3 w-3" />
                   Chain: {verification.chain_valid ? "VALID" : "TAMPERED"}
@@ -223,7 +223,7 @@ export function SignoffModal({
           {/* Comment input if signing */}
           {!alreadySigned && !isBlocked && (
             <div className="space-y-1">
-              <label className="text-xs font-medium text-foreground">
+              <label className="text-xs font-medium text-ink">
                 Signer Endorsement / Comment (Optional)
               </label>
               <Textarea
@@ -237,11 +237,11 @@ export function SignoffModal({
           )}
           {/* Just Signed Animated Feedback */}
           {justSigned && (
-            <div className="flex items-center gap-2.5 rounded-lg border border-verified/40 bg-verified/10 p-3 text-xs text-foreground animate-in zoom-in-95 duration-200">
+            <div className="flex items-center gap-2.5 rounded-lg border border-verified/40 bg-verified/10 p-3 text-xs text-ink animate-in zoom-in-95 duration-200">
               <CheckCircle2 className="h-5 w-5 text-verified shrink-0 animate-in zoom-in-75 duration-300" />
               <div>
                 <span className="font-semibold text-verified">Signature Cryptographically Anchored!</span>
-                <p className="text-[11px] text-muted-foreground mt-0.5">
+                <p className="text-[11px] text-ink-muted mt-0.5">
                   Your role-authenticated sign-off has been verified and added to the immutable audit chain.
                 </p>
               </div>
@@ -250,11 +250,11 @@ export function SignoffModal({
 
           {/* Dual Sign-Off Completed Banner */}
           {outgoingSigned && leadSigned && !justSigned && (
-            <div className="flex items-center gap-2.5 rounded-lg border border-verified/50 bg-verified/10 p-3 text-xs text-foreground animate-in fade-in-50 duration-200">
+            <div className="flex items-center gap-2.5 rounded-lg border border-verified/50 bg-verified/10 p-3 text-xs text-ink animate-in fade-in-50 duration-200">
               <ShieldCheck className="h-5 w-5 text-verified shrink-0" />
               <div>
                 <span className="font-semibold text-verified">Dual Sign-Off Complete!</span>
-                <p className="text-[11px] text-muted-foreground mt-0.5">
+                <p className="text-[11px] text-ink-muted mt-0.5">
                   Both the Outgoing Contributor and Project Lead have signed. This handover snapshot is now sealed and ready for formal delivery.
                 </p>
               </div>

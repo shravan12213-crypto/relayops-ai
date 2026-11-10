@@ -31,7 +31,7 @@ export function ShortcutsHelpModal({ open, onOpenChange }: ShortcutsHelpModalPro
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-base">
-            <Keyboard className="h-4 w-4 text-primary" />
+            <Keyboard className="h-4 w-4 text-brand-text" />
             <span>Keyboard Shortcuts</span>
           </DialogTitle>
           <DialogDescription className="text-xs">
@@ -42,8 +42,8 @@ export function ShortcutsHelpModal({ open, onOpenChange }: ShortcutsHelpModalPro
         <div className="divide-y divide-border/60 py-2">
           {SHORTCUTS.map((s, idx) => (
             <div key={idx} className="flex items-center justify-between py-2 text-xs">
-              <span className="text-foreground">{s.description}</span>
-              <kbd className="rounded border border-border bg-muted px-2 py-0.5 font-mono text-xs font-semibold text-muted-foreground shadow-2xs">
+              <span className="text-ink">{s.description}</span>
+              <kbd className="rounded border border-card-border bg-canvas-2 px-2 py-0.5 font-mono text-xs font-semibold text-ink-muted shadow-2xs">
                 {s.key}
               </kbd>
             </div>

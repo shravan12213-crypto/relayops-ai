@@ -19,9 +19,9 @@ import { useProjects } from "@/lib/api/projects";
 import { useRedactionAudit, useRescanRedactions } from "@/lib/api/sources";
 
 const LEVEL_COLORS = [
-  { bg: "bg-slate-500", text: "text-slate-500", border: "border-slate-500/20", fill: "#64748b" }, // Level 0 Public
-  { bg: "bg-blue-500", text: "text-blue-500", border: "border-blue-500/20", fill: "#3b82f6" },   // Level 1 Internal
-  { bg: "bg-amber-500", text: "text-amber-500", border: "border-amber-500/20", fill: "#f59e0b" }, // Level 2 Confidential
+  { bg: "bg-unverified", text: "text-ink-muted", border: "border-card-border", fill: "#64748b" }, // Level 0 Public
+  { bg: "bg-brand", text: "text-ink-muted", border: "border-brand", fill: "#3b82f6" },   // Level 1 Internal
+  { bg: "bg-needs-review", text: "text-needs-review", border: "border-needs-review", fill: "#f59e0b" }, // Level 2 Confidential
   { bg: "bg-red-500", text: "text-red-500", border: "border-red-500/20", fill: "#ef4444" },     // Level 3 Restricted
 ];
 
@@ -64,11 +64,11 @@ export function RedactionAndSensitivityView() {
   return (
     <div className="space-y-6">
       {/* Project Selector Bar */}
-      <Card className="border-border">
+      <Card className="border-card-border">
         <CardContent className="py-3">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
-              <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">
+              <span className="text-xs font-medium text-ink-muted whitespace-nowrap">
                 Select Project:
               </span>
               <Select
@@ -108,12 +108,12 @@ export function RedactionAndSensitivityView() {
       </Card>
 
       {/* Sensitivity Distribution Section */}
-      <Card className="border-border">
+      <Card className="border-card-border">
         <CardHeader className="pb-3">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <CardTitle className="text-base font-semibold flex items-center gap-2">
-                <Shield className="h-5 w-5 text-primary" />
+                <Shield className="h-5 w-5 text-brand-text" />
                 Sensitivity Level Distribution
               </CardTitle>
               <CardDescription className="text-xs">
@@ -122,10 +122,10 @@ export function RedactionAndSensitivityView() {
             </div>
             {sensitivityData && (
               <div className="flex items-center gap-3 text-xs font-mono">
-                <Badge variant="outline" className="bg-muted">
+                <Badge variant="outline" className="bg-canvas-2">
                   {sensitivityData.total_artifacts} artifacts
                 </Badge>
-                <Badge variant="outline" className="bg-muted">
+                <Badge variant="outline" className="bg-canvas-2">
                   {sensitivityData.total_claims} claims
                 </Badge>
               </div>
@@ -134,8 +134,8 @@ export function RedactionAndSensitivityView() {
         </CardHeader>
         <CardContent className="space-y-6">
           {sensitivityLoading ? (
-            <div className="p-8 text-center text-xs text-muted-foreground flex items-center justify-center gap-2">
-              <Loader2 className="h-4 w-4 animate-spin text-primary" />
+            <div className="p-8 text-center text-xs text-ink-muted flex items-center justify-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin text-brand-text" />
               Calculating sensitivity distribution...
             </div>
           ) : sensitivityError ? (
@@ -153,7 +153,7 @@ export function RedactionAndSensitivityView() {
             <div className="space-y-4">
               {/* Composite SVG Stacked Progress Bar */}
               <div className="space-y-1.5">
-                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <div className="flex items-center justify-between text-xs text-ink-muted">
                   <span className="font-medium">Composite Project Sensitivity Breakdown</span>
                   <span className="font-mono text-[11px]">
                     {sensitivityData.total_claims + sensitivityData.total_artifacts > 0
@@ -162,7 +162,7 @@ export function RedactionAndSensitivityView() {
                   </span>
                 </div>
                 {/* SVG/CSS Horizontal Stacked Bar */}
-                <div className="w-full h-5 rounded-md overflow-hidden bg-muted flex border border-border">
+                <div className="w-full h-5 rounded-md overflow-hidden bg-canvas-2 flex border border-card-border">
                   {sensitivityData.levels.map((lvl: SensitivityBucket) => {
                     const widthPct = Math.max(0, lvl.percentage);
                     if (widthPct === 0) return null;
@@ -186,26 +186,26 @@ export function RedactionAndSensitivityView() {
                   return (
                     <div
                       key={lvl.level}
-                      className="rounded-lg border border-border bg-card p-3.5 space-y-2.5 shadow-sm"
+                      className="rounded-lg border border-card-border bg-card p-3.5 space-y-2.5 shadow-sm"
                     >
                       <div className="flex items-center justify-between">
                         <SensitivityBadge level={lvl.level} size="sm" />
-                        <span className="font-mono text-xs font-semibold text-foreground">
+                        <span className="font-mono text-xs font-semibold text-ink">
                           {lvl.percentage.toFixed(1)}%
                         </span>
                       </div>
 
                       {/* Simple CSS meter bar */}
-                      <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
+                      <div className="w-full h-1.5 bg-canvas-2 rounded-full overflow-hidden">
                         <div
                           className={`h-full ${style.bg} rounded-full transition-all duration-500`}
                           style={{ width: `${Math.min(100, Math.max(lvl.percentage, 2))}%` }}
                         />
                       </div>
 
-                      <div className="flex items-center justify-between text-[11px] text-muted-foreground pt-1 border-t border-border/60">
+                      <div className="flex items-center justify-between text-[11px] text-ink-muted pt-1 border-t border-card-border">
                         <span>{lvl.artifacts_count} artifacts</span>
-                        <span className="font-medium text-foreground">{lvl.claims_count} claims</span>
+                        <span className="font-medium text-ink">{lvl.claims_count} claims</span>
                       </div>
                     </div>
                   );
@@ -217,12 +217,12 @@ export function RedactionAndSensitivityView() {
       </Card>
 
       {/* Redaction Audit Report Section */}
-      <Card className="border-border">
+      <Card className="border-card-border">
         <CardHeader className="pb-3">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <CardTitle className="text-base font-semibold flex items-center gap-2">
-                <EyeOff className="h-5 w-5 text-amber-500" />
+                <EyeOff className="h-5 w-5 text-needs-review" />
                 Project Secret Redaction Transparency
               </CardTitle>
               <CardDescription className="text-xs">
@@ -231,7 +231,7 @@ export function RedactionAndSensitivityView() {
             </div>
             <div className="flex items-center gap-3">
               {redactionData && (
-                <Badge variant="outline" className="font-mono text-xs bg-amber-500/10 text-amber-600 border-amber-500/30">
+                <Badge variant="outline" className="font-mono text-xs bg-warn-soft text-needs-review border-needs-review">
                   {redactionData.total_redactions} total redactions fired
                 </Badge>
               )}
@@ -259,8 +259,8 @@ export function RedactionAndSensitivityView() {
         </CardHeader>
         <CardContent>
           {redactionLoading ? (
-            <div className="p-8 text-center text-xs text-muted-foreground flex items-center justify-center gap-2">
-              <Loader2 className="h-4 w-4 animate-spin text-primary" />
+            <div className="p-8 text-center text-xs text-ink-muted flex items-center justify-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin text-brand-text" />
               Loading redaction audit events...
             </div>
           ) : redactionError ? (
@@ -279,7 +279,7 @@ export function RedactionAndSensitivityView() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="border-b border-border bg-muted/40 font-medium text-muted-foreground">
+                <thead className="border-b border-card-border bg-canvas-2 font-medium text-ink-muted">
                   <tr>
                     <th className="py-2.5 px-3">Rule Name</th>
                     <th className="py-2.5 px-3 text-center">Fired Hits</th>
@@ -288,17 +288,17 @@ export function RedactionAndSensitivityView() {
                 </thead>
                 <tbody className="divide-y divide-border">
                   {redactionData.rules.map((rule) => (
-                    <tr key={rule.rule} className="hover:bg-muted/20 transition-colors">
-                      <td className="py-2.5 px-3 font-semibold font-mono text-foreground">
+                    <tr key={rule.rule} className="hover:bg-canvas-2 transition-colors">
+                      <td className="py-2.5 px-3 font-semibold font-mono text-ink">
                         <Badge variant="outline" className="font-mono text-[11px]">
                           {rule.rule}
                         </Badge>
                       </td>
-                      <td className="py-2.5 px-3 text-center font-mono font-semibold text-foreground">
+                      <td className="py-2.5 px-3 text-center font-mono font-semibold text-ink">
                         {rule.count}
                       </td>
-                      <td className="py-2.5 px-3 font-mono text-[11px] text-amber-600 dark:text-amber-400">
-                        <code className="bg-muted px-1.5 py-0.5 rounded border border-border">
+                      <td className="py-2.5 px-3 font-mono text-[11px] text-needs-review dark:text-needs-review">
+                        <code className="bg-canvas-2 px-1.5 py-0.5 rounded border border-card-border">
                           {rule.sample_masked}
                         </code>
                       </td>

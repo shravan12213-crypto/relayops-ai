@@ -40,7 +40,7 @@ export function HandoverVisualizationsPage() {
   return (
     <div className="flex h-full w-full flex-col bg-background select-none overflow-hidden">
       {/* Top Header Bar */}
-      <div className="flex h-12 shrink-0 items-center justify-between border-b border-border/80 px-4 bg-card/60 backdrop-blur-xs">
+      <div className="flex h-12 shrink-0 items-center justify-between border-b border-card-border px-4 bg-card backdrop-blur-xs">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" className="h-7 w-7" asChild>
             <Link to={`/handovers/${handoverId}/review`} title="Return to Review Studio">
@@ -49,11 +49,11 @@ export function HandoverVisualizationsPage() {
           </Button>
 
           <div className="flex items-center gap-2">
-            <h1 className="text-xs font-semibold text-foreground uppercase tracking-wider">
+            <h1 className="text-xs font-semibold text-ink uppercase tracking-wider">
               Handover Visualizations
             </h1>
-            <span className="text-muted-foreground/60">•</span>
-            <span className="text-xs font-medium text-muted-foreground truncate max-w-[240px]">
+            <span className="text-ink-faint">•</span>
+            <span className="text-xs font-medium text-ink-muted truncate max-w-[240px]">
               {handover?.notes || `Handover ${handoverId.slice(0, 8)}`}
             </span>
           </div>
@@ -62,22 +62,22 @@ export function HandoverVisualizationsPage() {
         {/* Tab Switcher in Header */}
         <div className="flex items-center gap-2">
           <Tabs value={activeTab} onValueChange={handleTabChange}>
-            <TabsList className="h-8 bg-muted/60 p-0.5">
+            <TabsList className="h-8 bg-canvas-2 p-0.5">
               <TabsTrigger
                 value="timeline"
-                className="h-7 px-3 text-xs gap-1.5 data-[state=active]:bg-background"
+                className="h-7 gap-1.5 px-3 text-xs data-[state=active]:bg-card"
               >
-                <Workflow className="h-3.5 w-3.5 text-primary" />
+                <Workflow className="h-3.5 w-3.5 text-brand-text" />
                 <span>Decision Timeline</span>
               </TabsTrigger>
               <TabsTrigger
                 value="topology"
-                className="h-7 px-3 text-xs gap-1.5 data-[state=active]:bg-background"
+                className="h-7 gap-1.5 px-3 text-xs data-[state=active]:bg-card"
               >
-                <GitFork className="h-3.5 w-3.5 text-primary" />
+                <GitFork className="h-3.5 w-3.5 text-brand-text" />
                 <span>Dependency Map</span>
                 {graph?.nodes.some((n) => n.bus_factor_risk === "high") && (
-                  <span className="ml-0.5 rounded-full bg-rose-500/20 text-rose-600 px-1 text-[9px] font-mono font-bold">
+                  <span className="ml-0.5 rounded-full bg-danger-soft text-conflict px-1 text-[9px] font-mono font-bold">
                     !
                   </span>
                 )}
@@ -103,13 +103,13 @@ export function HandoverVisualizationsPage() {
               <div className="space-y-2 text-center">
                 <Skeleton className="h-8 w-64 mx-auto" />
                 <Skeleton className="h-48 w-96 mx-auto rounded-xl" />
-                <p className="text-xs text-muted-foreground">Rendering decision swimlanes...</p>
+                <p className="text-xs text-ink-muted">Rendering decision swimlanes...</p>
               </div>
             </div>
           ) : timeline ? (
             <DecisionTimeline timeline={timeline} className="h-full" />
           ) : (
-            <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
+            <div className="flex h-full items-center justify-center text-xs text-ink-muted">
               No timeline data available for this handover.
             </div>
           )
@@ -118,13 +118,13 @@ export function HandoverVisualizationsPage() {
             <div className="space-y-2 text-center">
               <Skeleton className="h-8 w-64 mx-auto" />
               <Skeleton className="h-64 w-96 mx-auto rounded-xl" />
-              <p className="text-xs text-muted-foreground">Computing topological layout...</p>
+              <p className="text-xs text-ink-muted">Computing topological layout...</p>
             </div>
           </div>
         ) : graph ? (
           <DependencyTopology graph={graph} className="h-full" />
         ) : (
-          <div className="flex h-full items-center justify-center text-xs text-muted-foreground">
+          <div className="flex h-full items-center justify-center text-xs text-ink-muted">
             No topology graph data available for this handover.
           </div>
         )}

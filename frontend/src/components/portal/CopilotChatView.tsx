@@ -139,21 +139,21 @@ export function CopilotChatView({
         <div className="space-y-4">
           {/* Welcome / Empty intro banner */}
           {localMessages.length === 0 && (
-            <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 text-xs space-y-3">
+            <div className="rounded-xl border border-brand bg-brand-soft p-4 text-xs space-y-3">
               <div className="flex items-center gap-2">
-                <div className="rounded-lg bg-primary/10 p-2 text-primary">
+                <div className="rounded-lg bg-brand-soft p-2 text-brand-text">
                   <Bot className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground">RelayOps Grounded Copilot</p>
-                  <p className="text-[11px] text-muted-foreground">
+                  <p className="font-semibold text-ink">RelayOps Grounded Copilot</p>
+                  <p className="text-[11px] text-ink-muted">
                     Ask questions grounded strictly in verified handover artifacts and PRs.
                   </p>
                 </div>
               </div>
 
-              <div className="space-y-1.5 pt-2 border-t border-primary/10">
-                <p className="text-[11px] font-medium text-muted-foreground">
+              <div className="space-y-1.5 pt-2 border-t border-brand">
+                <p className="text-[11px] font-medium text-ink-muted">
                   Suggested inquiries:
                 </p>
                 <div className="flex flex-col gap-1.5">
@@ -162,10 +162,10 @@ export function CopilotChatView({
                       key={q}
                       type="button"
                       onClick={() => handleSend(q)}
-                      className="text-left rounded-md border border-border/80 bg-background/80 px-2.5 py-1.5 text-xs text-foreground hover:border-primary/40 hover:bg-muted transition-colors flex items-center justify-between"
+                      className="text-left rounded-md border border-card-border bg-background/80 px-2.5 py-1.5 text-xs text-ink hover:border-brand hover:bg-canvas-2 transition-colors flex items-center justify-between"
                     >
                       <span>{q}</span>
-                      <Sparkles className="h-3 w-3 text-primary opacity-60" />
+                      <Sparkles className="h-3 w-3 text-brand-text opacity-60" />
                     </button>
                   ))}
                 </div>
@@ -183,7 +183,7 @@ export function CopilotChatView({
                   <div className="max-w-[85%] rounded-2xl rounded-tr-xs bg-primary px-3.5 py-2.5 text-primary-foreground shadow-xs">
                     <p className="leading-relaxed">{msg.content}</p>
                   </div>
-                  <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5 text-primary">
+                  <div className="h-6 w-6 rounded-full bg-brand-soft flex items-center justify-center shrink-0 mt-0.5 text-brand-text">
                     <User className="h-3.5 w-3.5" />
                   </div>
                 </div>
@@ -194,11 +194,11 @@ export function CopilotChatView({
             if (msg.refused) {
               return (
                 <div key={msg.id} className="flex gap-2 text-xs">
-                  <div className="h-6 w-6 rounded-full bg-amber-500/10 flex items-center justify-center shrink-0 mt-0.5 text-amber-500">
+                  <div className="h-6 w-6 rounded-full bg-warn-soft flex items-center justify-center shrink-0 mt-0.5 text-needs-review">
                     <ShieldAlert className="h-3.5 w-3.5" />
                   </div>
-                  <div className="max-w-[90%] space-y-2 rounded-2xl rounded-tl-xs border border-amber-500/30 bg-amber-500/10 p-3 text-amber-950 dark:text-amber-200">
-                    <div className="flex items-center gap-1.5 font-semibold text-amber-600 dark:text-amber-400">
+                  <div className="max-w-[90%] space-y-2 rounded-2xl rounded-tl-xs border border-needs-review bg-warn-soft p-3 text-needs-review dark:text-needs-review">
+                    <div className="flex items-center gap-1.5 font-semibold text-needs-review dark:text-needs-review">
                       <ShieldAlert className="h-3.5 w-3.5" />
                       Deterministic Refusal (Missing Evidence)
                     </div>
@@ -208,7 +208,7 @@ export function CopilotChatView({
                       size="sm"
                       variant="outline"
                       onClick={() => handleRefusalAskOutgoing(msg.content)}
-                      className="gap-1.5 text-xs h-7 border-amber-500/40 text-amber-900 dark:text-amber-200 hover:bg-amber-500/20"
+                      className="gap-1.5 text-xs h-7 border-needs-review text-needs-review dark:text-needs-review hover:bg-warn-soft"
                     >
                       <HelpCircle className="h-3 w-3" />
                       Ask {outgoingName.split(" ")[0]} directly
@@ -221,18 +221,18 @@ export function CopilotChatView({
             // Normal verified assistant response
             return (
               <div key={msg.id} className="flex gap-2 text-xs">
-                <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5 text-primary">
+                <div className="h-6 w-6 rounded-full bg-brand-soft flex items-center justify-center shrink-0 mt-0.5 text-brand-text">
                   <Bot className="h-3.5 w-3.5" />
                 </div>
-                <div className="max-w-[90%] space-y-2.5 rounded-2xl rounded-tl-xs border border-border bg-card p-3.5 shadow-xs">
-                  <p className="leading-relaxed text-foreground whitespace-pre-wrap">
+                <div className="max-w-[90%] space-y-2.5 rounded-2xl rounded-tl-xs border border-card-border bg-card p-3.5 shadow-xs">
+                  <p className="leading-relaxed text-ink whitespace-pre-wrap">
                     {msg.content}
                   </p>
 
                   {/* Citations Pill list */}
                   {msg.citations && msg.citations.length > 0 && (
-                    <div className="flex items-center gap-1.5 flex-wrap pt-1 border-t border-border/50">
-                      <span className="text-[10px] font-medium text-muted-foreground">
+                    <div className="flex items-center gap-1.5 flex-wrap pt-1 border-t border-card-border">
+                      <span className="text-[10px] font-medium text-ink-muted">
                         Verified Sources:
                       </span>
                       {msg.citations.map((c, i) => (
@@ -246,7 +246,7 @@ export function CopilotChatView({
                   )}
 
                   {/* Footer actions: Copy, Thumbs up/down */}
-                  <div className="flex items-center justify-between pt-1 text-muted-foreground">
+                  <div className="flex items-center justify-between pt-1 text-ink-muted">
                     <span className="text-[10px] font-mono opacity-60">Grounded Answer</span>
 
                     <div className="flex items-center gap-1">
@@ -293,11 +293,11 @@ export function CopilotChatView({
           {/* Typing / streaming indicator */}
           {chatMutation.isPending && (
             <div className="flex gap-2 text-xs">
-              <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5 text-primary">
+              <div className="h-6 w-6 rounded-full bg-brand-soft flex items-center justify-center shrink-0 mt-0.5 text-brand-text">
                 <Bot className="h-3.5 w-3.5" />
               </div>
-              <div className="rounded-2xl rounded-tl-xs border border-border bg-card px-3.5 py-2.5 shadow-xs flex items-center gap-2 text-muted-foreground">
-                <Loader2 className="h-3.5 w-3.5 animate-spin text-primary" />
+              <div className="rounded-2xl rounded-tl-xs border border-card-border bg-card px-3.5 py-2.5 shadow-xs flex items-center gap-2 text-ink-muted">
+                <Loader2 className="h-3.5 w-3.5 animate-spin text-brand-text" />
                 <span className="text-[11px] animate-pulse">
                   Retrieving verified evidence and synthesizing answer...
                 </span>
@@ -310,7 +310,7 @@ export function CopilotChatView({
       </ScrollArea>
 
       {/* Input box */}
-      <div className="border-t p-3 bg-card/60">
+      <div className="border-t p-3 bg-card">
         <form
           onSubmit={(e) => {
             e.preventDefault();

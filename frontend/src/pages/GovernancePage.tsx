@@ -33,23 +33,23 @@ export function GovernancePage() {
   if (!isAuthorized) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center p-6 text-center">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted border border-border text-muted-foreground mb-4">
-          <Lock className="h-8 w-8 text-muted-foreground" />
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-canvas-2 border border-card-border text-ink-muted mb-4">
+          <Lock className="h-8 w-8 text-ink-muted" />
         </div>
         <Badge variant="outline" className="font-mono text-xs mb-2">
           HTTP 403 Forbidden
         </Badge>
-        <h1 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+        <h1 className="text-xl font-bold tracking-tight text-ink sm:text-2xl">
           Governance & Audit Access Restricted
         </h1>
-        <p className="mt-2 max-w-md text-xs text-muted-foreground leading-relaxed">
+        <p className="mt-2 max-w-md text-xs text-ink-muted leading-relaxed">
           The cryptographic audit ledger, policy matrices, redaction reports, and team membership controls
-          are restricted to users with the <strong className="text-foreground">Project Lead</strong> or{" "}
-          <strong className="text-foreground">Auditor</strong> role.
+          are restricted to users with the <strong className="text-ink">Project Lead</strong> or{" "}
+          <strong className="text-ink">Auditor</strong> role.
         </p>
-        <div className="mt-4 flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-xs">
-          <span className="text-muted-foreground">Your Active Identity:</span>
-          <span className="font-semibold text-foreground">{user?.name}</span>
+        <div className="mt-4 flex items-center justify-center gap-2 rounded-lg border border-card-border bg-card px-4 py-2 text-xs">
+          <span className="text-ink-muted">Your Active Identity:</span>
+          <span className="font-semibold text-ink">{user?.name}</span>
           <Badge variant="secondary" className="capitalize text-[11px]">
             {user?.role}
           </Badge>
@@ -85,21 +85,21 @@ export function GovernancePage() {
       />
 
       <Tabs defaultValue="audit" className="space-y-4">
-        <TabsList className="bg-muted/60 p-1">
+        <TabsList className="bg-canvas-2 p-1">
           <TabsTrigger value="audit" className="gap-1.5 text-xs">
             <ShieldCheck className="h-3.5 w-3.5 text-verified" />
             Audit Ledger & Integrity
           </TabsTrigger>
           <TabsTrigger value="policy" className="gap-1.5 text-xs">
-            <Shield className="h-3.5 w-3.5 text-primary" />
+            <Shield className="h-3.5 w-3.5 text-brand-text" />
             Policy Matrix
           </TabsTrigger>
           <TabsTrigger value="redaction" className="gap-1.5 text-xs">
-            <FileCode className="h-3.5 w-3.5 text-amber-500" />
+            <FileCode className="h-3.5 w-3.5 text-needs-review" />
             Redaction & Sensitivity
           </TabsTrigger>
           <TabsTrigger value="members" className="gap-1.5 text-xs">
-            <Users className="h-3.5 w-3.5 text-blue-500" />
+            <Users className="h-3.5 w-3.5 text-ink-muted" />
             Team Members
           </TabsTrigger>
         </TabsList>

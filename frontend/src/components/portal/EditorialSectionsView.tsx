@@ -109,9 +109,9 @@ export function EditorialSectionsView({
   return (
     <div className="space-y-6">
       {/* Top Filter & Progress Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-xl border bg-card/60 p-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-xl border bg-card p-4">
         <div className="relative w-full sm:max-w-xs">
-          <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
+          <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-ink-muted" />
           <Input
             placeholder="Search claims and sections..."
             value={searchQuery}
@@ -122,9 +122,9 @@ export function EditorialSectionsView({
 
         <div className="flex items-center gap-3 w-full sm:w-72">
           <div className="flex-1 space-y-1">
-            <div className="flex justify-between text-[11px] text-muted-foreground">
+            <div className="flex justify-between text-[11px] text-ink-muted">
               <span>Section Reading Progress</span>
-              <span className="font-semibold text-foreground">
+              <span className="font-semibold text-ink">
                 {acknowledgedCount} / {totalSections}
               </span>
             </div>

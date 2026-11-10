@@ -71,14 +71,14 @@ export function AskQuestionDialog({
         <form onSubmit={handleSubmit} className="space-y-4">
           <DialogHeader>
             <div className="flex items-center gap-2">
-              <div className="rounded-md bg-primary/10 p-1.5 text-primary">
+              <div className="rounded-md bg-brand-soft p-1.5 text-brand-text">
                 <HelpCircle className="h-4 w-4" />
               </div>
               <DialogTitle className="text-base font-semibold">
                 Ask {outgoingName}
               </DialogTitle>
             </div>
-            <DialogDescription className="text-xs text-muted-foreground">
+            <DialogDescription className="text-xs text-ink-muted">
               Submit an open inquiry directly to the outgoing contributor. It will be recorded in
               the project ledger and prioritized on their dashboard.
             </DialogDescription>
@@ -86,7 +86,7 @@ export function AskQuestionDialog({
 
           <div className="space-y-3 py-2 text-xs">
             <div className="space-y-1">
-              <label className="font-medium text-foreground">Topic / Summary</label>
+              <label className="font-medium text-ink">Topic / Summary</label>
               <Input
                 placeholder="e.g. Webhook retry limit clarification"
                 value={title}
@@ -97,7 +97,7 @@ export function AskQuestionDialog({
             </div>
 
             <div className="space-y-1">
-              <label className="font-medium text-foreground">Question Details</label>
+              <label className="font-medium text-ink">Question Details</label>
               <Textarea
                 placeholder="Provide context on what documentation or evidence is missing..."
                 value={question}

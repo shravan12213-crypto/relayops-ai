@@ -123,11 +123,11 @@ export function ProjectMembersView() {
   return (
     <div className="space-y-4">
       {/* Project Selector & Actions Card */}
-      <Card className="border-border">
+      <Card className="border-card-border">
         <CardContent className="py-3">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
-              <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">
+              <span className="text-xs font-medium text-ink-muted whitespace-nowrap">
                 Select Project:
               </span>
               <Select
@@ -163,7 +163,7 @@ export function ProjectMembersView() {
                   size="sm"
                   onClick={handleOpenAddDialog}
                   disabled={!selectedProjectId || availableUsers.length === 0}
-                  className="h-8 gap-1.5 text-xs bg-primary hover:bg-primary/90"
+                  className="h-8 gap-1.5 text-xs bg-primary hover:bg-brand-soft"
                 >
                   <UserPlus className="h-3.5 w-3.5" />
                   Add Team Member
@@ -175,8 +175,8 @@ export function ProjectMembersView() {
       </Card>
 
       {!isLead && (
-        <div className="rounded-lg border border-border bg-muted/30 p-3 text-xs text-muted-foreground flex items-center gap-2">
-          <AlertCircle className="h-4 w-4 text-muted-foreground shrink-0" />
+        <div className="rounded-lg border border-card-border bg-canvas-2 p-3 text-xs text-ink-muted flex items-center gap-2">
+          <AlertCircle className="h-4 w-4 text-ink-muted shrink-0" />
           <span>
             Read-Only Auditor Mode: Only users with the <strong>Project Lead</strong> role can add, modify, or remove project memberships and clearance levels.
           </span>
@@ -184,12 +184,12 @@ export function ProjectMembersView() {
       )}
 
       {/* Members Table Card */}
-      <Card className="border-border">
+      <Card className="border-card-border">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="text-base font-semibold flex items-center gap-2">
-                <Users className="h-5 w-5 text-primary" />
+                <Users className="h-5 w-5 text-brand-text" />
                 Project Membership & Clearance Management
               </CardTitle>
               <CardDescription className="text-xs">
@@ -197,7 +197,7 @@ export function ProjectMembersView() {
               </CardDescription>
             </div>
             {members && (
-              <Badge variant="outline" className="font-mono text-xs bg-muted">
+              <Badge variant="outline" className="font-mono text-xs bg-canvas-2">
                 {members.length} members
               </Badge>
             )}
@@ -205,8 +205,8 @@ export function ProjectMembersView() {
         </CardHeader>
         <CardContent>
           {membersLoading ? (
-            <div className="p-8 text-center text-xs text-muted-foreground flex items-center justify-center gap-2">
-              <Loader2 className="h-4 w-4 animate-spin text-primary" />
+            <div className="p-8 text-center text-xs text-ink-muted flex items-center justify-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin text-brand-text" />
               Loading project members...
             </div>
           ) : membersError ? (
@@ -230,7 +230,7 @@ export function ProjectMembersView() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="border-b border-border bg-muted/40 font-medium text-muted-foreground">
+                <thead className="border-b border-card-border bg-canvas-2 font-medium text-ink-muted">
                   <tr>
                     <th className="py-2.5 px-3">Member</th>
                     <th className="py-2.5 px-3">Email</th>
@@ -242,14 +242,14 @@ export function ProjectMembersView() {
                 </thead>
                 <tbody className="divide-y divide-border">
                   {members.map((member: ProjectMember) => (
-                    <tr key={member.user_id} className="hover:bg-muted/20 transition-colors">
-                      <td className="py-2.5 px-3 font-semibold text-foreground flex items-center gap-2">
-                        <div className="h-7 w-7 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-[11px]">
+                    <tr key={member.user_id} className="hover:bg-canvas-2 transition-colors">
+                      <td className="py-2.5 px-3 font-semibold text-ink flex items-center gap-2">
+                        <div className="h-7 w-7 rounded-full bg-brand-soft text-brand-text font-bold flex items-center justify-center text-[11px]">
                           {member.name.charAt(0).toUpperCase()}
                         </div>
                         <span>{member.name}</span>
                       </td>
-                      <td className="py-2.5 px-3 font-mono text-[11px] text-muted-foreground">
+                      <td className="py-2.5 px-3 font-mono text-[11px] text-ink-muted">
                         {member.email}
                       </td>
                       <td className="py-2.5 px-3">
@@ -305,7 +305,7 @@ export function ProjectMembersView() {
                           <SensitivityBadge level={member.clearance} size="sm" />
                         )}
                       </td>
-                      <td className="py-2.5 px-3 whitespace-nowrap text-muted-foreground">
+                      <td className="py-2.5 px-3 whitespace-nowrap text-ink-muted">
                         <RelativeTime date={member.joined_at} />
                       </td>
                       {isLead && (
@@ -314,7 +314,7 @@ export function ProjectMembersView() {
                             variant="ghost"
                             size="sm"
                             onClick={() => setMemberToRemove(member)}
-                            className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive"
+                            className="h-7 w-7 p-0 text-ink-muted hover:text-destructive"
                             title="Remove member"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
@@ -335,7 +335,7 @@ export function ProjectMembersView() {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-base font-semibold flex items-center gap-2">
-              <UserPlus className="h-4 w-4 text-primary" />
+              <UserPlus className="h-4 w-4 text-brand-text" />
               Add Member to Project
             </DialogTitle>
             <DialogDescription className="text-xs">
@@ -345,7 +345,7 @@ export function ProjectMembersView() {
 
           <div className="space-y-4 py-2 text-xs">
             <div>
-              <label className="text-[11px] font-medium text-muted-foreground block mb-1">
+              <label className="text-[11px] font-medium text-ink-muted block mb-1">
                 Select User
               </label>
               <Select value={selectedUserId} onValueChange={setSelectedUserId}>
@@ -364,7 +364,7 @@ export function ProjectMembersView() {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-[11px] font-medium text-muted-foreground block mb-1">
+                <label className="text-[11px] font-medium text-ink-muted block mb-1">
                   Project Role
                 </label>
                 <Select value={selectedRole} onValueChange={setSelectedRole}>
@@ -382,7 +382,7 @@ export function ProjectMembersView() {
               </div>
 
               <div>
-                <label className="text-[11px] font-medium text-muted-foreground block mb-1">
+                <label className="text-[11px] font-medium text-ink-muted block mb-1">
                   Security Clearance
                 </label>
                 <Select
@@ -416,7 +416,7 @@ export function ProjectMembersView() {
               size="sm"
               onClick={handleAddMember}
               disabled={!selectedUserId || addMutation.isPending}
-              className="text-xs bg-primary hover:bg-primary/90"
+              className="text-xs bg-primary hover:bg-brand-soft"
             >
               {addMutation.isPending ? "Adding..." : "Add Member"}
             </Button>

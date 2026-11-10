@@ -41,13 +41,13 @@ export function AuditorView({
   return (
     <div className="space-y-6">
       {/* Auditor Privacy Compliance Banner */}
-      <div className="flex items-start gap-3 rounded-xl border border-primary/20 bg-primary/5 p-4 text-xs text-foreground">
-        <Lock className="h-5 w-5 shrink-0 text-primary mt-0.5" />
+      <div className="flex items-start gap-3 rounded-xl border border-brand bg-brand-soft p-4 text-xs text-ink">
+        <Lock className="h-5 w-5 shrink-0 text-brand-text mt-0.5" />
         <div className="space-y-1">
-          <p className="font-semibold text-primary">
+          <p className="font-semibold text-brand-text">
             Auditor View Active — Raw Bodies Withheld
           </p>
-          <p className="text-muted-foreground leading-relaxed">
+          <p className="text-ink-muted leading-relaxed">
             In compliance with product security guidelines and access control policy, claim bodies
             and secret payloads are suppressed. This view validates epistemic completeness,
             cryptographic signatures, and immutable audit chain verification.
@@ -58,9 +58,9 @@ export function AuditorView({
       {/* Top 3 Metric Cards */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {/* Audit Chain Card */}
-        <Card className="border-border">
+        <Card className="border-card-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-semibold text-muted-foreground flex items-center justify-between">
+            <CardTitle className="text-xs font-semibold text-ink-muted flex items-center justify-between">
               <span>Cryptographic Chain</span>
               {isChainValid ? (
                 <ShieldCheck className="h-4 w-4 text-verified" />
@@ -71,7 +71,7 @@ export function AuditorView({
           </CardHeader>
           <CardContent className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-xl font-bold text-foreground">
+              <span className="text-xl font-bold text-ink">
                 {isChainValid ? "Verified" : "Tampered"}
               </span>
               <Badge
@@ -81,49 +81,49 @@ export function AuditorView({
                 {entriesCount} Blocks
               </Badge>
             </div>
-            <p className="text-[11px] text-muted-foreground">
+            <p className="text-[11px] text-ink-muted">
               SHA-256 hash sequence integrity intact
             </p>
           </CardContent>
         </Card>
 
         {/* Verification Rate Card */}
-        <Card className="border-border">
+        <Card className="border-card-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-semibold text-muted-foreground flex items-center justify-between">
+            <CardTitle className="text-xs font-semibold text-ink-muted flex items-center justify-between">
               <span>Grounded Evidence Rate</span>
               <CheckCircle2 className="h-4 w-4 text-verified" />
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-xl font-bold text-foreground">{verificationRate}%</span>
+              <span className="text-xl font-bold text-ink">{verificationRate}%</span>
               <Badge variant="outline" className="border-verified/30 text-verified">
                 {verifiedClaims} / {totalClaims} Claims
               </Badge>
             </div>
-            <p className="text-[11px] text-muted-foreground">
+            <p className="text-[11px] text-ink-muted">
               Claims with validated artifact evidence links
             </p>
           </CardContent>
         </Card>
 
         {/* Dual Sign-off Card */}
-        <Card className="border-border">
+        <Card className="border-card-border">
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-semibold text-muted-foreground flex items-center justify-between">
+            <CardTitle className="text-xs font-semibold text-ink-muted flex items-center justify-between">
               <span>Dual Sign-off Status</span>
               <UserCheck className="h-4 w-4 text-verified" />
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-xl font-bold text-foreground">Complete</span>
+              <span className="text-xl font-bold text-ink">Complete</span>
               <Badge variant="outline" className="border-verified/30 text-verified">
                 2 Signatures
               </Badge>
             </div>
-            <p className="text-[11px] text-muted-foreground">
+            <p className="text-[11px] text-ink-muted">
               Signed by Outgoing Contributor & Project Lead
             </p>
           </CardContent>
@@ -131,10 +131,10 @@ export function AuditorView({
       </div>
 
       {/* Dual Sign-off Signatures Ledger */}
-      <Card className="border-border">
+      <Card className="border-card-border">
         <CardHeader className="pb-3 border-b">
           <CardTitle className="text-sm font-semibold flex items-center gap-2">
-            <FileCheck2 className="h-4 w-4 text-primary" />
+            <FileCheck2 className="h-4 w-4 text-brand-text" />
             Dual Sign-off Cryptographic Signatures
           </CardTitle>
         </CardHeader>
@@ -144,10 +144,10 @@ export function AuditorView({
               {handoverView.signatures.map((sig, i) => (
                 <div
                   key={`${sig.user_id}-${i}`}
-                  className="rounded-lg border border-border/80 bg-muted/20 p-3.5 space-y-2 text-xs"
+                  className="rounded-lg border border-card-border bg-canvas-2 p-3.5 space-y-2 text-xs"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-semibold text-foreground capitalize">
+                    <span className="font-semibold text-ink capitalize">
                       {sig.role === "outgoing" ? outgoingName : leadName} ({sig.role})
                     </span>
                     <Badge variant="outline" className="text-[10px]">
@@ -155,14 +155,14 @@ export function AuditorView({
                     </Badge>
                   </div>
 
-                  <div className="flex items-center gap-1.5 font-mono text-[10px] text-muted-foreground bg-muted/60 p-2 rounded">
+                  <div className="flex items-center gap-1.5 font-mono text-[10px] text-ink-muted bg-canvas-2 p-2 rounded">
                     <Hash className="h-3 w-3 shrink-0" />
                     <span className="truncate">{sig.signature}</span>
                     <CopyButton value={sig.signature} title="Copy signature digest" />
                   </div>
 
                   {sig.comment && (
-                    <p className="text-[11px] text-muted-foreground italic">
+                    <p className="text-[11px] text-ink-muted italic">
                       "{sig.comment}"
                     </p>
                   )}
@@ -170,7 +170,7 @@ export function AuditorView({
               ))}
             </div>
           ) : (
-            <p className="text-xs text-muted-foreground italic">
+            <p className="text-xs text-ink-muted italic">
               No signatures recorded yet.
             </p>
           )}
@@ -178,37 +178,37 @@ export function AuditorView({
       </Card>
 
       {/* Redaction Transparency Summary */}
-      <Card className="border-border">
+      <Card className="border-card-border">
         <CardHeader className="pb-3 border-b">
           <CardTitle className="text-sm font-semibold flex items-center gap-2">
-            <Shield className="h-4 w-4 text-primary" />
+            <Shield className="h-4 w-4 text-brand-text" />
             Redaction Transparency Summary
           </CardTitle>
         </CardHeader>
         <CardContent className="p-4 space-y-3">
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-ink-muted">
             All secrets, PII, and credentials are automatically scrubbed at ingestion prior to text
             storage or LLM inference.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs">
             <div className="rounded-lg border p-3 space-y-1">
-              <p className="text-muted-foreground">Total Secrets Redacted</p>
-              <p className="text-lg font-bold text-foreground">
+              <p className="text-ink-muted">Total Secrets Redacted</p>
+              <p className="text-lg font-bold text-ink">
                 {redactionSummary?.total_redactions ?? 18}
               </p>
             </div>
             <div className="rounded-lg border p-3 space-y-1">
-              <p className="text-muted-foreground">API Keys / Tokens</p>
-              <p className="text-lg font-bold text-foreground">7</p>
+              <p className="text-ink-muted">API Keys / Tokens</p>
+              <p className="text-lg font-bold text-ink">7</p>
             </div>
             <div className="rounded-lg border p-3 space-y-1">
-              <p className="text-muted-foreground">JWT Bearer Credentials</p>
-              <p className="text-lg font-bold text-foreground">4</p>
+              <p className="text-ink-muted">JWT Bearer Credentials</p>
+              <p className="text-lg font-bold text-ink">4</p>
             </div>
             <div className="rounded-lg border p-3 space-y-1">
-              <p className="text-muted-foreground">Private Escalation Emails</p>
-              <p className="text-lg font-bold text-foreground">7</p>
+              <p className="text-ink-muted">Private Escalation Emails</p>
+              <p className="text-lg font-bold text-ink">7</p>
             </div>
           </div>
         </CardContent>

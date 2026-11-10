@@ -109,11 +109,11 @@ export function HandoverPortalPage() {
   if (viewError && "status" in viewError && (viewError as { status: number }).status === 400) {
     return (
       <div className="space-y-6">
-        <div className="flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-5 text-amber-950 dark:text-amber-200">
-          <FileSignature className="h-6 w-6 shrink-0 text-amber-500 mt-0.5" />
+        <div className="flex items-start gap-3 rounded-xl border border-needs-review bg-warn-soft p-5 text-needs-review dark:text-needs-review">
+          <FileSignature className="h-6 w-6 shrink-0 text-needs-review mt-0.5" />
           <div className="space-y-1.5 flex-1">
             <h2 className="text-base font-semibold">Dual Sign-Off Pending</h2>
-            <p className="text-xs leading-relaxed text-muted-foreground">
+            <p className="text-xs leading-relaxed text-ink-muted">
               In accordance with Non-negotiable Product Rule #5, a handover document cannot be
               published to the successor portal until <strong>both</strong> the outgoing contributor
               ({outgoingName}) and project lead ({leadName}) sign off on the verified claims.
@@ -190,7 +190,7 @@ export function HandoverPortalPage() {
         />
       ) : (
         <Tabs defaultValue="sections" className="space-y-5">
-          <TabsList className="bg-muted/50 p-1 border text-xs print:hidden">
+          <TabsList className="bg-canvas-2 p-1 border text-xs print:hidden">
             <TabsTrigger value="sections" className="gap-1.5 text-xs">
               <BookOpen className="h-3.5 w-3.5" />
               Verified Knowledge

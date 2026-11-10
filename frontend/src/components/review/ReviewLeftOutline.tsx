@@ -96,13 +96,13 @@ export function ReviewLeftOutline({
   return (
     <div className="flex h-full flex-col bg-background/60 select-none">
       {/* Header & Progress Ring */}
-      <div className="p-4 border-b border-border/60">
+      <div className="p-4 border-b border-card-border">
         <div className="flex items-center justify-between">
           <div className="space-y-0.5">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-ink-muted">
               Review Progress
             </h3>
-            <p className="text-sm font-medium text-foreground">
+            <p className="text-sm font-medium text-ink">
               {reviewed} of {total} claims reviewed
             </p>
           </div>
@@ -123,8 +123,8 @@ export function ReviewLeftOutline({
                   pctReviewed === 100
                     ? "text-verified"
                     : pctReviewed > 50
-                      ? "text-primary"
-                      : "text-amber-500",
+                      ? "text-brand-text"
+                      : "text-needs-review",
                 )}
                 strokeDasharray={`${pctReviewed}, 100`}
                 strokeWidth="3.5"
@@ -134,7 +134,7 @@ export function ReviewLeftOutline({
                 d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
               />
             </svg>
-            <span className="absolute text-[11px] font-bold text-foreground">
+            <span className="absolute text-[11px] font-bold text-ink">
               {pctReviewed}%
             </span>
           </div>
@@ -142,25 +142,25 @@ export function ReviewLeftOutline({
 
         {/* Search input with shortcut hint */}
         <div className="relative mt-3">
-          <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
+          <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-ink-muted" />
           <Input
             ref={searchRef}
             type="search"
             placeholder="Search claims... (/)"
             value={filters.search}
             onChange={(e) => onChangeFilters({ ...filters, search: e.target.value })}
-            className="h-8 pl-8 pr-7 text-xs bg-muted/40"
+            className="h-8 pl-8 pr-7 text-xs bg-canvas-2"
           />
-          <kbd className="pointer-events-none absolute right-2.5 top-2 rounded border bg-background px-1 text-[10px] font-mono text-muted-foreground">
+          <kbd className="pointer-events-none absolute right-2.5 top-2 rounded border bg-background px-1 text-[10px] font-mono text-ink-muted">
             /
           </kbd>
         </div>
 
         {/* Attention filter toggle */}
-        <div className="mt-3 flex items-center justify-between rounded-lg border border-border/50 bg-muted/30 px-2.5 py-1.5">
+        <div className="mt-3 flex items-center justify-between rounded-lg border border-card-border bg-canvas-2 px-2.5 py-1.5">
           <label
             htmlFor="attention-toggle"
-            className="flex cursor-pointer items-center gap-2 text-xs font-medium text-foreground"
+            className="flex cursor-pointer items-center gap-2 text-xs font-medium text-ink"
           >
             <Checkbox
               id="attention-toggle"
@@ -171,7 +171,7 @@ export function ReviewLeftOutline({
             />
             <span>Only needs attention</span>
           </label>
-          <span className="rounded bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-semibold text-amber-600 dark:text-amber-400">
+          <span className="rounded bg-warn-soft px-1.5 py-0.5 text-[10px] font-semibold text-needs-review dark:text-needs-review">
             {claims.filter((c) => c.status === "draft" || c.status === "needs_review").length}
           </span>
         </div>
@@ -179,7 +179,7 @@ export function ReviewLeftOutline({
 
       {/* Sections List */}
       <div className="flex-1 overflow-y-auto px-2 py-3 space-y-1">
-        <div className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-ink-muted">
           Sections
         </div>
         {SECTIONS_CONFIG.map((sec) => {
@@ -196,17 +196,17 @@ export function ReviewLeftOutline({
                 "flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors text-left",
                 isSelected
                   ? "bg-primary text-primary-foreground shadow-xs"
-                  : "text-muted-foreground hover:bg-muted/70 hover:text-foreground",
+                  : "text-ink-muted hover:bg-canvas-2 hover:text-ink",
               )}
             >
               <div className="flex items-center gap-2 min-w-0 truncate">
-                <Icon className={cn("h-3.5 w-3.5 shrink-0", isSelected ? "text-primary-foreground" : "text-muted-foreground")} />
+                <Icon className={cn("h-3.5 w-3.5 shrink-0", isSelected ? "text-primary-foreground" : "text-ink-muted")} />
                 <span className="truncate">{sec.label}</span>
               </div>
               <span
                 className={cn(
                   "rounded-full px-1.5 py-0.5 text-[10px] font-mono font-semibold shrink-0 ml-1",
-                  isSelected ? "bg-white/20 text-white" : "bg-muted text-muted-foreground",
+                  isSelected ? "bg-white/20 text-white" : "bg-canvas-2 text-ink-muted",
                 )}
               >
                 {count}
@@ -216,7 +216,7 @@ export function ReviewLeftOutline({
         })}
 
         {/* Filter controls */}
-        <div className="pt-4 pb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+        <div className="pt-4 pb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-ink-muted flex items-center gap-1">
           <Filter className="h-3 w-3" />
           <span>Detailed Filters</span>
         </div>
@@ -224,12 +224,12 @@ export function ReviewLeftOutline({
         <div className="space-y-2 px-1">
           {/* Status filter */}
           <div>
-            <span className="text-[11px] text-muted-foreground mb-1 block">Status</span>
+            <span className="text-[11px] text-ink-muted mb-1 block">Status</span>
             <Select
               value={filters.status}
               onValueChange={(val) => onChangeFilters({ ...filters, status: val })}
             >
-              <SelectTrigger className="h-7 text-xs bg-muted/30">
+              <SelectTrigger className="h-7 text-xs bg-canvas-2">
                 <SelectValue placeholder="All Statuses" />
               </SelectTrigger>
               <SelectContent>
@@ -245,12 +245,12 @@ export function ReviewLeftOutline({
 
           {/* Sensitivity filter */}
           <div>
-            <span className="text-[11px] text-muted-foreground mb-1 block">Min Sensitivity</span>
+            <span className="text-[11px] text-ink-muted mb-1 block">Min Sensitivity</span>
             <Select
               value={filters.sensitivity}
               onValueChange={(val) => onChangeFilters({ ...filters, sensitivity: val })}
             >
-              <SelectTrigger className="h-7 text-xs bg-muted/30">
+              <SelectTrigger className="h-7 text-xs bg-canvas-2">
                 <SelectValue placeholder="Any Sensitivity" />
               </SelectTrigger>
               <SelectContent>
@@ -265,12 +265,12 @@ export function ReviewLeftOutline({
 
           {/* Confidence filter */}
           <div>
-            <span className="text-[11px] text-muted-foreground mb-1 block">Confidence Tier</span>
+            <span className="text-[11px] text-ink-muted mb-1 block">Confidence Tier</span>
             <Select
               value={filters.confidence}
               onValueChange={(val) => onChangeFilters({ ...filters, confidence: val })}
             >
-              <SelectTrigger className="h-7 text-xs bg-muted/30">
+              <SelectTrigger className="h-7 text-xs bg-canvas-2">
                 <SelectValue placeholder="All Confidence" />
               </SelectTrigger>
               <SelectContent>
@@ -285,13 +285,13 @@ export function ReviewLeftOutline({
       </div>
 
       {/* Bulk Action Footer */}
-      <div className="p-3 border-t border-border/60 bg-muted/20">
+      <div className="p-3 border-t border-card-border bg-canvas-2">
         <Button
           variant="outline"
           size="sm"
           disabled={bulkEligibleClaims.length === 0}
           onClick={() => setConfirmBulkOpen(true)}
-          className="w-full text-xs h-8 gap-1.5 font-medium border-primary/30 hover:bg-primary/10 hover:text-primary"
+          className="w-full text-xs h-8 gap-1.5 font-medium border-brand hover:bg-brand-soft hover:text-brand-text"
         >
           <CheckCheck className="h-3.5 w-3.5 text-verified" />
           <span>Accept High-Confidence</span>

@@ -31,12 +31,12 @@ const TYPE_CONFIG: Record<string, { label: string; icon: typeof AlertTriangle; c
   missing_doc: {
     label: "Missing Documentation",
     icon: HelpCircle,
-    color: "border-amber-500/30 text-amber-500 bg-amber-500/10",
+    color: "border-needs-review text-needs-review bg-warn-soft",
   },
   unclosed_thread: {
     label: "Unclosed Discussion",
     icon: MessageSquare,
-    color: "border-blue-500/30 text-blue-500 bg-blue-500/10",
+    color: "border-brand text-ink-muted bg-canvas-2",
   },
   orphan_branch: {
     label: "Orphan Branch",
@@ -85,17 +85,17 @@ export function KnownUnknownsTab({
       {/* Search and header info */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
-          <h2 className="text-base font-semibold text-foreground flex items-center gap-2">
+          <h2 className="text-base font-semibold text-ink flex items-center gap-2">
             <AlertTriangle className="h-4 w-4 text-needs-review" />
             Known Unknowns & Ambiguity Ledger
           </h2>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-ink-muted">
             Unresolved discrepancies, unclosed threads, and unverified assumptions. We never smooth over gaps.
           </p>
         </div>
 
         <div className="relative w-full sm:w-64">
-          <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
+          <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-ink-muted" />
           <Input
             placeholder="Filter ambiguities..."
             value={search}
@@ -120,13 +120,13 @@ export function KnownUnknownsTab({
             const conf = TYPE_CONFIG[amb.type] ?? {
               label: amb.type.replace("_", " "),
               icon: AlertTriangle,
-              color: "border-border text-muted-foreground bg-muted",
+              color: "border-card-border text-ink-muted bg-canvas-2",
             };
             const Icon = conf.icon;
             const isOpen = amb.status === "open";
 
             return (
-              <Card key={amb.id} className="border-border shadow-xs hover:border-primary/30 transition-all">
+              <Card key={amb.id} className="border-card-border shadow-xs hover:border-brand transition-all">
                 <CardHeader className="p-4 pb-2">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -140,8 +140,8 @@ export function KnownUnknownsTab({
                           amb.severity === "high"
                             ? "border-red-500/30 text-red-500 bg-red-500/10"
                             : amb.severity === "med"
-                              ? "border-amber-500/30 text-amber-500 bg-amber-500/10"
-                              : "border-blue-500/30 text-blue-500 bg-blue-500/10"
+                              ? "border-needs-review text-needs-review bg-warn-soft"
+                              : "border-brand text-ink-muted bg-canvas-2"
                         }`}
                       >
                         {amb.severity} severity
@@ -156,39 +156,39 @@ export function KnownUnknownsTab({
                         size="sm"
                         variant="outline"
                         onClick={() => handleAsk(amb)}
-                        className="gap-1.5 text-xs h-7 border-primary/40 text-primary hover:bg-primary/10 self-start sm:self-auto"
+                        className="gap-1.5 text-xs h-7 border-brand text-brand-text hover:bg-brand-soft self-start sm:self-auto"
                       >
                         <HelpCircle className="h-3.5 w-3.5" />
                         Ask {outgoingName.split(" ")[0]}
                       </Button>
                     )}
                   </div>
-                  <CardTitle className="text-sm font-semibold text-foreground pt-1.5">
+                  <CardTitle className="text-sm font-semibold text-ink pt-1.5">
                     {amb.title}
                   </CardTitle>
                 </CardHeader>
 
                 <CardContent className="p-4 pt-0 space-y-2.5">
-                  <p className="text-xs text-muted-foreground leading-relaxed">
+                  <p className="text-xs text-ink-muted leading-relaxed">
                     {amb.description}
                   </p>
 
                   {/* Resolution Note if resolved */}
                   {amb.resolution_note && (
-                    <div className="rounded-lg border border-verified/30 bg-verified/10 p-2.5 text-xs text-foreground">
+                    <div className="rounded-lg border border-verified/30 bg-verified/10 p-2.5 text-xs text-ink">
                       <p className="font-semibold text-verified flex items-center gap-1.5">
                         <CheckCircle2 className="h-3.5 w-3.5" />
                         Resolution Note:
                       </p>
-                      <p className="text-muted-foreground pt-0.5">{amb.resolution_note}</p>
+                      <p className="text-ink-muted pt-0.5">{amb.resolution_note}</p>
                     </div>
                   )}
 
                   {/* Artifact references */}
                   {amb.artifact_ids && amb.artifact_ids.length > 0 && (
-                    <div className="flex items-center gap-1 text-[11px] text-muted-foreground pt-1">
+                    <div className="flex items-center gap-1 text-[11px] text-ink-muted pt-1">
                       <span>Referenced artifacts:</span>
-                      <span className="font-mono text-[10px] text-foreground">
+                      <span className="font-mono text-[10px] text-ink">
                         {amb.artifact_ids.join(", ")}
                       </span>
                     </div>

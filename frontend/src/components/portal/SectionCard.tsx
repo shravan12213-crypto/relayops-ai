@@ -37,11 +37,11 @@ export function SectionCard({
   const [ackDialogOpen, setAckDialogOpen] = React.useState(false);
 
   return (
-    <Card className="border-border shadow-sm">
+    <Card className="border-card-border shadow-sm">
       <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b pb-3.5">
         <div className="space-y-0.5">
           <div className="flex items-center gap-2">
-            <CardTitle className="text-base font-semibold text-foreground">
+            <CardTitle className="text-base font-semibold text-ink">
               {sectionTitle}
             </CardTitle>
             <Badge variant="outline" className="text-[10px]">
@@ -68,7 +68,7 @@ export function SectionCard({
               size="sm"
               variant="outline"
               onClick={() => setAckDialogOpen(true)}
-              className="gap-1.5 text-xs border-primary/40 text-primary hover:bg-primary/10"
+              className="gap-1.5 text-xs border-brand text-brand-text hover:bg-brand-soft"
             >
               <CheckCircle2 className="h-3.5 w-3.5" />
               I've read and understood
@@ -80,11 +80,11 @@ export function SectionCard({
       <CardContent className="space-y-4 p-4">
         {/* Junior Glossary "Why It Matters" Callout */}
         {glossaryItem && (
-          <div className="flex items-start gap-2.5 rounded-lg border border-primary/20 bg-primary/5 p-3 text-xs text-primary-950 dark:text-primary-100">
-            <Sparkles className="h-4 w-4 shrink-0 text-primary mt-0.5" />
+          <div className="flex items-start gap-2.5 rounded-lg border border-brand bg-brand-soft p-3 text-xs text-brand-text-950 dark:text-brand-text-100">
+            <Sparkles className="h-4 w-4 shrink-0 text-brand-text mt-0.5" />
             <div className="space-y-1">
-              <p className="font-semibold text-primary">{glossaryItem.term} — Why It Matters</p>
-              <p className="text-muted-foreground leading-relaxed">{glossaryItem.why_it_matters}</p>
+              <p className="font-semibold text-brand-text">{glossaryItem.term} — Why It Matters</p>
+              <p className="text-ink-muted leading-relaxed">{glossaryItem.why_it_matters}</p>
             </div>
           </div>
         )}
@@ -97,14 +97,14 @@ export function SectionCard({
               return (
                 <div
                   key={claim.id}
-                  className="flex items-start gap-3 rounded-lg border border-dashed border-muted-foreground/30 bg-muted/20 p-3 text-xs"
+                  className="flex items-start gap-3 rounded-lg border border-dashed border-muted-foreground/30 bg-canvas-2 p-3 text-xs"
                 >
-                  <Lock className="h-4 w-4 shrink-0 text-muted-foreground mt-0.5" />
+                  <Lock className="h-4 w-4 shrink-0 text-ink-muted mt-0.5" />
                   <div className="space-y-1">
-                    <p className="font-medium text-muted-foreground italic">
+                    <p className="font-medium text-ink-muted italic">
                       [Restricted Item — Clearance level {claim.sensitivity} required]
                     </p>
-                    <p className="text-[11px] text-muted-foreground">
+                    <p className="text-[11px] text-ink-muted">
                       This item is masked for your viewing clearance. Contact the project lead if
                       access is required.
                     </p>
@@ -116,7 +116,7 @@ export function SectionCard({
             return (
               <div
                 key={claim.id}
-                className="space-y-2 rounded-lg border border-border/80 bg-card p-3.5 transition-colors hover:border-primary/30"
+                className="space-y-2 rounded-lg border border-card-border bg-card p-3.5 transition-colors hover:border-brand"
               >
                 {/* Meta header */}
                 <div className="flex items-center justify-between gap-2 flex-wrap">
@@ -127,7 +127,7 @@ export function SectionCard({
                     <StatusBadge status={claim.status} size="sm" />
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] text-muted-foreground">
+                    <span className="text-[10px] text-ink-muted">
                       {Math.round(claim.confidence * 100)}% verified
                     </span>
                     <SensitivityBadge level={claim.sensitivity} />
@@ -135,12 +135,12 @@ export function SectionCard({
                 </div>
 
                 {/* Claim editorial text */}
-                <p className="text-xs text-foreground leading-relaxed font-sans">{claim.text}</p>
+                <p className="text-xs text-ink leading-relaxed font-sans">{claim.text}</p>
 
                 {/* Grounded Citation Pills */}
                 {claim.evidence && claim.evidence.length > 0 && (
                   <div className="flex items-center gap-1.5 flex-wrap pt-1">
-                    <span className="text-[10px] font-medium text-muted-foreground">Evidence:</span>
+                    <span className="text-[10px] font-medium text-ink-muted">Evidence:</span>
                     {claim.evidence.map((ev, i) => (
                       <CitationPill
                         key={`${ev.artifact_id}-${i}`}
