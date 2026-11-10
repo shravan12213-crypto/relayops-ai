@@ -43,12 +43,12 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
   return (
     <aside
       className={cn(
-        "relative flex flex-col border-r border-border bg-card transition-all duration-300 ease-in-out",
+        "relative flex flex-col border-r border-transparent bg-gradient-to-b from-sidebar-from to-sidebar-to text-sidebar-fg transition-all duration-300 ease-in-out",
         collapsed ? "w-16" : "w-60",
       )}
     >
       {/* Brand Header */}
-      <div className="flex h-14 items-center justify-between border-b border-border px-3.5">
+      <div className="flex h-14 items-center justify-between border-b border-white/10 px-3.5">
         <Link
           to="/"
           className={cn(
@@ -56,13 +56,13 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
             collapsed && "justify-center w-full",
           )}
         >
-          <span className="grid size-7 shrink-0 place-items-center rounded-md bg-primary font-mono text-xs font-bold text-primary-foreground shadow-sm">
+          <span className="grid size-7 shrink-0 place-items-center rounded-full bg-white/10 font-mono text-xs font-bold text-white ring-1 ring-inset ring-white/15 shadow-sm">
             R
           </span>
           {!collapsed && (
             <div className="flex flex-col">
-              <span className="text-sm font-semibold tracking-tight text-foreground">RelayOps</span>
-              <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
+              <span className="text-sm font-semibold tracking-tight text-white">RelayOps</span>
+              <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-sidebar-fg-muted">
                 Verifiable Handovers
               </span>
             </div>
@@ -71,7 +71,7 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
       </div>
 
       {/* Nav Links */}
-      <nav aria-label="Main Navigation" className="flex-1 space-y-1.5 p-2">
+      <nav aria-label="Main Navigation" className="flex-1 space-y-1 p-2">
         <TooltipProvider delayDuration={150}>
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -84,19 +84,21 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
               <Link
                 to={item.href}
                 className={cn(
-                  "flex items-center gap-3 rounded-md px-3 py-2 text-xs font-medium transition-colors",
+                  "flex h-11 items-center gap-3 rounded-xl px-2.5 text-[13px] font-medium transition-colors duration-150",
                   isActive
-                    ? "bg-accent text-accent-foreground font-semibold"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                    ? "bg-sidebar-active text-white font-semibold"
+                    : "text-sidebar-fg-muted hover:bg-white/5 hover:text-white",
                   collapsed && "justify-center px-2",
                 )}
               >
-                <Icon
+                <span
                   className={cn(
-                    "h-4 w-4 shrink-0",
-                    isActive ? "text-primary" : "text-muted-foreground",
+                    "grid size-8 shrink-0 place-items-center rounded-full transition-colors",
+                    isActive ? "bg-brand text-sidebar-from" : "bg-white/5 text-sidebar-fg-muted",
                   )}
-                />
+                >
+                  <Icon className="h-4 w-4 shrink-0" />
+                </span>
                 {!collapsed && <span>{item.label}</span>}
               </Link>
             );
@@ -118,20 +120,22 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
       </nav>
 
       {/* System Status and Collapse Button */}
-      <div className="border-t border-border p-2">
+      <div className="border-t border-white/10 p-2">
         {!collapsed && (
-          <div className="mb-2 px-3 py-1.5 text-[11px] text-muted-foreground flex items-center justify-between">
+          <div className="mb-2 flex items-center justify-between rounded-xl bg-white/5 px-2.5 py-2 text-[11px] text-sidebar-fg-muted">
             <span className="flex items-center gap-1.5 font-mono">
               <span
                 className={cn(
                   "size-2 rounded-full",
-                  health.data?.status === "ok" ? "bg-verified" : "bg-conflict",
+                  health.data?.status === "ok"
+                    ? "bg-brand shadow-[0_0_0_3px_rgba(47,203,122,0.25)]"
+                    : "bg-danger shadow-[0_0_0_3px_rgba(217,69,61,0.25)]",
                 )}
               />
               API {health.data?.status ?? "connecting..."}
             </span>
             {health.data?.llm_mode && (
-              <span className="font-mono text-[10px] uppercase text-muted-foreground">
+              <span className="font-mono text-[10px] uppercase text-sidebar-fg-muted/70">
                 {health.data.llm_mode}
               </span>
             )}
@@ -144,7 +148,7 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
           size="sm"
           onClick={onToggleCollapse}
           className={cn(
-            "w-full text-muted-foreground hover:text-foreground h-8 text-xs",
+            "w-full text-sidebar-fg-muted hover:text-white hover:bg-white/5 h-9 rounded-xl text-xs",
             collapsed && "justify-center px-0",
           )}
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}

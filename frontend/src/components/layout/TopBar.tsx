@@ -54,11 +54,11 @@ export function TopBar({ onOpenCommandPalette, onSwitchPreviewRole }: TopBarProp
     : "U";
 
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:px-6">
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-card-border bg-background/80 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:px-6">
       {/* Left: Breadcrumbs */}
       <nav
         aria-label="Breadcrumbs"
-        className="flex items-center space-x-1 text-xs text-muted-foreground"
+        className="flex items-center space-x-1 text-xs text-ink-muted"
       >
         {breadcrumbs.map((crumb, idx) => {
           const isLast = idx === breadcrumbs.length - 1;
@@ -66,9 +66,9 @@ export function TopBar({ onOpenCommandPalette, onSwitchPreviewRole }: TopBarProp
             <React.Fragment key={crumb.href}>
               {idx > 0 && <ChevronRight className="h-3 w-3 shrink-0 opacity-40" />}
               {isLast ? (
-                <span className="font-medium text-foreground">{crumb.label}</span>
+                <span className="font-semibold text-ink">{crumb.label}</span>
               ) : (
-                <Link to={crumb.href} className="transition-colors hover:text-foreground">
+                <Link to={crumb.href} className="transition-colors hover:text-ink">
                   {crumb.label}
                 </Link>
               )}
@@ -84,7 +84,7 @@ export function TopBar({ onOpenCommandPalette, onSwitchPreviewRole }: TopBarProp
           variant="outline"
           size="sm"
           onClick={onOpenCommandPalette}
-          className="relative h-8 w-9 p-0 sm:w-48 sm:justify-start sm:px-2.5 sm:text-xs text-muted-foreground hover:text-foreground"
+          className="relative h-9 w-9 rounded-full border-card-border bg-card p-0 text-ink-muted shadow-card transition-shadow hover:bg-card hover:text-ink hover:shadow-card-hover sm:w-52 sm:justify-start sm:px-3 sm:text-xs"
           aria-label="Search and command palette"
         >
           <Search className="h-3.5 w-3.5 sm:mr-2" />
@@ -99,13 +99,13 @@ export function TopBar({ onOpenCommandPalette, onSwitchPreviewRole }: TopBarProp
           variant="ghost"
           size="icon"
           onClick={toggleTheme}
-          className="h-8 w-8 text-muted-foreground hover:text-foreground"
+          className="h-9 w-9 rounded-full border border-card-border bg-card text-ink-muted shadow-card hover:bg-card hover:text-ink"
           aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
         >
           {theme === "dark" ? (
-            <Sun className="h-4 w-4 text-amber-500" />
+            <Sun className="h-4 w-4 text-ink-muted" />
           ) : (
-            <Moon className="h-4 w-4 text-blue-500" />
+            <Moon className="h-4 w-4 text-ink-muted" />
           )}
         </Button>
 
@@ -115,13 +115,13 @@ export function TopBar({ onOpenCommandPalette, onSwitchPreviewRole }: TopBarProp
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="relative h-8 gap-2 rounded-full px-2 text-xs font-normal hover:bg-accent"
+                className="relative h-9 gap-2 rounded-full border border-card-border bg-card px-3 text-xs font-normal text-ink shadow-card hover:bg-card"
                 aria-label="User account menu"
               >
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/20 font-mono text-[11px] font-semibold text-primary">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-soft font-mono text-[11px] font-semibold text-brand-text">
                   {initials}
                 </span>
-                <span className="hidden font-medium text-foreground sm:inline">
+                <span className="hidden font-medium text-ink sm:inline">
                   {user.name.split(" ")[0]}
                 </span>
               </Button>
