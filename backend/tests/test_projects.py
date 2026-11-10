@@ -31,10 +31,15 @@ def test_list_and_get_projects(client: TestClient, session: Session) -> None:
     assert payflow["name"] == "PayFlow"
     assert payflow["default_branch"] == "main"
 
-    # Get single project
+    # Get single project by ID
     detail_res = client.get(f"/api/v1/projects/{payflow['id']}", headers=headers)
     assert detail_res.status_code == 200
     assert detail_res.json()["id"] == payflow["id"]
+
+    # Get single project by slug (e.g. 'payflow')
+    slug_res = client.get(f"/api/v1/projects/{payflow['slug']}", headers=headers)
+    assert slug_res.status_code == 200
+    assert slug_res.json()["id"] == payflow["id"]
 
 
 def test_create_project(client: TestClient, session: Session) -> None:
@@ -98,3 +103,23 @@ def test_list_global_handovers(client: TestClient, session: Session) -> None:
     assert isinstance(handovers, list)
     assert len(handovers) == 1
     assert handovers[0]["notes"] == "Global handover list test"
+
+    # Query with ?project_slug=payflow
+    res_slug = client.get("/api/v1/handovers?project_slug=payflow", headers=headers)
+    assert res_slug.status_code == 200
+    assert len(res_slug.json()) == 1
+
+    # Create handover globally with project_slug="payflow"
+    create_global = client.post(
+        "/api/v1/handovers",
+        json={
+            "project_slug": "payflow",
+            "outgoing_user_id": outgoing.id,
+            "successor_user_id": successor.id,
+            "lead_user_id": lead.id,
+            "notes": "Created via global endpoint",
+        },
+        headers=headers,
+    )
+    assert create_global.status_code == 201
+    assert create_global.json()["notes"] == "Created via global endpoint"

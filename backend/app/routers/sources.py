@@ -11,7 +11,7 @@ from sqlmodel import Session, select
 
 from ..auth import get_current_user, hash_password
 from ..config import BACKEND_DIR, get_settings
-from ..db import audit, get_session, utcnow
+from ..db import audit, get_project_by_id_or_slug, get_session, utcnow
 from ..errors import AppError
 from ..ingest.base import RawEvent
 from ..ingest.github import GitHubLiveLoader
@@ -154,12 +154,12 @@ def create_source(
     current_user: User = Depends(get_current_user),
 ) -> SourceRead:
     """Register a new source configuration for a project."""
-    project = session.get(Project, project_id)
+    project = get_project_by_id_or_slug(session, project_id)
     if not project:
         raise AppError("NOT_FOUND", "Project not found", status_code=404)
 
     source = Source(
-        project_id=project_id,
+        project_id=project.id,
         type=payload.type,
         name=payload.name,
         config=payload.config,
@@ -191,7 +191,7 @@ async def upload_source_file(
 ) -> SourceRead:
     """Upload a file as a new data source with strict size and extension checks."""
     settings = get_settings()
-    project = session.get(Project, project_id)
+    project = get_project_by_id_or_slug(session, project_id)
     if not project:
         raise AppError("NOT_FOUND", "Project not found", status_code=404)
 
@@ -213,7 +213,7 @@ async def upload_source_file(
         )
 
     # Save to uploads dir
-    dest_dir = UPLOAD_DIR / project_id
+    dest_dir = UPLOAD_DIR / project.id
     dest_dir.mkdir(parents=True, exist_ok=True)
     safe_filename = Path(file.filename or "uploaded_file.txt").name
     dest_path = dest_dir / safe_filename
@@ -221,7 +221,7 @@ async def upload_source_file(
 
     inferred_type = "markdown" if ext in (".md", ".txt", ".pdf") else "json"
     source = Source(
-        project_id=project_id,
+        project_id=project.id,
         type=inferred_type,
         name=file.filename or safe_filename,
         config={"file_path": str(dest_path), "original_name": file.filename},
@@ -251,8 +251,11 @@ def list_project_sources(
     _: User = Depends(get_current_user),
 ) -> list[SourceRead]:
     """List all active sources registered under a project."""
+    project = get_project_by_id_or_slug(session, project_id)
+    if not project:
+        raise AppError("NOT_FOUND", "Project not found", status_code=404)
     sources = session.exec(
-        select(Source).where(Source.project_id == project_id, Source.status != "deleted")
+        select(Source).where(Source.project_id == project.id, Source.status != "deleted")
     ).all()
     return [SourceRead.model_validate(s) for s in sources]
 
@@ -496,7 +499,7 @@ def load_demo_dataset_for_project(
     current_user: User = Depends(get_current_user),
 ) -> DemoLoadResponse:
     """Load the PayFlow seed dataset into the specified project."""
-    project = session.get(Project, project_id)
+    project = get_project_by_id_or_slug(session, project_id)
     if not project:
         raise AppError("NOT_FOUND", "Project not found", status_code=404)
 
@@ -536,7 +539,7 @@ def get_redaction_audit(
     _: User = Depends(get_current_user),
 ) -> RedactionAuditResponse:
     """Retrieve transparency report of redaction rules triggered for this project."""
-    project = session.get(Project, project_id)
+    project = get_project_by_id_or_slug(session, project_id)
     if not project:
         raise AppError("NOT_FOUND", "Project not found", status_code=404)
 
@@ -544,7 +547,7 @@ def get_redaction_audit(
     query = (
         select(RedactionEvent)
         .join(Artifact, Artifact.id == RedactionEvent.artifact_id)
-        .where(Artifact.project_id == project_id)
+        .where(Artifact.project_id == project.id)
     )
     events = session.exec(query).all()
 
@@ -575,11 +578,11 @@ def rescan_project_redactions(
     current_user: User = Depends(get_current_user),
 ) -> RedactionAuditResponse:
     """Re-run redaction rules across all artifacts for this project and refresh audit records."""
-    project = session.get(Project, project_id)
+    project = get_project_by_id_or_slug(session, project_id)
     if not project:
         raise AppError("NOT_FOUND", "Project not found", status_code=404)
 
-    artifacts = session.exec(select(Artifact).where(Artifact.project_id == project_id)).all()
+    artifacts = session.exec(select(Artifact).where(Artifact.project_id == project.id)).all()
     for art in artifacts:
         # Delete old redaction events
         old_events = session.exec(select(RedactionEvent).where(RedactionEvent.artifact_id == art.id)).all()

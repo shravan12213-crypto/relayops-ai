@@ -348,6 +348,59 @@ def test_ambiguity_resolve_and_waive(
     assert res_waive.status_code == 200
     assert res_waive.json()["status"] == "waived"
 
+    # 5. Nested route aliases and alternative payload fields (e.g. waiver_reason, resolution)
+    amb3 = Ambiguity(
+        project_id=project.id,
+        handover_id=handover.id,
+        title="Test Alias Ambiguity",
+        description="Alias ambiguity description",
+        status="open",
+        severity="medium",
+        type="gap",
+    )
+    amb4 = Ambiguity(
+        project_id=project.id,
+        handover_id=handover.id,
+        title="Test Waive Alias Ambiguity",
+        description="Alias waive description",
+        status="open",
+        severity="high",
+        type="contradiction",
+    )
+    session.add(amb3)
+    session.add(amb4)
+    session.commit()
+    session.refresh(amb3)
+    session.refresh(amb4)
+
+    # Resolve via nested alias with 'resolution' payload field
+    res_alias_resolve = client.post(
+        f"/api/v1/handovers/{handover.id}/ambiguities/{amb3.id}/resolve",
+        json={"resolution": "Resolved via nested route alias and resolution field"},
+        headers=auth_headers(lead),
+    )
+    assert res_alias_resolve.status_code == 200
+    assert res_alias_resolve.json()["status"] == "resolved"
+
+    # Waive via nested alias with 'waiver_reason' payload field (from frontend UI)
+    res_alias_waive = client.post(
+        f"/api/v1/handovers/{handover.id}/ambiguities/{amb4.id}/waive",
+        json={"waiver_reason": "Waived via nested route alias and waiver_reason field"},
+        headers=auth_headers(lead),
+    )
+    assert res_alias_waive.status_code == 200
+    assert res_alias_waive.json()["status"] == "waived"
+
+    # Claim patch via nested route alias
+    c1 = test_setup["c1"]
+    res_claim_alias = client.patch(
+        f"/api/v1/handovers/{handover.id}/claims/{c1.id}",
+        json={"status": "accepted"},
+        headers=auth_headers(lead),
+    )
+    assert res_claim_alias.status_code == 200
+    assert res_claim_alias.json()["status"] == "accepted"
+
 
 # ---------------------------------------------------------------------------
 # 3. Versioning & Word-Level Diff Tests

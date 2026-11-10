@@ -18,7 +18,13 @@ from sqlmodel import Session, col, func, select
 
 from app.auth import get_current_user
 from app.config import get_settings
-from app.db import audit, get_session, utcnow, verify_audit_chain_detailed
+from app.db import (
+    audit,
+    get_project_by_id_or_slug,
+    get_session,
+    utcnow,
+    verify_audit_chain_detailed,
+)
 from app.errors import AppError
 from app.models import (
     Artifact,
@@ -229,7 +235,7 @@ def get_sensitivity_distribution(
     _: User = Depends(get_current_user),
 ) -> SensitivityDistributionResponse:
     """Retrieve sensitivity level breakdown for artifacts and claims in this project."""
-    project = session.get(Project, project_id)
+    project = get_project_by_id_or_slug(session, project_id)
     if not project:
         raise AppError("NOT_FOUND", "Project not found", status_code=404)
 
@@ -237,7 +243,7 @@ def get_sensitivity_distribution(
     art_counts = {0: 0, 1: 0, 2: 0, 3: 0}
     arts = session.exec(
         select(Artifact.sensitivity, func.count(Artifact.id))
-        .where(Artifact.project_id == project_id)
+        .where(Artifact.project_id == project.id)
         .group_by(Artifact.sensitivity)
     ).all()
     for s_level, cnt in arts:
@@ -296,14 +302,14 @@ def list_project_members(
     _: User = Depends(get_current_user),
 ) -> list[ProjectMemberRead]:
     """List all members associated with a project."""
-    project = session.get(Project, project_id)
+    project = get_project_by_id_or_slug(session, project_id)
     if not project:
         raise AppError("NOT_FOUND", "Project not found", status_code=404)
 
     rows = session.exec(
         select(ProjectMember, User)
         .join(User, ProjectMember.user_id == User.id)
-        .where(ProjectMember.project_id == project_id)
+        .where(ProjectMember.project_id == project.id)
         .order_by(ProjectMember.created_at.asc())
     ).all()
 
@@ -340,7 +346,7 @@ def add_project_member(
     if current_user.role != "lead":
         raise AppError("FORBIDDEN", "Only project leads can add team members", status_code=403)
 
-    project = session.get(Project, project_id)
+    project = get_project_by_id_or_slug(session, project_id)
     if not project:
         raise AppError("NOT_FOUND", "Project not found", status_code=404)
 
@@ -351,7 +357,7 @@ def add_project_member(
     # Check if already a member
     existing = session.exec(
         select(ProjectMember).where(
-            ProjectMember.project_id == project_id,
+            ProjectMember.project_id == project.id,
             ProjectMember.user_id == payload.user_id,
         )
     ).first()
@@ -368,7 +374,7 @@ def add_project_member(
         session.add(target_user)
 
     pm = ProjectMember(
-        project_id=project_id,
+        project_id=project.id,
         user_id=target_user.id,
         project_role=payload.project_role,
     )

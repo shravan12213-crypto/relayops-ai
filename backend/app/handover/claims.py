@@ -13,9 +13,9 @@ from __future__ import annotations
 
 import logging
 from datetime import UTC, datetime
-from typing import Any
+from typing import Any, Self
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from sqlmodel import Session, select
 
 from app.db import audit, utcnow
@@ -57,13 +57,27 @@ class ClaimCreateInput(BaseModel):
 
 
 class AmbiguityResolveInput(BaseModel):
-    resolution_note: str
+    resolution_note: str = ""
+    resolution: str | None = None
     expected_updated_at: datetime | None = None
+
+    @model_validator(mode="after")
+    def _normalize_resolution(self) -> Self:
+        effective = self.resolution_note or self.resolution or ""
+        self.resolution_note = effective.strip()
+        return self
 
 
 class AmbiguityWaiveInput(BaseModel):
-    reason: str
+    reason: str = ""
+    waiver_reason: str | None = None
     expected_updated_at: datetime | None = None
+
+    @model_validator(mode="after")
+    def _normalize_reason(self) -> Self:
+        effective = self.reason or self.waiver_reason or ""
+        self.reason = effective.strip()
+        return self
 
 
 def list_handover_claims(

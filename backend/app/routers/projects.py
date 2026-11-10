@@ -9,7 +9,7 @@ from fastapi import APIRouter, Depends, status
 from sqlmodel import Session, select
 
 from ..auth import get_current_user
-from ..db import get_session
+from ..db import get_project_by_id_or_slug, get_session
 from ..errors import AppError
 from ..models import Project, ProjectMember, User
 from ..schemas import ProjectCreate, ProjectRead
@@ -47,8 +47,8 @@ def get_project(
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user),
 ) -> ProjectRead:
-    """Retrieve project details by ID."""
-    project = session.get(Project, project_id)
+    """Retrieve project details by ID or slug."""
+    project = get_project_by_id_or_slug(session, project_id)
     if not project:
         raise AppError("NOT_FOUND", "Project not found", status_code=404)
 
@@ -56,7 +56,7 @@ def get_project(
     if current_user.role not in ("lead", "auditor"):
         member = session.exec(
             select(ProjectMember).where(
-                ProjectMember.project_id == project_id,
+                ProjectMember.project_id == project.id,
                 ProjectMember.user_id == current_user.id,
             )
         ).first()

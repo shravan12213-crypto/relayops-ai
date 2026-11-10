@@ -9,7 +9,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, Query, status
 from sqlmodel import Session, select
 
 from app.auth import get_current_user
-from app.db import get_session
+from app.db import get_project_by_id_or_slug, get_session
 from app.errors import AppError
 from app.jobs import run_handover_pipeline
 from app.models import (
@@ -80,7 +80,7 @@ def create_handover(
     current_user: User = Depends(get_current_user),
 ) -> HandoverRead:
     """Create a new handover tracking document for a project."""
-    project = session.get(Project, project_id)
+    project = get_project_by_id_or_slug(session, project_id)
     if not project:
         raise AppError("NOT_FOUND", "Project not found", status_code=404)
 
@@ -101,7 +101,7 @@ def create_handover(
         due_date = due_date.replace(tzinfo=UTC)
 
     handover = Handover(
-        project_id=project_id,
+        project_id=project.id,
         outgoing_user_id=payload.outgoing_user_id,
         successor_user_id=payload.successor_user_id,
         lead_user_id=payload.lead_user_id,
@@ -114,8 +114,31 @@ def create_handover(
     session.commit()
     session.refresh(handover)
 
-    logger.info("Created handover %s for project %s", handover.id, project_id)
+    logger.info("Created handover %s for project %s", handover.id, project.id)
     return HandoverRead.model_validate(handover)
+
+
+@router.post(
+    "/handovers",
+    response_model=HandoverRead,
+    status_code=status.HTTP_201_CREATED,
+)
+def create_handover_global(
+    payload: HandoverCreate,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+) -> HandoverRead:
+    """Create a new handover globally, resolving project from payload or active context."""
+    target_project_ref = payload.project_id or payload.project_slug
+    if target_project_ref:
+        project = get_project_by_id_or_slug(session, target_project_ref)
+    else:
+        project = session.exec(select(Project).order_by(Project.created_at.desc())).first()
+
+    if not project:
+        raise AppError("NOT_FOUND", "No active project found to create handover in", status_code=404)
+
+    return create_handover(project.id, payload, session, current_user)
 
 
 @router.get(
@@ -128,14 +151,14 @@ def list_project_handovers(
     current_user: User = Depends(get_current_user),
 ) -> list[HandoverRead]:
     """List all handovers for a given project."""
-    project = session.get(Project, project_id)
+    project = get_project_by_id_or_slug(session, project_id)
     if not project:
         raise AppError("NOT_FOUND", "Project not found", status_code=404)
 
-    if not check_project_membership(session, project_id, current_user):
+    if not check_project_membership(session, project.id, current_user):
         raise AppError("FORBIDDEN", "Access denied: you are not a member of this project", status_code=403)
 
-    handovers = session.exec(select(Handover).where(Handover.project_id == project_id)).all()
+    handovers = session.exec(select(Handover).where(Handover.project_id == project.id)).all()
     return [HandoverRead.model_validate(h) for h in handovers]
 
 
@@ -144,6 +167,8 @@ def list_project_handovers(
     response_model=list[HandoverRead],
 )
 def list_handovers(
+    project_id: str | None = Query(default=None),
+    project_slug: str | None = Query(default=None),
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user),
 ) -> list[HandoverRead]:
@@ -159,6 +184,13 @@ def list_handovers(
         or current_user.id in (h.lead_user_id, h.outgoing_user_id, h.successor_user_id)
         or current_user.role in ("lead", "auditor")
     ]
+
+    filter_proj_ref = project_id or project_slug
+    if filter_proj_ref:
+        target_project = get_project_by_id_or_slug(session, filter_proj_ref)
+        if target_project:
+            accessible = [h for h in accessible if h.project_id == target_project.id]
+
     return [HandoverRead.model_validate(h) for h in accessible]
 
 

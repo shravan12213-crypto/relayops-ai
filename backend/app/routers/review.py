@@ -107,9 +107,11 @@ def get_claims(
 
 
 @router.patch("/claims/{claim_id}", response_model=ClaimRead)
+@router.patch("/handovers/{handover_id}/claims/{claim_id}", response_model=ClaimRead)
 def update_claim(
     claim_id: str,
     payload: ClaimPatchInput,
+    handover_id: str | None = None,
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user),
 ) -> ClaimRead:
@@ -128,8 +130,6 @@ def add_human_claim(
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user),
 ) -> ClaimRead:
-    """Add a human-asserted claim (requires evidence artifact ID or unverified=true)."""
-    return create_human_claim(session, handover_id, current_user, payload)
     """Add a human-asserted claim (requires evidence artifact ID or unverified=true)."""
     return create_human_claim(session, handover_id, current_user, payload)
 
@@ -183,9 +183,11 @@ def get_ambiguities(
 
 
 @router.post("/ambiguities/{ambiguity_id}/resolve", response_model=AmbiguityRead)
+@router.post("/handovers/{handover_id}/ambiguities/{ambiguity_id}/resolve", response_model=AmbiguityRead)
 def resolve_ambiguity_endpoint(
     ambiguity_id: str,
     payload: AmbiguityResolveInput,
+    handover_id: str | None = None,
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user),
 ) -> AmbiguityRead:
@@ -195,9 +197,11 @@ def resolve_ambiguity_endpoint(
 
 
 @router.post("/ambiguities/{ambiguity_id}/waive", response_model=AmbiguityRead)
+@router.post("/handovers/{handover_id}/ambiguities/{ambiguity_id}/waive", response_model=AmbiguityRead)
 def waive_ambiguity_endpoint(
     ambiguity_id: str,
     payload: AmbiguityWaiveInput,
+    handover_id: str | None = None,
     session: Session = Depends(get_session),
     current_user: User = Depends(get_current_user),
 ) -> AmbiguityRead:

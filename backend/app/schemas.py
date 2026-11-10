@@ -129,6 +129,8 @@ class DemoLoadResponse(BaseModel):
 
 
 class HandoverCreate(BaseModel):
+    project_id: str | None = None
+    project_slug: str | None = None
     outgoing_user_id: str = Field(min_length=1, max_length=50)
     successor_user_id: str = Field(min_length=1, max_length=50)
     lead_user_id: str = Field(min_length=1, max_length=50)

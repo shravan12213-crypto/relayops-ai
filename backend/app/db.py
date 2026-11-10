@@ -327,3 +327,13 @@ def search_artifacts(
     items = session.exec(select(Artifact).where(Artifact.id.in_(matched_ids))).all()
     item_map = {item.id: item for item in items}
     return [item_map[mid] for mid in matched_ids if mid in item_map]
+
+
+def get_project_by_id_or_slug(session: Session, project_id_or_slug: str) -> Any | None:
+    """Resolve a project by either its ULID identifier or unique slug."""
+    from .models import Project
+
+    project = session.get(Project, project_id_or_slug)
+    if not project:
+        project = session.exec(select(Project).where(Project.slug == project_id_or_slug)).first()
+    return project
