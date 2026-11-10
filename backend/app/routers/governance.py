@@ -528,7 +528,7 @@ def get_system_status(
         provider=cfg.llm_provider,
         model=cfg.llm_model,
         environment=cfg.env,
-        database="sqlite_wal",
+        database="sqlite_wal" if cfg.is_sqlite else ("postgresql" if cfg.is_postgres else "unknown"),
         total_projects=proj_cnt,
         total_handovers=h_cnt,
     )

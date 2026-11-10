@@ -46,7 +46,11 @@ def new_ulid() -> str:
 
 
 def resolve_database_url(url: str) -> str:
-    """Anchor relative SQLite paths to `backend/`, so the DB is the same file no matter the cwd."""
+    """Anchor relative SQLite paths to `backend/`, and normalize postgres URL schemes."""
+    if url.startswith("postgres://"):
+        url = "postgresql+psycopg2://" + url[len("postgres://") :]
+    elif url.startswith("postgresql://"):
+        url = "postgresql+psycopg2://" + url[len("postgresql://") :]
     prefix = "sqlite:///"
     if not url.startswith(prefix):
         return url
@@ -67,13 +71,17 @@ def get_engine() -> Engine:
     settings = get_settings()
     url = resolve_database_url(settings.database_url)
 
-    if settings.database_url.startswith("sqlite"):
+    if settings.is_sqlite or url.startswith("sqlite"):
         db_path = Path(url[len("sqlite:///") :])
         db_path.parent.mkdir(parents=True, exist_ok=True)
         _engine = create_engine(url, connect_args={"check_same_thread": False})
         _install_sqlite_pragmas(_engine)
-    else:  # pragma: no cover - the project ships SQLite, but keep the door open
-        _engine = create_engine(url)
+    else:
+        _engine = create_engine(
+            url,
+            pool_pre_ping=True,
+            pool_recycle=300,
+        )
     return _engine
 
 
@@ -88,10 +96,12 @@ def _install_sqlite_pragmas(engine: Engine) -> None:
 
 
 def apply_migrations(engine: Engine) -> None:
-    """Scan and apply numbered SQL migrations in ascending order."""
+    """Scan and apply numbered SQL migrations in ascending order, respecting dialect."""
     migrations_dir = Path(__file__).parent / "migrations"
     if not migrations_dir.exists():
         return
+
+    dialect_name = engine.dialect.name  # "sqlite" or "postgresql"
 
     with engine.begin() as conn:
         conn.execute(
@@ -108,19 +118,33 @@ def apply_migrations(engine: Engine) -> None:
         applied_rows = conn.execute(text("SELECT version FROM schema_version")).fetchall()
         applied_versions = {row[0] for row in applied_rows}
 
-    migration_files: list[tuple[int, str, Path]] = []
+    # Group migrations by version number and optional dialect tag: <v>_<desc>.<dialect>.sql
+    version_map: dict[int, dict[str, tuple[str, Path]]] = {}
     for file in migrations_dir.glob("*.sql"):
-        match = re.match(r"^(\d+)_(.*)\.sql$", file.name)
+        match = re.match(r"^(\d+)_(.*?)(?:\.(sqlite|postgres))?\.sql$", file.name)
         if match:
             v_num = int(match.group(1))
             desc = match.group(2).replace("_", " ")
-            migration_files.append((v_num, desc, file))
+            d_tag = match.group(3) or "default"
+            if v_num not in version_map:
+                version_map[v_num] = {}
+            version_map[v_num][d_tag] = (desc, file)
 
-    migration_files.sort(key=lambda x: x[0])
+    sorted_versions = sorted(version_map.keys())
 
-    for v_num, desc, file in migration_files:
+    for v_num in sorted_versions:
         if v_num in applied_versions:
             continue
+        variants = version_map[v_num]
+        if dialect_name == "postgresql" and "postgres" in variants:
+            desc, file = variants["postgres"]
+        elif dialect_name == "sqlite" and "sqlite" in variants:
+            desc, file = variants["sqlite"]
+        elif "default" in variants:
+            desc, file = variants["default"]
+        else:
+            continue
+
         sql_content = file.read_text(encoding="utf-8")
         with engine.begin() as conn:
             dbapi_conn = conn.connection.dbapi_connection
@@ -135,7 +159,7 @@ def apply_migrations(engine: Engine) -> None:
                 text("INSERT INTO schema_version (version, applied_at, description) VALUES (:v, :at, :desc)"),
                 {"v": v_num, "at": utcnow().isoformat(), "desc": desc},
             )
-        logger.info("Applied database migration %04d: %s", v_num, desc)
+        logger.info("Applied database migration %04d (%s): %s", v_num, dialect_name, desc)
 
 
 def init_db(engine: Engine | None = None) -> None:
@@ -283,10 +307,74 @@ def search_artifacts(
     max_sensitivity: int = 1,
     limit: int = 20,
 ) -> list[Artifact]:
-    """Search artifacts with mandatory SQL sensitivity filtering."""
+    """Search artifacts with mandatory SQL sensitivity filtering across SQLite and PostgreSQL."""
     from .models import Artifact
 
-    match_expr = format_fts5_query(query)
+    clean_query = query.strip()
+    if not clean_query:
+        stmt = (
+            select(Artifact)
+            .where(
+                Artifact.project_id == project_id,
+                Artifact.sensitivity <= max_sensitivity,
+            )
+            .order_by(Artifact.valid_time.desc())
+            .limit(limit)
+        )
+        return list(session.exec(stmt).all())
+
+    bind = session.get_bind()
+    dialect = bind.dialect.name if bind else "sqlite"
+
+    if dialect == "postgresql":
+        tokens = re.findall(r"\w+", clean_query)
+        if not tokens:
+            stmt = (
+                select(Artifact)
+                .where(
+                    Artifact.project_id == project_id,
+                    Artifact.sensitivity <= max_sensitivity,
+                )
+                .order_by(Artifact.valid_time.desc())
+                .limit(limit)
+            )
+            return list(session.exec(stmt).all())
+
+        pg_query = " ".join(tokens)
+        sql = text(
+            """
+            SELECT a.id
+            FROM artifact a
+            WHERE to_tsvector('english', coalesce(a.title, '') || ' ' || coalesce(a.body_redacted, ''))
+                  @@ plainto_tsquery('english', :query)
+              AND a.project_id = :project_id
+              AND a.sensitivity <= :max_sensitivity
+            ORDER BY ts_rank(
+                to_tsvector('english', coalesce(a.title, '') || ' ' || coalesce(a.body_redacted, '')),
+                plainto_tsquery('english', :query)
+            ) DESC
+            LIMIT :limit
+            """
+        )
+        result = session.connection().execute(
+            sql,
+            {
+                "query": pg_query,
+                "project_id": project_id,
+                "max_sensitivity": max_sensitivity,
+                "limit": limit,
+            },
+        )
+        matched_ids = [row[0] for row in result.fetchall()]
+        if not matched_ids:
+            return []
+
+        items = session.exec(select(Artifact).where(Artifact.id.in_(matched_ids))).all()
+        item_map = {item.id: item for item in items}
+        return [item_map[mid] for mid in matched_ids if mid in item_map]
+
+    # SQLite FTS5 implementation
+    match_expr = format_fts5_query(clean_query)
     if not match_expr:
         stmt = (
             select(Artifact)

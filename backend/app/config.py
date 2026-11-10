@@ -51,6 +51,18 @@ class Settings(BaseSettings):
     max_upload_mb: int = 20
     seed_on_start: bool = True
 
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def _normalise_database_url(cls, value: object) -> object:
+        if isinstance(value, str):
+            val = value.strip()
+            if val.startswith("postgres://"):
+                return "postgresql+psycopg2://" + val[len("postgres://") :]
+            if val.startswith("postgresql://"):
+                return "postgresql+psycopg2://" + val[len("postgresql://") :]
+            return val
+        return value
+
     @field_validator("llm_provider", mode="before")
     @classmethod
     def _normalise_provider(cls, value: object) -> object:
@@ -74,6 +86,10 @@ class Settings(BaseSettings):
     @property
     def is_sqlite(self) -> bool:
         return self.database_url.startswith("sqlite")
+
+    @property
+    def is_postgres(self) -> bool:
+        return self.database_url.startswith("postgresql") or self.database_url.startswith("postgres")
 
     @property
     def llm_mode(self) -> LLMProvider:
