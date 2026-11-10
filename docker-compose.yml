@@ -13,7 +13,8 @@ services:
       - LOG_LEVEL=INFO
       - DATABASE_URL=sqlite:////app/data/relayops.db
       - SECRET_KEY=dev-only-insecure-secret-change-me
-      - LLM_PROVIDER=replay
+      # .env (or the shell) can override; replay stays the zero-key default.
+      - LLM_PROVIDER=${LLM_PROVIDER:-replay}
       - SEED_ON_START=true
     env_file:
       - path: .env

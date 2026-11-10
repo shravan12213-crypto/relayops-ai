@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { apiGet } from "@/lib/api/client";
 
-export type LlmMode = "anthropic" | "openai" | "replay";
+export type LlmMode = "anthropic" | "openai" | "openai_compatible" | "replay";
 
 export interface HealthResponse {
   status: "ok" | "degraded";

@@ -13,7 +13,17 @@ from typing import Literal
 from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-LLMProvider = Literal["anthropic", "openai", "replay"]
+LLMProvider = Literal["anthropic", "openai", "openai_compatible", "replay"]
+
+# Sensible model ids per provider, used when LLM_MODEL is left blank.
+DEFAULT_LLM_MODELS: dict[str, str] = {
+    "anthropic": "claude-sonnet-4-5",
+    "openai": "gpt-4o-mini",
+    # Groq's free tier (no credit card) serves these ids; Gemini's OpenAI-compatible
+    # endpoint works here too, e.g. gemini-3.8-flash.
+    "openai_compatible": "openai/gpt-oss-120b",
+    "replay": "recorded",
+}
 Environment = Literal["dev", "prod"]
 
 BACKEND_DIR = Path(__file__).resolve().parent.parent
@@ -40,11 +50,14 @@ class Settings(BaseSettings):
     secret_key: str = DEFAULT_SECRET_KEY
 
     llm_provider: LLMProvider = "replay"
-    llm_model: str = "claude-sonnet-4-5"
+    llm_model: str = ""
     llm_timeout_seconds: float = 60.0
     llm_token_budget_per_job: int = 100000
     anthropic_api_key: str | None = None
     openai_api_key: str | None = None
+    # Any OpenAI-compatible endpoint on a free tier (Groq, Google AI Studio, ...).
+    llm_api_key: str | None = None
+    llm_base_url: str | None = None
     github_token: str | None = None
 
     cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
@@ -92,11 +105,18 @@ class Settings(BaseSettings):
         return self.database_url.startswith("postgresql") or self.database_url.startswith("postgres")
 
     @property
+    def active_model(self) -> str:
+        """The model id actually sent to the provider (LLM_MODEL, else the provider default)."""
+        return self.llm_model.strip() or DEFAULT_LLM_MODELS.get(self.llm_provider, "")
+
+    @property
     def llm_mode(self) -> LLMProvider:
         """The mode the app will actually run in, given the configured keys."""
         if self.llm_provider == "anthropic" and not self.anthropic_api_key:
             return "replay"
         if self.llm_provider == "openai" and not self.openai_api_key:
+            return "replay"
+        if self.llm_provider == "openai_compatible" and not (self.llm_api_key and self.llm_base_url):
             return "replay"
         return self.llm_provider
 

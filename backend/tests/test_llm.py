@@ -16,16 +16,19 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 from pydantic import BaseModel
 from sqlmodel import Session, select
 
 from app.config import get_settings
-from app.errors import LLMBudgetError, LLMOutputError, LLMReplayMissError
+from app.errors import LLMBudgetError, LLMError, LLMOutputError, LLMReplayMissError
 from app.llm import (
     PROMPT_GUARD_SYSTEM_RULE,
     _call_with_backoff,
+    _compatible_credentials,
+    _execute_openai_structured,
     bulk_load_recordings,
     compute_cache_key,
     export_recordings,
@@ -441,3 +444,87 @@ def test_backoff_on_transient_error() -> None:
     result = _call_with_backoff(flaky_network_call, max_retries=3, base_delay=0.01)
     assert result == "SUCCESS"
     assert attempts == 2
+
+
+# ---------------------------------------------------------------------------
+# 8. Free OpenAI-compatible provider (Groq / Google AI Studio style endpoints)
+# ---------------------------------------------------------------------------
+
+
+def test_active_model_falls_back_to_provider_default(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("LLM_PROVIDER", "openai_compatible")
+    monkeypatch.setenv("LLM_MODEL", "")
+    get_settings.cache_clear()
+    assert get_settings().active_model == "openai/gpt-oss-120b"
+
+    monkeypatch.setenv("LLM_MODEL", "gemini-3.8-flash")
+    get_settings.cache_clear()
+    assert get_settings().active_model == "gemini-3.8-flash"
+
+    monkeypatch.setenv("LLM_PROVIDER", "anthropic")
+    monkeypatch.setenv("LLM_MODEL", "")
+    get_settings.cache_clear()
+    assert get_settings().active_model == "claude-sonnet-4-5"
+    get_settings.cache_clear()
+
+
+def test_openai_compatible_without_key_falls_back_to_replay(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("LLM_PROVIDER", "openai_compatible")
+    monkeypatch.setenv("LLM_BASE_URL", "https://api.groq.com/openai/v1")
+    monkeypatch.setenv("LLM_API_KEY", "")
+    get_settings.cache_clear()
+    assert get_settings().llm_mode == "replay"
+
+    monkeypatch.setenv("LLM_API_KEY", "test-key")
+    get_settings.cache_clear()
+    assert get_settings().llm_mode == "openai_compatible"
+    get_settings.cache_clear()
+
+
+def test_compatible_provider_explains_missing_endpoint(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("LLM_API_KEY", "test-key")
+    monkeypatch.setenv("LLM_BASE_URL", "")
+    get_settings.cache_clear()
+    with pytest.raises(LLMError, match="LLM_BASE_URL"):
+        _compatible_credentials()
+    get_settings.cache_clear()
+
+
+def test_structured_output_downgrades_when_host_rejects_json_schema(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Free hosts with partial schema support must still return validated output."""
+    attempted: list[str] = []
+    payload = '{"title": "Handover", "status": "ok", "confidence": 0.9, "items": []}'
+
+    class FakeCompletions:
+        def create(self, **kwargs: object) -> SimpleNamespace:
+            response_format = kwargs["response_format"]
+            assert isinstance(response_format, dict)
+            strict = response_format.get("json_schema", {}).get("strict")
+            attempted.append(f"{response_format['type']}:{strict}")
+            if response_format["type"] == "json_schema" and strict is True:
+                raise RuntimeError("400 Bad Request: response_format json_schema is not supported")
+            return SimpleNamespace(
+                choices=[SimpleNamespace(message=SimpleNamespace(content=payload))],
+                usage=SimpleNamespace(prompt_tokens=10, completion_tokens=5),
+            )
+
+    class FakeClient:
+        chat = SimpleNamespace(completions=FakeCompletions())
+
+    monkeypatch.setattr("app.llm._openai_client", lambda *args, **kwargs: FakeClient())
+
+    raw, in_tok, out_tok = _execute_openai_structured(
+        "system",
+        "user",
+        SummarySchema,
+        512,
+        0.0,
+        api_key="test-key",
+        base_url="https://api.groq.com/openai/v1",
+    )
+
+    assert attempted == ["json_schema:True", "json_schema:False"]
+    assert SummarySchema.model_validate(json.loads(raw)).status == "ok"
+    assert (in_tok, out_tok) == (10, 5)

@@ -410,7 +410,7 @@ def _execute_anthropic_structured(
 
     def _call() -> tuple[str, int, int]:
         resp = client.messages.create(
-            model=settings.llm_model,
+            model=settings.active_model,
             system=system,
             messages=[{"role": "user", "content": user}],
             tools=tools,
@@ -447,7 +447,7 @@ def _execute_anthropic_text(
 
     def _call() -> tuple[str, int, int]:
         resp = client.messages.create(
-            model=settings.llm_model,
+            model=settings.active_model,
             system=system,
             messages=[{"role": "user", "content": user}],
             max_tokens=max_tokens,
@@ -462,49 +462,99 @@ def _execute_anthropic_text(
     return _call_with_backoff(_call)
 
 
+def _openai_client(api_key: str, base_url: str | None) -> Any:
+    """Build an OpenAI SDK client, optionally pointed at an OpenAI-compatible endpoint."""
+    import openai
+
+    settings = get_settings()
+    if base_url:
+        return openai.OpenAI(api_key=api_key, base_url=base_url, timeout=settings.llm_timeout_seconds)
+    return openai.OpenAI(api_key=api_key, timeout=settings.llm_timeout_seconds)
+
+
+def _structured_output_formats(schema: type[BaseModel]) -> list[dict[str, Any]]:
+    """Response-format attempts, strictest first, for hosts with uneven schema support."""
+    schema_dict = schema.model_json_schema()
+    return [
+        {
+            "type": "json_schema",
+            "json_schema": {"name": schema.__name__, "schema": schema_dict, "strict": True},
+        },
+        {
+            "type": "json_schema",
+            "json_schema": {"name": schema.__name__, "schema": schema_dict, "strict": False},
+        },
+        {"type": "json_object"},
+    ]
+
+
+def _is_schema_rejection(exc: Exception) -> bool:
+    """True when the provider refused the response_format, rather than failing transiently."""
+    text = str(exc).lower()
+    return any(token in text for token in ("response_format", "json_schema", "json schema", "schema"))
+
+
 def _execute_openai_structured(
     system: str,
     user: str,
     schema: type[BaseModel],
     max_tokens: int,
     temperature: float,
+    *,
+    api_key: str | None = None,
+    base_url: str | None = None,
 ) -> tuple[str, int, int]:
-    import openai
-
     settings = get_settings()
-    if not settings.openai_api_key:
-        raise LLMError("OPENAI_API_KEY is not configured.")
+    resolved_key = api_key or settings.openai_api_key
+    if not resolved_key:
+        raise LLMError("No API key is configured for the OpenAI request.")
 
-    client = openai.OpenAI(
-        api_key=settings.openai_api_key,
-        timeout=settings.llm_timeout_seconds,
+    client = _openai_client(resolved_key, base_url)
+    schema_hint = (
+        "\n\nRespond with a single JSON object matching this JSON Schema:\n"
+        f"{json.dumps(schema.model_json_schema())}"
     )
 
-    def _call() -> tuple[str, int, int]:
-        resp = client.chat.completions.create(
-            model=settings.llm_model,
-            messages=[
-                {"role": "system", "content": system},
-                {"role": "user", "content": user},
-            ],
-            response_format={
-                "type": "json_schema",
-                "json_schema": {
-                    "name": schema.__name__,
-                    "schema": schema.model_json_schema(),
-                    "strict": True,
-                },
-            },
-            max_tokens=max_tokens,
-            temperature=temperature,
-        )
-        in_tok = resp.usage.prompt_tokens if resp.usage else 0
-        out_tok = resp.usage.completion_tokens if resp.usage else 0
-        choice = resp.choices[0]
-        content = choice.message.content or "{}"
-        return content, in_tok, out_tok
+    last_error: Exception | None = None
+    for response_format in _structured_output_formats(schema):
+        wants_hint = response_format["type"] == "json_object"
+        messages = [
+            {"role": "system", "content": f"{system}{schema_hint}" if wants_hint else system},
+            {"role": "user", "content": user},
+        ]
 
-    return _call_with_backoff(_call)
+        def _call(
+            messages: list[dict[str, str]] = messages,
+            response_format: dict[str, Any] = response_format,
+        ) -> tuple[str, int, int]:
+            resp = client.chat.completions.create(
+                model=settings.active_model,
+                messages=messages,  # type: ignore[arg-type]
+                response_format=response_format,  # type: ignore[arg-type]
+                max_tokens=max_tokens,
+                temperature=temperature,
+            )
+            in_tok = resp.usage.prompt_tokens if resp.usage else 0
+            out_tok = resp.usage.completion_tokens if resp.usage else 0
+            content = resp.choices[0].message.content or "{}"
+            return content, in_tok, out_tok
+
+        try:
+            return _call_with_backoff(_call)
+        except Exception as exc:
+            if not _is_schema_rejection(exc):
+                raise
+            last_error = exc
+            logger.warning(
+                "Provider rejected response_format '%s' for %s; trying a looser mode",
+                response_format["type"],
+                schema.__name__,
+            )
+
+    raise LLMError(
+        f"Provider rejected every structured output mode for {schema.__name__}: {last_error}",
+        details={"schema": schema.__name__},
+    )
 
 
 def _execute_openai_text(
@@ -512,21 +562,20 @@ def _execute_openai_text(
     user: str,
     max_tokens: int,
     temperature: float,
+    *,
+    api_key: str | None = None,
+    base_url: str | None = None,
 ) -> tuple[str, int, int]:
-    import openai
-
     settings = get_settings()
-    if not settings.openai_api_key:
-        raise LLMError("OPENAI_API_KEY is not configured.")
+    resolved_key = api_key or settings.openai_api_key
+    if not resolved_key:
+        raise LLMError("No API key is configured for the OpenAI request.")
 
-    client = openai.OpenAI(
-        api_key=settings.openai_api_key,
-        timeout=settings.llm_timeout_seconds,
-    )
+    client = _openai_client(resolved_key, base_url)
 
     def _call() -> tuple[str, int, int]:
         resp = client.chat.completions.create(
-            model=settings.llm_model,
+            model=settings.active_model,
             messages=[
                 {"role": "system", "content": system},
                 {"role": "user", "content": user},
@@ -540,6 +589,16 @@ def _execute_openai_text(
         return choice.message.content or "", in_tok, out_tok
 
     return _call_with_backoff(_call)
+
+
+def _compatible_credentials() -> tuple[str, str]:
+    """Resolve the free-tier endpoint config, or explain exactly what is missing."""
+    settings = get_settings()
+    if not settings.llm_api_key:
+        raise LLMError("LLM_API_KEY is not configured for the 'openai_compatible' provider.")
+    if not settings.llm_base_url:
+        raise LLMError("LLM_BASE_URL is not configured for the 'openai_compatible' provider.")
+    return settings.llm_api_key, settings.llm_base_url
 
 
 def _dispatch_structured_call(
@@ -557,6 +616,11 @@ def _dispatch_structured_call(
         return _execute_anthropic_structured(system, user, schema, max_tokens, temperature)
     if provider == "openai":
         return _execute_openai_structured(system, user, schema, max_tokens, temperature)
+    if provider == "openai_compatible":
+        api_key, base_url = _compatible_credentials()
+        return _execute_openai_structured(
+            system, user, schema, max_tokens, temperature, api_key=api_key, base_url=base_url
+        )
     raise LLMError(f"Unsupported LLM provider '{provider}' for live execution.")
 
 
@@ -574,6 +638,9 @@ def _dispatch_text_call(
         return _execute_anthropic_text(system, user, max_tokens, temperature)
     if provider == "openai":
         return _execute_openai_text(system, user, max_tokens, temperature)
+    if provider == "openai_compatible":
+        api_key, base_url = _compatible_credentials()
+        return _execute_openai_text(system, user, max_tokens, temperature, api_key=api_key, base_url=base_url)
     raise LLMError(f"Unsupported LLM provider '{provider}' for live execution.")
 
 
@@ -802,7 +869,7 @@ def cli_record() -> None:
 
     for task_name, sys_prompt, user_prompt, schema_cls, fallback_val in sample_tasks:
         try:
-            if settings.llm_mode in ("anthropic", "openai"):
+            if settings.llm_mode in ("anthropic", "openai", "openai_compatible"):
                 res = structured(task_name, sys_prompt, user_prompt, schema_cls)
                 print(f"[RECORDED LIVE] {task_name}: {res}")
             else:

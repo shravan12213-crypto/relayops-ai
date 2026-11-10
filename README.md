@@ -195,10 +195,12 @@ Copy `.env.example` to `.env` to customize runtime settings:
 | `ENV` | `dev` | Runtime environment (`dev` or `prod`). In `prod`, the app fails fast if `SECRET_KEY` is default. |
 | `DATABASE_URL` | `sqlite:///./data/relayops.db` | Database connection URL. SQLite paths are automatically anchored to `backend/`. |
 | `SECRET_KEY` | `dev-only-insecure-secret...` | Cryptographic secret for JWT signing and audit HMAC validation. Must be $\ge 32$ chars in production. |
-| `LLM_PROVIDER` | `replay` | LLM engine: `replay` (zero-key offline mode), `anthropic`, or `openai`. |
-| `LLM_MODEL` | `claude-sonnet-4-5` | LLM model identifier (e.g., `gpt-4o-mini`, `claude-3-5-sonnet-20241022`). |
-| `ANTHROPIC_API_KEY` | *(empty)* | Optional Anthropic API key for live mode. |
-| `OPENAI_API_KEY` | *(empty)* | Optional OpenAI API key for live mode. |
+| `LLM_PROVIDER` | `replay` | LLM engine: `replay` (zero-key offline mode), `openai_compatible` (free tiers), `anthropic`, or `openai`. |
+| `LLM_MODEL` | *(provider default)* | Model identifier. Blank uses the provider default (`openai_compatible` → `openai/gpt-oss-120b`). |
+| `LLM_BASE_URL` | *(empty)* | OpenAI-compatible endpoint for `openai_compatible`, e.g. `https://api.groq.com/openai/v1`. |
+| `LLM_API_KEY` | *(empty)* | Key for that endpoint (free, no credit card: Groq or Google AI Studio). |
+| `ANTHROPIC_API_KEY` | *(empty)* | Optional paid Anthropic API key for live mode. |
+| `OPENAI_API_KEY` | *(empty)* | Optional paid OpenAI API key for live mode. |
 | `GITHUB_TOKEN` | *(empty)* | Optional GitHub Personal Access Token to avoid rate limits during real repo ingestion. |
 | `CORS_ORIGINS` | `http://localhost:5173,...` | Comma-separated list of allowed browser origins. |
 | `MAX_UPLOAD_MB` | `20` | Maximum file upload size for JSON archives and Markdown files. |
@@ -264,15 +266,23 @@ When `LLM_PROVIDER=replay` (the default) or when API keys are omitted, `backend/
 - **Zero Cost & Zero Network:** Perfect for CI pipelines, air-gapped demo environments, and hackathon evaluation.
 - **Ground Truth Grounding:** Recorded outputs reflect the exact 10 ground-truth scenarios in `backend/seed/ground_truth.json`.
 
-### How to Run Live with an API Key
-To connect RelayOps to live frontier models:
+### How to Run Live for Free (no credit card)
+RelayOps talks to any OpenAI-compatible endpoint, so a free tier is enough. **Groq** is the recommended default — `openai/gpt-oss-120b` supports strict JSON-schema output and the free plan allows ~30 requests/minute and 1,000 requests/day with no card:
 ```bash
 # In your .env file:
-LLM_PROVIDER=openai           # or 'anthropic'
-OPENAI_API_KEY=sk-proj-...    # or ANTHROPIC_API_KEY=sk-ant-...
-LLM_MODEL=gpt-4o-mini         # or 'claude-3-5-sonnet-20241022'
+LLM_PROVIDER=openai_compatible
+LLM_BASE_URL=https://api.groq.com/openai/v1
+LLM_MODEL=openai/gpt-oss-120b
+LLM_API_KEY=gsk_...            # https://console.groq.com/keys
 ```
-Restart the server. All pipeline stages and the Handover Copilot will now invoke the live model with strict Pydantic JSON-schema structured output validation.
+**Google AI Studio (Gemini free tier)** works through the same code path:
+```bash
+LLM_PROVIDER=openai_compatible
+LLM_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/
+LLM_MODEL=gemini-3.8-flash
+LLM_API_KEY=...                # https://aistudio.google.com/apikey
+```
+Paid providers still work unchanged (`LLM_PROVIDER=openai|anthropic` with `OPENAI_API_KEY` / `ANTHROPIC_API_KEY`). Restart the server (or restart `npm run dev`). All pipeline stages and the Handover Copilot will now invoke the live model with Pydantic JSON-schema structured output validation; when a host rejects `json_schema`, the client automatically retries with `strict: false`, then with a plain `json_object` plus the schema in the prompt.
 
 ---
 
