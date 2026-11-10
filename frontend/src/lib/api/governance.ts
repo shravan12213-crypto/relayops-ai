@@ -38,6 +38,40 @@ export interface AuditLogFilterParams {
   page_size?: number;
 }
 
+const DEFAULT_AUDIT_PAGE_SIZE = 25;
+
+/**
+ * The audit endpoint returns a bare list unless `paged=true` is requested, and it
+ * does not send a `pages` count. Normalise both shapes so the table always gets a
+ * complete envelope and renders its empty state instead of throwing on undefined.
+ */
+function toPaginatedAuditLogs(raw: unknown, fallbackPageSize: number): AuditLogsPaginated {
+  if (Array.isArray(raw)) {
+    const items = raw as AuditLogItem[];
+    const size = items.length || fallbackPageSize;
+    return {
+      items,
+      total: items.length,
+      page: 1,
+      page_size: size,
+      pages: Math.max(1, Math.ceil(items.length / size)),
+    };
+  }
+
+  const data = (raw ?? {}) as Partial<AuditLogsPaginated>;
+  const items = Array.isArray(data.items) ? data.items : [];
+  const total = typeof data.total === "number" ? data.total : items.length;
+  const pageSize =
+    typeof data.page_size === "number" && data.page_size > 0 ? data.page_size : fallbackPageSize;
+  const page = typeof data.page === "number" && data.page > 0 ? data.page : 1;
+  const pages =
+    typeof data.pages === "number" && data.pages > 0
+      ? data.pages
+      : Math.max(1, Math.ceil(total / pageSize));
+
+  return { items, total, page, page_size: pageSize, pages };
+}
+
 export function useGovernanceAuditLogs(params: AuditLogFilterParams = {}) {
   const queryParams = new URLSearchParams();
   if (params.actor_id) queryParams.set("actor_id", params.actor_id);
@@ -46,13 +80,16 @@ export function useGovernanceAuditLogs(params: AuditLogFilterParams = {}) {
   if (params.to_date) queryParams.set("to_date", params.to_date);
   if (params.page) queryParams.set("page", params.page.toString());
   if (params.page_size) queryParams.set("page_size", params.page_size.toString());
+  queryParams.set("paged", "true");
 
   const queryString = queryParams.toString();
   const url = `/api/v1/audit/logs${queryString ? `?${queryString}` : ""}`;
+  const pageSize = params.page_size ?? DEFAULT_AUDIT_PAGE_SIZE;
 
   return useQuery({
     queryKey: ["governance", "audit-logs", params],
-    queryFn: ({ signal }) => apiGet<AuditLogsPaginated>(url, signal),
+    queryFn: ({ signal }) => apiGet<AuditLogsPaginated | AuditLogItem[]>(url, signal),
+    select: (raw) => toPaginatedAuditLogs(raw, pageSize),
   });
 }
 
